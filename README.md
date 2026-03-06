@@ -11,7 +11,7 @@
 - **Modern UI**: 글래스모피즘(Glassmorphism)과 다크 모드 기반의 세련된 디자인.
 - **Responsive**: 데스크탑, 태블릿, 모바일 등 모든 환경에 최적화된 레이아웃.
 - **Premium Aesthetics**: 유려한 그라데이션과 인터랙티브한 요소들.
-- **Sub Pages**: 프로젝트 상세 정보를 담은 `sub1.html` 포함.
+- **Sub Pages**: 프로젝트 상세 정보(`sub1.html`) 및 기술 스택/연락처(`sub2.html`) 포함.
 
 ## 🛠 사용된 기술 stack
 
