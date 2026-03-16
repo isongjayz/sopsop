@@ -1,0 +1,54 @@
+// ========================================
+// Aesop 브랜드 컬러 토큰
+// ========================================
+
+// 브라운 계열 (메인 팔레트)
+$color-brown-100: #CEC2BE;
+$color-brown-200: #B6A59E;
+$color-brown-300: #947C72;
+$color-brown-400: #806257;
+$color-brown-500: #603B2D;
+$color-brown-600: #573629;
+$color-brown-700: #442A20;
+$color-brown-900: #281913;
+
+// 배경 (따뜻한 아이보리)
+$color-yellow-500: #FDFBF2;
+
+// 기본 색상
+$white: #ffffff;
+$black: #1a1a1a;
+$pure-black: #000000;
+
+// 그레이 (보조)
+$gray-100: #f5f5f0;
+$gray-200: #e8e4df;
+$gray-300: #d4cfc9;
+$gray-400: #a8a29e;
+$gray-500: #78716c;
+$gray-600: #57534e;
+$gray-700: #44403c;
+$gray-800: #292524;
+
+// 상태 색상
+$color-error: #c53030;
+$color-success: #2f855a;
+
+// ========================================
+// 역할별 색상 재할당 (Semantic Colors)
+// ========================================
+$main-bg: $color-yellow-500;
+$header-bg: $color-yellow-500;
+$footer-bg: $color-brown-600;
+
+$font-main: $color-brown-900;
+$font-sub: $color-brown-300;
+$font-light: $color-brown-200;
+
+$border-color: $color-brown-100;
+$border-dark: $color-brown-700;
+
+$button-bg: $color-brown-700;
+$button-hover: $color-brown-500;
+$button-font: $white;
+$button-disabled: $gray-300;

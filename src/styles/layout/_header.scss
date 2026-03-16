@@ -1,0 +1,281 @@
+@use './../utils' as *;
+
+#header {
+    width: 100%;
+    background-color: $header-bg;
+    border-bottom: 1px solid $border-color;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+
+    &.is-transparent {
+        background-color: transparent;
+        border-bottom-color: transparent;
+    }
+
+    &.is-hidden {
+        transform: translateY(-100%);
+    }
+
+    .inner {
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .header {
+        &__logo {
+            a {
+                font-family: 'Libre Baskerville', 'Bona Nova', serif;
+                font-size: 26px;
+                font-weight: 400;
+                letter-spacing: 3px;
+                color: $color-brown-900;
+                text-decoration: none;
+            }
+        }
+
+        &__util {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            .util-btn {
+                background: none;
+                border: none;
+                padding: 0;
+                cursor: pointer;
+                color: $color-brown-700;
+                display: flex;
+                align-items: center;
+                transition: color 0.2s ease;
+
+                &:hover {
+                    color: $color-brown-500;
+                }
+            }
+
+            .cart-btn {
+                position: relative;
+
+                .cart-count {
+                    position: absolute;
+                    top: -6px;
+                    right: -8px;
+                    background-color: $color-brown-700;
+                    color: $white;
+                    font-size: 10px;
+                    width: 18px;
+                    height: 18px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                }
+            }
+
+            .hamburger-btn {
+                display: none;
+                z-index: 1001;
+            }
+
+            .login-link {
+                font-size: 13px;
+                font-weight: 500;
+                color: $color-brown-700;
+                letter-spacing: 1px;
+                text-decoration: none;
+                text-transform: uppercase;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                transition: color 0.2s;
+
+                &:hover {
+                    color: $color-brown-500;
+                }
+
+                @include mobile {
+                    display: none; // 모바일 상단에서는 숨김 (메뉴 내부로 이동)
+                }
+            }
+
+            // 모바일에서 마이페이지 아이콘도 숨김 처리 (로고 겹침 방지)
+            a[href="/mypage"] {
+                @include mobile {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .nav {
+        &__list {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        &__link {
+            font-size: 13px;
+            font-weight: 500;
+            color: $color-brown-700;
+            text-decoration: none;
+            position: relative;
+            padding: 5px 0;
+            letter-spacing: 1.5px;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 1px;
+                background-color: $color-brown-500;
+                transition: width 0.3s ease;
+            }
+
+            &:hover::after,
+            &.active::after {
+                width: 100%;
+            }
+        }
+
+        &__mobile-util {
+            display: none;
+        }
+    }
+
+    // 태블릿 반응형
+    @include tablet {
+        .inner {
+            height: 70px;
+            padding: 0 20px;
+        }
+
+        .header__logo {
+            z-index: 2001; // nav(2000)보다 높게
+            position: relative;
+
+            a {
+                font-size: 22px;
+            }
+        }
+
+        .header__util {
+            z-index: 2001; // nav(2000)보다 높게
+            position: relative;
+
+            .hamburger-btn {
+                display: flex;
+            }
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background-color: $color-yellow-500;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: left 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+
+            &.is-open {
+                left: 0;
+            }
+
+            &__list {
+                flex-direction: column;
+                gap: 35px;
+            }
+
+            &__link {
+                font-size: 22px;
+                font-weight: 400;
+                letter-spacing: 3px;
+            }
+        }
+    }
+
+    // 모바일 반응형
+    @include mobile {
+        .inner {
+            height: 60px;
+            padding: 0 15px;
+        }
+
+        .header__logo {
+            z-index: 2001;
+            a {
+                font-size: 18px;
+                letter-spacing: 2px;
+            }
+        }
+
+        .header__util {
+            z-index: 2001;
+            gap: 12px;
+
+            .util-btn svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        .nav {
+            z-index: 2000;
+            
+            &__list {
+                gap: 28px;
+            }
+
+            &__link {
+                font-size: 18px;
+            }
+
+            // 모바일 전용 하단 유틸 메뉴
+            &__mobile-util {
+                display: flex;
+                margin-top: 50px;
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+                width: 100%;
+                padding-top: 30px;
+                border-top: 1px solid rgba($color-brown-900, 0.1);
+
+                .util-link {
+                    font-size: 15px;
+                    color: $color-brown-900;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    text-decoration: none;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+
+    // 오버레이
+    &__overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.3);
+        z-index: 1500;
+        backdrop-filter: blur(2px);
+    }
+}

@@ -1,0 +1,694 @@
+@use "../../styles/utils" as *;
+
+.checkout-page {
+  padding: 80px 200px;
+
+  background: $main-bg;
+
+  &__title {
+    font-size: 32px;
+    color: $color-brown-900;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+}
+
+// Step 표시 (1 - 2 - 3)
+.checkout__steps {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  max-width: 750px;
+  margin: 120px auto 100px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    right: 24px;
+    height: 2px;
+    background: #d5cbc4;
+    /* greyish-taupe connecting line */
+    z-index: 1;
+  }
+}
+
+.checkout__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  width: 48px;
+
+  .step-num {
+    display: inline-flex;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #d5cbc4;
+    color: $white;
+    font-size: 22px;
+    font-weight: 400;
+    border: none;
+  }
+
+  .step-text {
+    position: absolute;
+    top: 60px;
+    /* 48px icon + 12px gap */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 16px;
+    color: #555;
+    white-space: nowrap;
+  }
+
+  &.is-active {
+    .step-num {
+      background: $color-brown-500;
+    }
+
+    .step-text {
+      color: $color-brown-700;
+      font-weight: 500;
+    }
+  }
+}
+
+// --------------------------------
+// Cart Step 스타일
+// --------------------------------
+.checkout-cart {
+  display: flex;
+  gap: 45px;
+  align-items: flex-start;
+
+  .cart-empty {
+    text-align: center;
+    padding: 80px 0;
+    color: $color-brown-500;
+
+    p {
+      margin-bottom: 30px;
+    }
+
+    .cart-empty__btn {
+      display: inline-block;
+      padding: 15px 40px;
+      border: 1px solid $color-brown-900;
+      color: $color-brown-900;
+      text-decoration: none;
+    }
+  }
+
+  &__left {
+    width: 700px;
+    flex-shrink: 0;
+  }
+
+  .cart-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 34px;
+
+    .cart-title {
+      font-size: 21px;
+      font-weight: 500;
+      color: $color-brown-900;
+    }
+
+    .cart-shipping-info {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      color: $color-brown-400;
+      font-family: inherit;
+
+      svg {
+        display: block;
+      }
+    }
+  }
+
+  .cart-items {
+    border-top: 1px solid $color-brown-200;
+  }
+
+  .cart-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 25px;
+    padding: 16px 0;
+    border-bottom: 1px solid $color-brown-200;
+
+    .cart-item__remove {
+      cursor: pointer;
+      font-size: 20x;
+      color: $color-brown-500;
+    }
+
+    .cart-item__image {
+      width: 125px;
+      height: 125px;
+      flex-shrink: 0;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .cart-item__info {
+      flex: 1;
+      min-height: 125px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .cart-item__name-price {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 8px;
+      }
+
+      .cart-item__name {
+        font-size: 18px;
+        font-weight: 400;
+        color: $color-brown-900;
+      }
+
+      .cart-item__price {
+        font-size: 18px;
+        font-weight: 500;
+        color: $color-brown-900;
+        text-align: right;
+        white-space: nowrap;
+        margin-bottom: 4px;
+      }
+
+      .cart-item__gift-wrap {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        color: $color-brown-400;
+        margin-bottom: 26px;
+        cursor: pointer;
+
+        .circle-check {
+          display: block;
+          width: 20px;
+          height: 20px;
+          border: 1px solid $color-brown-300;
+          border-radius: 50%;
+        }
+
+        &.is-active .circle-check {
+          border-color: $color-brown-900;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23442A20' stroke-width='2.5'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+          background-size: 12px;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+      }
+
+      .cart-item__bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .cart-item__volume {
+          border: 1px solid $color-brown-200;
+          padding: 6px 12px;
+          font-size: 14px;
+          color: $color-brown-900;
+        }
+
+        .cart-item__qty {
+          display: inline-flex;
+          align-items: center;
+          gap: 16px;
+          border: 1px solid $color-brown-200;
+
+          button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: $color-brown-500;
+            padding: 6px 8px;
+
+            &:hover {
+              color: $color-brown-900;
+            }
+          }
+
+          span {
+            font-size: 16px;
+            color: $color-brown-900;
+          }
+        }
+      }
+    }
+  }
+
+  // 샘플 섹션
+  .cart-samples {
+    margin-top: 40px;
+
+    .cart-samples__title {
+      font-size: 20px;
+      font-weight: 500;
+      color: $color-brown-900;
+      margin-bottom: 20px;
+    }
+
+    .cart-samples__list {
+      display: flex;
+      gap: 40px;
+    }
+
+    .cart-sample-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      width: 140px;
+
+      img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        border: 1px solid transparent;
+      }
+
+      p {
+        font-size: 16px;
+        color: $color-brown-900;
+        text-align: center;
+        line-height: 1.4;
+      }
+
+      .cart-sample-item__check {
+        display: block;
+        width: 22px;
+        height: 22px;
+        border: 1px solid $color-brown-300;
+        border-radius: 50%;
+        margin: 0 auto;
+      }
+
+      &.is-selected {
+        .cart-sample-item__check {
+          border-color: $color-brown-500;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23442A20' stroke-width='2.5'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+          background-size: 12px;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+      }
+    }
+  }
+
+  // 함께보면 좋은 제품
+  .cart-recommend {
+    margin-top: 60px;
+
+    .cart-recommend__title {
+      font-size: 20px;
+      font-weight: 500;
+      color: $color-brown-900;
+      margin-bottom: 20px;
+    }
+
+    .cart-recommend__list {
+      display: flex;
+      gap: 20px;
+    }
+
+    .cart-recommend-item {
+      width: calc(25% - 15px);
+      position: relative;
+
+      .cart-recommend-item__cart {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+
+      img {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+        margin-bottom: 12px;
+      }
+
+      .cart-recommend-item__name {
+        font-size: 14px;
+        color: $color-brown-900;
+        margin-bottom: 6px;
+        line-height: 1.4;
+      }
+
+      .cart-recommend-item__price {
+        font-size: 14px;
+        color: $color-brown-600;
+        font-weight: 500;
+      }
+    }
+  }
+
+  // 오른쪽 결제 요약
+  &__right {
+    flex: 1;
+    height: 570px;
+    flex-shrink: 0;
+    border-radius: 16px;
+    background: rgba(244, 242, 233, 0.6);
+    padding: 34px;
+    position: sticky;
+    top: 100px;
+
+    .cart-coupon {
+      margin-bottom: 32px;
+
+      .cart-coupon__title {
+        font-size: 20px;
+        font-weight: 400;
+        color: $color-brown-700;
+        margin-bottom: 12px;
+      }
+
+      .cart-coupon__select {
+        width: 100%;
+        padding: 13px 8px;
+        border: 1px solid $color-brown-200;
+        background: transparent;
+        font-size: 18px;
+        color: $color-brown-700;
+        cursor: pointer;
+      }
+    }
+
+    .cart-summary {
+      .cart-summary__title {
+        font-size: 20px;
+        font-weight: 500;
+        color: $color-brown-700;
+        margin-bottom: 16px;
+        border-bottom: 1px solid $color-brown-200;
+      }
+
+      .cart-summary__row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 18px;
+        color: $color-brown-700;
+        margin-bottom: 17px;
+      }
+
+      .cart-summary__total {
+        font-size: 18px;
+        font-weight: 700;
+        padding-top: 16px;
+        border-top: 1px solid $color-brown-200;
+        margin-top: 8px;
+        color: $color-brown-700;
+      }
+
+      .cart-order-btn {
+        width: 100%;
+        padding: 18px;
+        background: $color-brown-500;
+        color: #fdfbf2;
+        border: none;
+        font-size: 18px;
+        font-weight: 500;
+        cursor: pointer;
+        margin-top: 65px;
+
+        &:hover {
+          opacity: 0.9;
+          transition: opacity 0.2s ease;
+        }
+      }
+    }
+  }
+
+  // 배송 모달
+  .shipping-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .shipping-modal {
+    background: #fdfbf2;
+    padding: 48px;
+    width: 480px;
+    position: relative;
+
+    .shipping-modal__close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: $color-brown-500;
+    }
+
+    .shipping-modal__title {
+      font-size: 20px;
+      font-weight: 500;
+      color: $color-brown-900;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid $color-brown-200;
+    }
+
+    .shipping-modal__content {
+      p {
+        font-size: 14px;
+        color: $color-brown-500;
+        line-height: 1.8;
+        margin-bottom: 12px;
+
+        strong {
+          color: $color-brown-900;
+        }
+      }
+    }
+  }
+}
+
+// --------------------------------
+// Payment Step 스타일
+// --------------------------------
+.checkout-payment {
+  display: flex;
+  gap: 60px;
+
+  @include tablet {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  &__forms {
+    flex: 2;
+  }
+
+  &__summary {
+    flex: 1;
+    background: #fcfaf3;
+    padding: 40px;
+    border: 1px solid $color-brown-200;
+    align-self: flex-start;
+    position: sticky;
+    top: 100px;
+
+    @include tablet {
+      position: static;
+    }
+
+    h3 {
+      font-size: 18px;
+      color: $color-brown-900;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid $color-brown-200;
+    }
+
+    .summary-items {
+      margin-bottom: 25px;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: $color-brown-500;
+      margin-bottom: 10px;
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 20px;
+      border-top: 1px solid $color-brown-200;
+      font-size: 16px;
+      color: $color-brown-900;
+      margin-bottom: 30px;
+    }
+
+    .summary-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      button {
+        width: 100%;
+        padding: 15px 0;
+      }
+    }
+  }
+}
+
+.form-section {
+  margin-bottom: 50px;
+
+  h3 {
+    font-size: 18px;
+    color: $color-brown-900;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $color-brown-900;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+
+    &.row {
+      display: flex;
+      gap: 15px;
+
+      @include mobile {
+        flex-direction: column;
+      }
+    }
+
+    input {
+      flex: 1;
+      width: 100%;
+      padding: 15px;
+      border: 1px solid $color-brown-200;
+      background: transparent;
+      font-size: 14px;
+      font-family: inherit;
+
+      &:focus {
+        outline: none;
+        border-color: $color-brown-900;
+      }
+    }
+  }
+
+  .payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .method-label {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      border: 1px solid $color-brown-200;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      input {
+        margin-right: 15px;
+        accent-color: $color-brown-900;
+      }
+
+      &.is-selected {
+        border-color: $color-brown-900;
+        background: #fcfaf3;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// --------------------------------
+// Complete Step 스타일
+// --------------------------------
+.checkout-complete {
+  text-align: center;
+  padding: 100px 0;
+
+  h2 {
+    font-size: 32px;
+    color: $color-brown-900;
+    margin-bottom: 20px;
+
+    @include mobile {
+      font-size: 26px;
+    }
+  }
+
+  p {
+    font-size: 16px;
+    color: $color-brown-900;
+    margin-bottom: 20px;
+
+    &.desc {
+      color: $color-brown-500;
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+  }
+
+  .complete-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    a {
+      display: inline-block;
+      padding: 15px 40px;
+      font-size: 15px;
+      text-decoration: none;
+
+      @include mobile {
+        padding: 15px 20px;
+      }
+
+      &.btn-outline {
+        border: 1px solid $color-brown-900;
+        color: $color-brown-900;
+      }
+    }
+  }
+}

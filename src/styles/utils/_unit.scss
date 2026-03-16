@@ -1,0 +1,36 @@
+@use 'sass:math';
+
+// 루트 요소 및 디자인 기준 너비 ------------------------------------------------------- /
+$rootUnit: 16px !default;
+$base-pc: 1920px !default;
+$base-tablet: 1024px !default;
+$base-mobile: 390px !default;
+
+// 단위 제거 함수 ------------------------------------------------------------------ /
+@function removeUnit($value) {
+    @if ($value ==auto) {
+        @return auto;
+    }
+
+    @return math.div($value, $value * 0 + 1);
+}
+
+// PC 기준 vw (1920px 대응)
+@function vw($value, $base: $base-pc) {
+    @return (removeUnit(math.div($value, $base)) * 100) * 1vw;
+}
+
+// 태블릿 기준 t-vw (1024px 대응)
+@function t-vw($value, $base: $base-tablet) {
+    @return (removeUnit(math.div($value, $base)) * 100) * 1vw;
+}
+
+// 모바일 기준 m-vw (390px 대응)
+@function m-vw($value, $base: $base-mobile) {
+    @return (removeUnit(math.div($value, $base)) * 100) * 1vw;
+}
+
+// px을 rem 단위로 변경하는 함수 ------------------------------------------------------- /
+@function rem($value, $base: $rootUnit) {
+    @return (removeUnit(math.div($value, $base))) * 1rem;
+}

@@ -1,0 +1,130 @@
+@use './utils' as *;
+
+.swal2-popup {
+    border-radius: 0 !important;
+    padding: 40px 20px !important;
+    font-family: inherit !important;
+    border: 1px solid $gray-200 !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1) !important;
+
+    .swal2-title {
+        font-size: 20px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: $black !important;
+        margin-bottom: 15px !important;
+        padding: 0 !important;
+    }
+
+    .swal2-html-container {
+        font-size: 15px !important;
+        color: $gray-600 !important;
+        margin: 15px 0 0 !important;
+        line-height: 1.6 !important;
+        font-weight: 300 !important;
+    }
+
+    .swal2-actions {
+        margin-top: 40px !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 10px !important;
+
+        button {
+            flex: 1 !important;
+            max-width: 180px !important;
+            border-radius: 0 !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            letter-spacing: 2px !important;
+            text-transform: uppercase !important;
+            padding: 15px 0 !important;
+            box-shadow: none !important;
+            margin: 0 !important;
+            height: auto !important;
+        }
+
+        .swal2-confirm {
+            background-color: $black !important;
+            color: $white !important;
+            border: 1px solid $black !important;
+
+            &:focus {
+                box-shadow: none !important;
+            }
+        }
+
+        .swal2-cancel {
+            background-color: $white !important;
+            color: $black !important;
+            border: 1px solid $black !important;
+
+            &:focus {
+                box-shadow: none !important;
+            }
+        }
+    }
+
+    // 아이콘 미니멀화
+    .swal2-icon {
+        border-color: $black !important;
+        color: $black !important;
+
+        &.swal2-success {
+            [class^='swal2-success-line'] {
+                background-color: $black !important;
+            }
+
+            .swal2-success-ring {
+                border-color: rgba(0, 0, 0, .2) !important;
+            }
+
+            .swal2-success-fix {
+                background-color: transparent !important;
+            }
+        }
+
+        &.swal2-error {
+            border-color: $color-error !important;
+
+            .swal2-x-mark-line-left,
+            .swal2-x-mark-line-right {
+                background-color: $color-error !important;
+            }
+        }
+    }
+
+    // Toast style customization
+    &.swal2-toast {
+        padding: 15px 25px !important;
+        border: 1px solid $black !important;
+        background-color: $white !important;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+        align-items: center !important;
+
+        .swal2-title {
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            letter-spacing: 1px !important;
+            margin: 0 !important;
+            text-transform: uppercase;
+        }
+
+        .swal2-icon {
+            margin: 0 15px 0 0 !important;
+            width: 20px !important;
+            height: 20px !important;
+
+            .swal2-icon-content {
+                font-size: 12px !important;
+            }
+        }
+
+        .swal2-success-ring {
+            display: none !important;
+        }
+    }
+}

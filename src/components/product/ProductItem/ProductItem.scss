@@ -1,0 +1,172 @@
+@use '../../../styles/utils' as *;
+
+.product-card {
+    display: block;
+    width: 100%;
+    margin-bottom: 30px;
+
+    &__link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+
+        &:hover {
+            .product-card__thumb {
+                .product-card__img-hover {
+                    opacity: 1;
+                }
+                .has-hover-main {
+                    opacity: 0;
+                }
+                .no-hover-main {
+                    transform: scale(1.03); // hover 없는 기본 이미지는 스케일만
+                }
+            }
+        }
+    }
+
+    &__thumb {
+        position: relative;
+        width: 100%;
+        padding-top: 130%; // 세로가 긴 에디토리얼 비율
+        background: #fcfaf3; // 은은한 바탕
+        overflow: hidden;
+        margin-bottom: 20px;
+
+        img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .product-card__img-hover {
+            opacity: 0;
+        }
+    }
+
+    &__badges {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        display: flex;
+        flex-direction: column; // 세로 정렬
+        gap: 8px;
+        z-index: 2;
+    }
+
+    &__wish {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: transparent;
+        border: none;
+        font-size: 24px;
+        color: $color-brown-900;
+        cursor: pointer;
+        z-index: 2;
+        transition: transform 0.2s;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        &.is-active {
+            color: $color-error; // 빨간색 하트
+        }
+    }
+
+    &__info {
+        padding: 0 5px;
+    }
+
+    &__description {
+        font-size: 13px;
+        color: $color-brown-400;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+
+    &__title {
+        font-size: 16px;
+        font-weight: 500;
+        color: $color-brown-900;
+        margin-bottom: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__action {
+        margin-top: 5px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__options {
+        display: flex;
+        gap: 0; // border 없음, 딱 붙게
+        margin-bottom: 0; // 가격 버튼 바로 위
+    }
+
+
+    &__option-label {
+        flex: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: $main-bg;
+        font-size: 11px;
+        padding: 12px 10px;
+        color: $color-brown-500;
+        letter-spacing: 0.08em;
+
+        &.is-set {
+            background: #e8e2d5;
+            color: $color-brown-900;
+            font-weight: 600;
+        }
+    }
+
+    &__option-btn {
+        flex: 1; // 1개면 100%, 2개면 50% 분할 
+        background: $main-bg;
+        font-size: 11px;
+        padding: 12px 10px;
+        border: none; // 테두리 없음
+        color: $color-brown-500;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+
+        &:hover {
+            background: #f0ebe1;
+            color: $color-brown-900;
+        }
+
+        &.is-active {
+            background: #e8e2d5;
+            color: $color-brown-900;
+            font-weight: 500;
+        }
+    }
+
+    &__add-btn {
+        display: block;
+        width: 100%;
+        padding: 15px 0;
+        background-color: $color-brown-700;
+        color: $white;
+        border: none;
+        font-size: 14px;
+        font-weight: 400;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover {
+            background-color: $color-brown-900;
+        }
+    }
+}

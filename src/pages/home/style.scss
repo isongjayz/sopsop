@@ -1,0 +1,754 @@
+@use '../../styles/utils' as *;
+
+.home {
+    width: 100%;
+    overflow-x: hidden;
+
+    // ===== Hero 섹션 =====
+    &__hero {
+        width: 100%;
+        height: 100vh;
+        min-height: 600px;
+        background-image: url('https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=1600&q=80');
+        background-size: cover;
+        background-position: center;
+        position: relative;
+    }
+
+    &__hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to bottom,
+            rgba(40, 25, 19, 0.4) 0%,
+            rgba(40, 25, 19, 0.8) 100%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__hero-content {
+        text-align: center;
+        color: $white;
+    }
+
+    &__hero-sub {
+        font-size: 16px;
+        letter-spacing: 4px;
+        margin-bottom: 20px;
+        opacity: 0.8;
+    }
+
+    &__hero-title {
+        font-size: 80px;
+        font-weight: 400;
+        letter-spacing: 12px;
+        margin-bottom: 20px;
+
+        @include tablet {
+            font-size: 56px;
+        }
+
+        @include mobile {
+            font-size: 40px;
+            letter-spacing: 8px;
+        }
+    }
+
+    &__hero-desc {
+        font-size: 16px;
+        margin-bottom: 40px;
+        opacity: 0.8;
+        letter-spacing: 2px;
+    }
+
+    &__hero-cta {
+        display: inline-block;
+        padding: 14px 40px;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        color: $white;
+        font-size: 13px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        transition: all 0.3s;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: $white;
+        }
+    }
+
+
+    // ===== 진화된 브랜드 스토리 (Vertical Timeline) =====
+    &__origin-timeline {
+        padding: 150px 0;
+        background: $main-bg;
+        position: relative;
+    }
+
+    &__origin-inner {
+        max-width: 1440px;
+        margin: 0 auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        @include mobile {
+            padding: 0 20px;
+            align-items: flex-start;
+        }
+    }
+
+    &__origin-line {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 1px;
+        background-color: rgba(96, 59, 45, 0.3); // Brown line
+        transform: translateX(-50%);
+
+        @include mobile {
+            left: 20px;
+        }
+    }
+
+    &__origin-block {
+        position: relative;
+        width: 100%;
+        max-width: 900px; // Constraints text to center area
+        display: flex;
+        padding: 100px 0;
+
+        @include mobile {
+            padding: 50px 0 50px 40px;
+            flex-direction: column;
+        }
+
+        .home__origin-nav {
+            width: 50%; // Occupies left half
+            padding-right: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+            font-size: 13px;
+            color: $color-brown-200;
+            margin-top: 20px;
+
+            span.active {
+                color: $color-brown-600;
+                font-weight: 500;
+            }
+
+            @include mobile {
+                display: none; // Hide on mobile for space
+            }
+        }
+
+        .home__origin-icon {
+            position: absolute;
+            left: 50%;
+            top: 100px;
+            transform: translateX(-50%);
+            background: $main-bg;
+            padding: 10px 0;
+            z-index: 2;
+
+            svg {
+                display: block;
+            }
+
+            @include mobile {
+                left: 0;
+                top: 50px;
+                transform: translateX(-50%) scale(0.7);
+            }
+        }
+
+        .home__origin-content {
+            width: 50%; // Occupies right half
+            padding-left: 80px;
+
+            @include mobile {
+                width: 100%;
+                padding-left: 0;
+            }
+
+            .origin-year {
+                font-size: 64px;
+                color: $color-brown-200;
+                margin-bottom: 10px;
+                line-height: 1;
+
+                @include mobile { font-size: 42px; }
+            }
+
+            .origin-title {
+                font-size: 20px;
+                font-weight: 400;
+                color: $color-brown-700;
+                margin-bottom: 20px;
+                word-break: keep-all;
+
+                strong { font-weight: 700; }
+
+                @include mobile { font-size: 16px; margin-bottom: 15px; }
+            }
+
+            p {
+                font-size: 13px;
+                color: $color-brown-400;
+                line-height: 1.8;
+            }
+        }
+    }
+
+    // ===== 철학 섹션 (Vertical List) =====
+    &__philosophy-vertical {
+        padding: 100px 0 150px;
+        background: $color-yellow-500; // Same as main bg to blend
+    }
+
+    &__pv-inner {
+        max-width: 1440px;
+        margin: 0 auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        @include mobile {
+            padding: 0 20px;
+            align-items: flex-start;
+        }
+    }
+
+    &__pv-line {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 1px;
+        background-color: rgba(96, 59, 45, 0.3);
+        transform: translateX(-50%);
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &__pv-item {
+        position: relative;
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        align-items: center;
+        padding: 80px 0;
+
+        @include mobile {
+            padding: 40px 0;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .home__pv-img {
+            width: 50%; // Occupies left half
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 80px;
+
+            img {
+                width: 250px;
+                height: 250px;
+                object-fit: cover;
+                z-index: 2;
+                position: relative;
+            }
+
+            @include tablet {
+                img {
+                    width: 200px;
+                    height: 200px;
+                }
+            }
+
+            @include mobile {
+                width: 100%;
+                justify-content: flex-start;
+                padding-right: 0;
+                margin-bottom: 20px;
+
+                img {
+                    width: 100%;
+                    height: auto;
+                    aspect-ratio: 1;
+                }
+            }
+        }
+
+        .home__pv-content {
+            width: 50%; // Occupies right half
+            padding-left: 80px;
+
+            @include mobile {
+                width: 100%;
+                padding-left: 0;
+            }
+
+            h3 {
+                font-size: 32px;
+                font-weight: 400;
+                color: $color-brown-900;
+                margin-bottom: 15px;
+
+                @include mobile { font-size: 26px; margin-bottom: 10px; }
+            }
+
+            h4 {
+                font-size: 15px;
+                font-weight: 600;
+                color: $color-brown-600;
+                margin-bottom: 20px;
+
+                @include mobile { font-size: 14px; margin-bottom: 15px; }
+            }
+
+            p {
+                font-size: 13px;
+                color: $color-brown-400;
+                line-height: 1.8;
+                max-width: 350px;
+            }
+        }
+    }
+
+    // ===== 공통 섹션 =====
+    &__section-header {
+        text-align: center;
+        margin-bottom: 60px;
+
+        h3 {
+            font-size: 36px;
+            font-weight: 400;
+            color: $color-brown-900;
+            margin-bottom: 15px;
+
+            @include mobile {
+                font-size: 26px;
+            }
+        }
+
+        p {
+            font-size: 15px;
+            color: $color-brown-300;
+        }
+    }
+
+    &__section-cta {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    &__cta-btn {
+        display: inline-block;
+        padding: 14px 36px;
+        background: $color-brown-700;
+        color: $white;
+        font-size: 13px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        transition: background 0.3s;
+        border: 1px solid $color-brown-700;
+
+        &:hover {
+            background: $color-brown-900;
+        }
+    }
+
+    // ===== 베스트 섹션 (Side-by-side) =====
+    &__best {
+        padding: 100px 0 150px;
+        background: #fcfaf3;
+
+        @include mobile {
+            padding: 60px 0 100px;
+        }
+
+        &-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            @include tablet {
+                flex-direction: column;
+                gap: 50px;
+            }
+        }
+
+        &-visual {
+            width: 55%;
+            display: flex;
+            justify-content: flex-start;
+
+            img {
+                width: 100%;
+                max-width: 600px;
+                object-fit: contain;
+
+                @include mobile {
+                    max-width: 100%;
+                }
+            }
+
+            @include tablet {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        &-content {
+            width: 40%;
+            padding-right: 50px;
+
+            @include tablet {
+                width: 100%;
+                padding-right: 0;
+                text-align: center;
+            }
+
+            h3 {
+                font-size: 24px;
+                color: $color-brown-400;
+                font-weight: 400;
+                margin-bottom: 25px;
+                line-height: 1.2;
+
+                span {
+                    font-size: 48px;
+                    color: $color-brown-900;
+                    display: block;
+                    margin-top: 5px;
+
+                    @include mobile {
+                        font-size: 32px !important; // 폰트 크기 강제 조정
+                    }
+                }
+            }
+
+            p {
+                font-size: 15px;
+                color: $color-brown-500;
+                line-height: 1.8;
+                margin-bottom: 30px;
+                word-break: keep-all;
+
+                br {
+                    @include mobile {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        &-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border: 1px solid $color-brown-900;
+            color: $color-brown-900;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+
+            &:hover {
+                background: $color-brown-900;
+                color: $white;
+            }
+        }
+    }
+
+    // ===== 메시지 섹션 =====
+    &__message {
+        padding: 150px 0;
+        background: $color-brown-900;
+
+        @include mobile {
+            padding: 100px 0;
+        }
+    }
+
+    &__message-text {
+        text-align: center;
+        font-size: 32px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.6;
+        letter-spacing: 1px;
+        max-width: 800px;
+        margin: 0 auto;
+
+        @include mobile {
+            font-size: 20px !important; // 모바일에서 너무 크지 않게 조정
+            padding: 0 20px;
+        }
+    }
+
+    // ===== 기프트 섹션 =====
+    &__gift {
+        padding: 120px 0;
+        background: $main-bg;
+
+        @include mobile {
+            padding: 80px 0;
+        }
+    }
+
+    &__gift-content {
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
+
+        h3 {
+            font-size: 36px;
+            font-weight: 400;
+            color: $color-brown-900;
+            margin-bottom: 20px;
+
+            @include mobile {
+                font-size: 26px;
+            }
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: $color-brown-400;
+            margin-bottom: 40px;
+        }
+    }
+
+    // ===== 성분 섹션 =====
+    &__ingredients {
+        width: 100%;
+        background: $color-yellow-500;
+        padding: 60px 0;
+        overflow: hidden;
+    }
+
+    &__ingredients-visual {
+        position: relative;
+        width: 100%;
+        max-width: 1440px;
+        margin: 0 auto;
+        height: 600px;
+    }
+
+    &__ingredients-svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+
+        path {
+            opacity: 0.6;
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 0;
+        }
+    }
+
+    &__ingredients-text {
+        font-size: 52px;
+        letter-spacing: 1px;
+        @include tablet { font-size: 32px; }
+        @include mobile { font-size: 24px; }
+    }
+
+    &__ingredients-circles {
+        position: absolute;
+        z-index: 2;
+        right: clamp(100px, 20%, 300px);
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        
+        .circle-item {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .circle-label {
+            font-size: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .circle-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        @include mobile {
+            right: 20px;
+            .circle-img {
+                width: 60px;
+                height: 60px;
+            }
+            .circle-label {
+                font-size: 13px;
+            }
+        }
+    }
+
+    &__ingredients-bottle {
+        position: absolute;
+        right: clamp(20px, 8%, 100px);
+        bottom: 50px;
+        width: 100px;
+        z-index: 2;
+
+        img {
+            width: 100%;
+            height: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        @include mobile {
+            width: 60px;
+            bottom: 30px;
+            right: 10px;
+        }
+    }
+
+    // ===== 대표 기프트 제품 섹션 =====
+    &__featured-gifts {
+        position: relative;
+        background: $color-yellow-500;
+        padding: 120px 0;
+        overflow: hidden;
+
+        @include mobile {
+            padding: 80px 0;
+        }
+    }
+
+    &__fg-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        opacity: 0.6;
+        
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__fg-list {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        gap: 100px;
+        max-width: 600px;
+        margin: 0 auto;
+
+        @include mobile {
+            gap: 80px;
+        }
+    }
+
+    &__fg-item {
+        text-align: center;
+        padding: 20px;
+        border-radius: 5px;
+
+        .home__fg-img {
+            width: 100%;
+            margin: 0 auto 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+
+            img {
+                width: 100%;
+                height: auto;
+                display: block;
+                transition: transform 0.4s ease;
+
+                &:hover {
+                    transform: scale(1.03);
+                }
+            }
+        }
+
+        h3 {
+            font-size: 26px;
+            color: $color-brown-900;
+            margin-bottom: 20px;
+            font-weight: 400;
+
+            @include mobile {
+                font-size: 22px;
+            }
+        }
+
+        p {
+            font-size: 14px;
+            color: $color-brown-400;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            word-break: keep-all;
+        }
+
+        .home__fg-btn {
+            display: inline-block;
+            padding: 14px 40px;
+            border: 1px solid $color-brown-700;
+            color: $color-brown-700;
+            font-size: 13px;
+            transition: all 0.3s;
+            text-decoration: none;
+
+            &:hover {
+                background: $color-brown-700;
+                color: $white;
+            }
+        }
+    }
+
+    // ===== 마무리 =====
+    &__closing {
+        padding: 120px 0;
+        background: #f5f0e6;
+
+        @include mobile {
+            padding: 80px 0;
+        }
+    }
+
+    &__closing-text {
+        text-align: center;
+        font-size: 28px;
+        font-weight: 400;
+        color: $color-brown-400;
+        letter-spacing: 1px;
+
+        @include mobile {
+            font-size: 20px;
+        }
+    }
+}

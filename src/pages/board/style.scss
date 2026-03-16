@@ -1,0 +1,281 @@
+@use '../../styles/utils' as *;
+
+.board-page {
+    background: $main-bg;
+    padding-bottom: 150px;
+}
+
+// ------------------------------
+// Hero
+// ------------------------------
+.board-hero {
+    background: $color-brown-900;
+    color: $color-yellow-500;
+    padding: 100px 0;
+    text-align: center;
+
+    h2 {
+        font-size: 40px;
+        margin-bottom: 20px;
+        color: $white;
+
+        @include mobile {
+            font-size: 32px;
+        }
+    }
+
+    p {
+        font-size: 16px;
+        color: rgba($white, 0.8);
+    }
+}
+
+// ------------------------------
+// 본문 콘텐츠
+// ------------------------------
+.board-content {
+    padding-top: 60px;
+    margin-bottom: 80px;
+    max-width: 900px;
+}
+
+.board-tabs {
+    display: flex;
+    margin-bottom: 40px;
+    border-bottom: 1px solid $color-brown-200;
+
+    button {
+        flex: 1;
+        padding: 20px 0;
+        background: none;
+        border: none;
+        font-size: 18px;
+        color: $color-brown-400;
+        cursor: pointer;
+        transition: all 0.2s;
+        position: relative;
+        top: 1px;
+
+        @include mobile {
+            font-size: 15px;
+            padding: 15px 0;
+        }
+
+        &.is-active {
+            color: $color-brown-900;
+            font-weight: 500;
+            border-bottom: 2px solid $color-brown-900;
+        }
+
+        &:hover:not(.is-active) {
+            color: $color-brown-700;
+        }
+    }
+}
+
+// ------------------------------
+// FAQ
+// ------------------------------
+.faq-list {
+    border-top: 1px solid $color-brown-900;
+
+    .faq-item {
+        border-bottom: 1px solid $color-brown-200;
+
+        &__question {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 25px 20px;
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.2s;
+
+            &:hover {
+                background: #fcfaf3;
+            }
+
+            .q-mark {
+                font-family: 'Ogg', serif;
+                font-size: 20px;
+                color: $color-brown-400;
+                margin-right: 15px;
+            }
+
+            .title {
+                flex: 1;
+                font-size: 16px;
+                color: $color-brown-900;
+                font-weight: 500;
+            }
+
+            .icon {
+                color: $color-brown-500;
+                margin-left: 20px;
+            }
+        }
+
+        &__answer {
+            height: 0;
+            overflow: hidden;
+            background: #fcfaf3;
+            transition: height 0.3s ease;
+
+            .answer-inner {
+                display: flex;
+                padding: 30px 20px;
+                border-top: 1px dashed $color-brown-200;
+            }
+
+            .a-mark {
+                font-family: 'Ogg', serif;
+                font-size: 20px;
+                color: $color-brown-900;
+                margin-right: 15px;
+                font-weight: 600;
+            }
+
+            p {
+                flex: 1;
+                font-size: 15px;
+                color: $color-brown-700;
+                line-height: 1.6;
+                white-space: pre-line;
+            }
+        }
+
+        // 활성화(열림) 상태
+        &.is-open {
+            .faq-item__question {
+                background: #fcfaf3;
+            }
+            .faq-item__answer {
+                height: auto;
+            }
+        }
+    }
+}
+
+// ------------------------------
+// 공지사항
+// ------------------------------
+.notice-list {
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 600px;
+        border-top: 1px solid $color-brown-900;
+        
+        th, td {
+            padding: 20px;
+            border-bottom: 1px solid $color-brown-200;
+            text-align: center;
+            font-size: 15px;
+            color: $color-brown-900;
+        }
+
+        th {
+            background: #fcfaf3;
+            font-weight: 500;
+        }
+
+        td {
+            &.title {
+                text-align: left;
+                width: 60%;
+                cursor: pointer;
+
+                &:hover {
+                    text-decoration: underline;
+                    text-underline-offset: 4px;
+                }
+            }
+
+            &.num {
+                color: $color-brown-500;
+            }
+
+            &.date {
+                color: $color-brown-500;
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+// ------------------------------
+// 텍스트/연락처
+// ------------------------------
+.board-contact {
+    max-width: 900px;
+    margin-top: 40px;
+
+    .contact-card {
+        padding: 50px;
+        background: $white;
+        border: 1px solid $color-brown-200;
+        text-align: center;
+
+        @include mobile {
+            padding: 40px 20px;
+        }
+
+        h3 {
+            font-size: 28px;
+            color: $color-brown-900;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 15px;
+            color: $color-brown-500;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 40px;
+
+            @include mobile {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+
+        .info-item {
+            flex: 1;
+            padding: 30px;
+            background: #fcfaf3;
+            border: 1px solid $color-brown-200;
+
+            strong {
+                display: block;
+                font-size: 16px;
+                color: $color-brown-900;
+                margin-bottom: 10px;
+            }
+
+            span {
+                display: block;
+                font-size: 24px;
+                font-weight: 600;
+                color: $color-brown-900;
+                margin-bottom: 10px;
+            }
+
+            em {
+                font-style: normal;
+                font-size: 13px;
+                color: $color-brown-500;
+            }
+        }
+    }
+}

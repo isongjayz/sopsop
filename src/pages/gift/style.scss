@@ -1,0 +1,347 @@
+@use '../../styles/utils' as *;
+
+.gift-page {
+    width: 100%;
+    background: $main-bg;
+    padding-bottom: 120px;
+}
+
+.gift-hero {
+    width: 100%;
+    padding: 100px 0 60px;
+    background: $main-bg;
+    text-align: center;
+
+    &__title {
+        font-size: 48px;
+        font-weight: 400;
+        color: $color-brown-900;
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+
+        @include mobile {
+            font-size: 32px;
+        }
+    }
+
+    &__desc {
+        font-size: 16px;
+        color: $color-brown-400;
+        line-height: 1.6;
+    }
+}
+
+.gift-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+
+    @include mobile {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 15px; // 스크롤바 여백
+        white-space: nowrap;
+        
+        &::-webkit-scrollbar {
+            height: 4px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: $color-brown-200;
+            border-radius: 4px;
+        }
+    }
+}
+
+.gift-tab {
+    padding: 10px 24px;
+    font-size: 14px;
+    color: $color-brown-400;
+    border: 1px solid $color-brown-200;
+    background: transparent;
+    transition: all 0.2s;
+    cursor: pointer;
+
+    &:hover {
+        background: $color-brown-100;
+        color: $color-brown-900;
+        border-color: $color-brown-300;
+    }
+
+    &.is-active {
+        background: $color-brown-900;
+        color: $white;
+        border-color: $color-brown-900;
+    }
+}
+
+.gift-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+
+    @include tablet {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    @include mobile {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
+
+// 기프트 큐레이션 메인 페이지
+.gift-curation {
+    width: 100%;
+    background: $main-bg;
+    padding-bottom: 120px;
+
+    &__title {
+        font-size: 48px;
+        font-weight: 400;
+        color: $color-brown-900;
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+
+        @include mobile {
+            font-size: 32px;
+        }
+    }
+
+    &__desc {
+        font-size: 16px;
+        color: $color-brown-400;
+        line-height: 1.6;
+    }
+}
+
+// 기프트 큐레이션 메인 페이지 (4-column 100vh)
+.gift-curation-full {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+
+    @include mobile {
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
+
+    &__container {
+        display: flex;
+        width: 100%;
+        height: 100%;
+
+        @include mobile {
+            flex-direction: column;
+        }
+    }
+
+    &__column {
+        flex: 1;
+        position: relative;
+        display: flex;
+        align-items: flex-end; // Text at the bottom
+        padding: 40px;
+        text-decoration: none;
+        overflow: hidden;
+        transition: flex 0.5s ease; // Expand on hover effect
+        cursor: pointer;
+
+        &:hover {
+            flex: 1.2;
+
+            .gift-curation-full__bg {
+                transform: scale(1.05);
+            }
+            
+            .gift-curation-full__overlay {
+                background: rgba(0, 0, 0, 0.2); // Slightly lighter on hover
+            }
+        }
+
+        @include mobile {
+            flex: none;
+            height: 25vh; // 4 rows on mobile
+            padding: 20px;
+
+            &:hover {
+                flex: none;
+            }
+        }
+    }
+
+    &__bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        transition: transform 0.6s ease;
+        z-index: 1;
+    }
+
+    &__overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4); // Darken image for text readability
+        transition: background 0.3s ease;
+        z-index: 2;
+    }
+
+    &__content {
+        position: relative;
+        z-index: 3;
+        color: #fff; // Force white text on dark background
+
+        h3 {
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 10px;
+
+            @include tablet {
+                font-size: 24px;
+            }
+
+            @include mobile {
+                font-size: 20px;
+            }
+        }
+
+        p {
+            font-size: 15px;
+            line-height: 1.6;
+            opacity: 0.9;
+            word-break: keep-all;
+
+            @include tablet {
+                display: none; // Hide desc on small tablets to save space
+            }
+
+            @include mobile {
+                display: block; // Show back on mobile since rows are horizontal
+                font-size: 13px;
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+// 카테고리별 기프트 상세 (GiftList.jsx 추가 스타일)
+.gift-hero-banner {
+    width: 100%;
+    padding: 120px 0;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-color: $color-brown-900;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 60px;
+
+    @include mobile {
+        padding: 80px 0;
+    }
+
+    &__overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4); // 배경 이미지 어둡게
+        z-index: 1;
+    }
+
+    &__inner {
+        position: relative;
+        z-index: 2;
+    }
+
+    &__title {
+        font-size: 48px;
+        font-weight: 400;
+        margin-bottom: 15px;
+
+        @include mobile {
+            font-size: 32px;
+        }
+    }
+
+    &__desc {
+        font-size: 16px;
+        opacity: 0.9;
+    }
+}
+
+.gift-content__header {
+    text-align: center;
+    margin-bottom: 60px;
+
+    h3 {
+        font-size: 36px;
+        font-weight: 400;
+        color: $color-brown-900;
+        margin-bottom: 15px;
+
+        @include mobile {
+            font-size: 28px;
+        }
+    }
+
+    p {
+        font-size: 16px;
+        color: $color-brown-500;
+    }
+}
+
+.gift-others {
+    margin-top: 100px;
+    padding-top: 80px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+
+    &__title {
+        font-size: 32px;
+        font-weight: 400;
+        color: $color-brown-900;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+
+        @include mobile {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+    }
+
+    &__card {
+        display: block;
+        text-decoration: none;
+        overflow: hidden;
+
+        &:hover {
+            .gift-others__img {
+                transform: scale(1.05);
+            }
+        }
+
+        h4 {
+            font-size: 20px;
+            font-weight: 400;
+            color: $color-brown-900;
+            margin-top: 15px;
+            text-align: center;
+        }
+    }
+
+    &__img {
+        width: 100%;
+        padding-top: 130%; // 세로 비율 사진
+        background-size: cover;
+        background-position: center;
+        transition: transform 0.5s ease;
+    }
+}
