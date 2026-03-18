@@ -1,6 +1,6 @@
 @use '../../styles/utils' as *;
 
-.product-card {
+.aegung__product-card {
     width: 1420px;
     display: flex;
     flex-direction: column;
@@ -13,7 +13,7 @@
         align-items: center;
         gap: 24px;
 
-        .title-ko {
+        .aegung__title-ko {
             font-family: 'Pretendard', sans-serif;
             font-size: 82px;
             font-weight: 500;
@@ -22,13 +22,13 @@
             letter-spacing: -1.804px;
         }
 
-        .title-en-group {
+        .aegung__title-en-group {
             display: flex;
             flex-direction: column;
             gap: 4px;
         }
 
-        .title-en-sub {
+        .aegung__title-en-sub {
             font-family: 'Bona Nova', serif;
             font-size: 20px;
             font-weight: 400;
@@ -37,7 +37,7 @@
             letter-spacing: -0.2px;
         }
 
-        .title-en-main {
+        .aegung__title-en-main {
             font-family: 'Bona Nova', serif;
             font-size: 32px;
             font-weight: 400;
@@ -97,12 +97,12 @@
         border-top: 1px solid $color-brown-200;
         border-bottom: 1px solid $color-brown-200;
 
-        .note-item {
+        .aegung__note-item {
             display: flex;
             align-items: flex-start;
         }
 
-        .note-name {
+        .aegung__note-name {
             font-family: 'Pretendard', sans-serif;
             font-size: 16px;
             font-weight: 700;
@@ -111,7 +111,7 @@
             width: 120px; // 이름 영역에 고정 너비 할당
         }
 
-        .note-desc {
+        .aegung__note-desc {
             font-family: 'Pretendard', sans-serif;
             font-size: 16px;
             color: $color-brown-200;
@@ -171,7 +171,7 @@
         }
 
         &__header {
-            .title-ko {
+            .aegung__title-ko {
                 font-size: 56px;
             }
 
@@ -179,11 +179,11 @@
                 height: 50px;
             }
 
-            .title-en-main {
+            .aegung__title-en-main {
                 font-size: 24px;
             }
 
-            .title-en-sub {
+            .aegung__title-en-sub {
                 font-size: 16px;
             }
         }
@@ -211,7 +211,7 @@
         }
 
         &__notes {
-            .note-item {
+            .aegung__note-item {
                 flex-direction: column;
                 gap: 8px;
             }

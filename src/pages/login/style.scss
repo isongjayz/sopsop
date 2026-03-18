@@ -1,4 +1,4 @@
-@use '../../styles/utils' as *;
+@use "../../styles/utils" as *;
 
 // ==============================
 // Login Page
@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  gap: 220px;
+  gap: 200px;
   max-width: 1280px;
   margin: 0 auto;
 
@@ -16,18 +16,18 @@
     width: 50%;
 
     img {
-      width: 525px;
-      height: 610px;
+      width: 555px;
+      height: 630px;
       object-fit: cover;
     }
   }
 
   .login_content {
     width: 50%;
-    padding: 0 80px;
+    padding: 0 60px;
 
     .login_title {
-      font-family: 'Bona Nova', serif;
+      font-family: "Bona Nova", serif;
       color: $color-brown-900;
       font-size: 36px;
       line-height: 120%;
@@ -37,18 +37,17 @@
 
     .login_desc {
       color: $color-brown-900;
-      font-size: 14px;
+      font-size: 16px;
       line-height: 150%;
       margin-bottom: 40px;
     }
 
     .login_field {
-      margin-bottom: 24px;
+      margin-bottom: 20px;
 
       label {
         display: block;
-        font-size: 14px;
-        font-weight: 600;
+        font-size: 16px;
         color: $color-brown-900;
         margin-bottom: 8px;
       }
@@ -57,12 +56,8 @@
         width: 100%;
         border: none;
         border-bottom: 1px solid $color-brown-900;
-        background: transparent;
-        padding: 8px 0;
-        font-family: inherit;
+        padding: 8px 2px;
         font-size: 14px;
-        color: $color-brown-900;
-        outline: none;
 
         &::placeholder {
           color: $color-brown-300;
@@ -74,8 +69,8 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      gap: 6px;
-      margin-bottom: 24px;
+      gap: 4px;
+      margin-bottom: 20px;
 
       a {
         font-size: 14px;
@@ -88,7 +83,7 @@
       }
 
       .login_find-sep {
-        color: $color-brown-300;
+        color: $color-brown-100;
         font-size: 14px;
       }
 
@@ -101,7 +96,7 @@
         cursor: pointer;
         font-family: inherit;
         text-decoration: underline;
-        text-underline-offset: 3px;
+        text-underline-offset: 4px;
 
         &:hover {
           opacity: 0.6;
@@ -111,16 +106,14 @@
 
     .login_error {
       color: #d13b3b;
-      font-size: 13px;
+      font-size: 14px;
       margin-bottom: 16px;
     }
 
     .login_btn {
       width: 100%;
-      padding: 16px;
+      padding: 8px 32px;
       border: 1px solid $color-brown-900;
-      background: transparent;
-      font-family: inherit;
       font-size: 16px;
       color: $color-brown-900;
       cursor: pointer;
@@ -135,17 +128,17 @@
     }
 
     .login_sns {
-      margin-top: 40px;
+      margin-top: 26px;
 
       .login_sns_divider {
         display: flex;
         align-items: center;
-        gap: 16px;
-        margin-bottom: 24px;
+        gap: 8px;
+        margin-bottom: 12px;
 
         &::before,
         &::after {
-          content: '';
+          content: "";
           flex: 1;
           height: 1px;
           background: $color-brown-900;
@@ -160,8 +153,9 @@
 
       .login_sns_icons {
         display: flex;
-        justify-content: center;
-        gap: 24px;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
 
         button {
           background: none;
@@ -170,8 +164,8 @@
           padding: 0;
 
           img {
-            width: 48px;
-            height: 48px;
+            width: 100%;
+            height: 100%;
           }
         }
       }
@@ -183,34 +177,33 @@
 // Auth Form (FindAccount, Signup 공용)
 // ==============================
 .auth-page {
-  padding-top: 80px;
-  background: $main-bg;
-  min-height: calc(100vh - 80px);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 
   &__layout {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 200px;
+    max-width: 1280px;
     width: 100%;
-    max-width: 1200px;
-    background: $main-bg;
-    align-items: stretch;
+    margin: 0 auto;
 
     @include mobile {
       flex-direction: column;
+      gap: 0;
     }
   }
 
   &__image {
-    flex: 1;
-    display: flex;
+    flex-shrink: 0;
 
     img {
-      width: 100%;
-      height: 100%;
+      width: 555px;
+      height: 630px;
       object-fit: cover;
-      max-height: 700px;
     }
 
     @include mobile {
@@ -219,30 +212,32 @@
   }
 
   &__container {
-    flex: 1;
-    padding: 40px 60px;
+    width: 50%;
+    padding: 0 60px;
     display: flex;
     flex-direction: column;
     justify-content: center;
 
     @include mobile {
-      padding: 20px;
+      width: 100%;
+      padding: 40px 20px;
     }
   }
 
   &__title {
-    font-size: 32px;
+    font-family: "Bona Nova", serif;
+    font-size: 36px;
     color: $color-brown-900;
-    margin-bottom: 15px;
-    text-align: center;
+    line-height: 120%;
+    letter-spacing: -0.9px;
+    margin-bottom: 16px;
   }
 
   &__desc {
-    font-size: 15px;
-    color: $color-brown-500;
-    text-align: center;
+    font-size: 16px;
+    color: $color-brown-900;
     margin-bottom: 40px;
-    line-height: 1.6;
+    line-height: 150%;
   }
 
   &__links--top {
@@ -298,29 +293,27 @@
   border: none;
 
   &__group {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 
     label {
       display: block;
       font-size: 14px;
+      font-weight: 600;
       color: $color-brown-900;
-      margin-bottom: 10px;
-      font-weight: 500;
+      margin-bottom: 8px;
     }
 
     input {
       width: 100%;
-      padding: 15px;
-      border: 1px solid $color-brown-200;
+      border: none;
+      border-bottom: 1px solid $color-brown-900;
+      background: transparent;
+      padding: 8px 0;
       font-family: inherit;
       font-size: 14px;
-      background: transparent;
+      color: $color-brown-900;
+      outline: none;
       transition: border-color 0.2s;
-
-      &:focus {
-        outline: none;
-        border-color: $color-brown-900;
-      }
 
       &::placeholder {
         color: $color-brown-300;
@@ -353,9 +346,21 @@
 
   &__submit {
     width: 100%;
-    padding: 18px 0;
-    font-size: 15px;
-    margin-bottom: 15px;
+    padding: 8px 32px;
+    border: 1px solid $color-brown-900;
+    background: transparent;
+    font-family: inherit;
+    font-size: 16px;
+    color: $color-brown-900;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: $color-brown-500;
+      border-color: $color-brown-500;
+      color: $main-bg;
+    }
   }
 
   &__tabs {

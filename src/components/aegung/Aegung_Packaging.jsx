@@ -1,4 +1,4 @@
-const SpecialStores = () => {
+const Aegung_Packaging = () => {
     
     return (
         <div>
@@ -7,4 +7,4 @@ const SpecialStores = () => {
     );
 };
 
-export default SpecialStores;
+export default Aegung_Packaging;

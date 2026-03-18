@@ -4,7 +4,7 @@
 // AE-GUNG 메인 비주얼
 // ========================================
 
-.main-visual {
+.aegung__main-visual {
     // position: relative;
     width: 100%;
     height: 1000px;
@@ -13,7 +13,7 @@
     overflow: hidden;
     padding-bottom: 300px;
 
-    .inner {
+    .aegung__inner {
         position: relative;
         height: 100%;
         width: 1420px;
@@ -141,8 +141,7 @@
 
     &__brand-name {
         font-family: 'Ogg', 'Playfair Display', 'Libre Baskerville', serif;
-        font-size: 110px;
-        font-weight: 400;
+        font-size: 120px;
         color: $color-brown-700;
         letter-spacing: -2px;
         line-height: 1;
@@ -157,7 +156,7 @@
         padding: 80px 0 60px;
         padding-bottom: 50px;
 
-        .inner {
+        .aegung__inner {
             width: 95%;
             max-width: 100%;
             display: flex;
@@ -257,7 +256,7 @@
         margin-top: 60px;
         padding: 50px 0 40px;
 
-        .inner {
+        .aegung__inner {
             gap: 36px;
             padding: 0 15px;
         }
@@ -302,11 +301,11 @@
 
 
 
-.about {
+.aegung__about {
     width: 100%;
     padding: 120px 0;
 
-    .inner {
+    .aegung__inner {
         max-width: 1420px;
         width: 95%;
         margin: 0 auto;
@@ -314,7 +313,7 @@
         justify-content: space-between;
         gap: 60px;
 
-        .about__text {
+        .aegung__about__text {
             color: var(--brown-brown-500-k, #603B2D);
             font-family: "Noto Serif KR";
             font-size: 64px;
@@ -328,7 +327,7 @@
             gap: 64px;
         }
 
-        .about__subtitle {
+        .aegung__about__subtitle {
             color: var(--brown-brown-300-m, #947C72);
             font-family: "Pretendard";
             font-size: 24px;
@@ -337,7 +336,7 @@
             letter-spacing: -0.264px;
         }
 
-        .about__subtitle_en {
+        .aegung__about__subtitle_en {
             color: var(--brown-brown-200-m, #B6A59E);
             font-family: "Pretendard";
             font-size: 24px;
@@ -346,7 +345,7 @@
             letter-spacing: -0.24px;
         }
 
-        .about__img {
+        .aegung__about__img {
             display: flex;
             flex: 1;
             max-width: 700px;
@@ -367,22 +366,22 @@
     @media (max-width: 1023px) {
         padding: 80px 0;
 
-        .inner {
+        .aegung__inner {
             flex-direction: column;
             gap: 50px;
 
-            .about__text {
+            .aegung__about__text {
                 width: 100%;
                 font-size: 44px;
                 gap: 40px;
             }
 
-            .about__subtitle,
-            .about__subtitle_en {
+            .aegung__about__subtitle,
+            .aegung__about__subtitle_en {
                 font-size: 18px;
             }
 
-            .about__img {
+            .aegung__about__img {
                 max-width: 100%;
                 gap: 40px;
             }
@@ -393,24 +392,24 @@
     @media (max-width: 600px) {
         padding: 60px 0;
 
-        .inner {
+        .aegung__inner {
             width: 100%;
             padding: 0 20px;
             gap: 36px;
 
-            .about__text {
+            .aegung__about__text {
                 font-size: 32px;
                 letter-spacing: -0.4px;
                 gap: 28px;
             }
 
-            .about__subtitle,
-            .about__subtitle_en {
+            .aegung__about__subtitle,
+            .aegung__about__subtitle_en {
                 font-size: 15px;
                 line-height: 160%;
             }
 
-            .about__img {
+            .aegung__about__img {
                 gap: 28px;
             }
         }
