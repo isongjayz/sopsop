@@ -533,18 +533,20 @@ const normalizeProduct = (product) => {
 
     const volumes =
         rawVolumes.length > 0
-            ? rawVolumes.map((option, index) => ({
-                ...option,
-                // 수정: 세트 상품의 빈 옵션값 때문에 리스트 버튼/카트 키가 깨지지 않도록 SET 라벨을 보정합니다.
-                volume:
-                    option.volume && String(option.volume).trim()
-                        ? option.volume
-                        : isSetProduct
-                            ? 'SET'
-                            : `옵션 ${index + 1}`,
-                price: typeof option.price === 'number' ? option.price : product.price,
-                stock: typeof option.stock === 'number' ? option.stock : product.stock,
-            }))
+            ? rawVolumes
+                .map((option, index) => ({
+                    ...option,
+                    // 수정: 세트 상품의 빈 옵션값 때문에 리스트 버튼/카트 키가 깨지지 않도록 SET 라벨을 보정합니다.
+                    volume:
+                        option.volume && String(option.volume).trim()
+                            ? option.volume
+                            : isSetProduct
+                                ? 'SET'
+                                : `옵션 ${index + 1}`,
+                    price: typeof option.price === 'number' ? option.price : product.price,
+                    stock: typeof option.stock === 'number' ? option.stock : product.stock,
+                }))
+                .sort((a, b) => a.price - b.price) // 가격 낮은 순(작은 용량)으로 정렬하여 첫 번째가 기본값이 되도록 함
             : [
                 {
                     volume: isSetProduct ? 'SET' : 'default',
