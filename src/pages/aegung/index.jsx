@@ -4,20 +4,18 @@ import './style.scss';
 import Aegung_MainVisual from '../../components/aegung/Aegung_MainVisual';
 import Aegung_About from '../../components/aegung/Aegung_About';
 import Aegung_Product from '../../components/aegung/Aegung_Product';
+import Aegung_Packaging from '../../components/aegung/Aegung_Packaging';
+import Aegung_SpecialStores from '../../components/aegung/Aegung_SpecialStores';
 
 const AeGung = () => {
     return (
-        <div className="aegung inner">
+        <main className="aegung">
             <Aegung_MainVisual />
             <Aegung_About />
             <Aegung_Product/>
-
-            {/* <h2 className="font-serif aegung__title">AE-GUNG</h2>
-            <p className="aegung__desc">K 콘텐츠 큐레이션 페이지가 곧 공개됩니다.</p>
-            <Link to="/product" className="aegung__btn">
-                제품 둘러보기
-            </Link> */}
-        </div>
+            <Aegung_Packaging />
+            <Aegung_SpecialStores />
+        </main>
     );
 };
 export default AeGung;

@@ -7,14 +7,15 @@
 // 수정사항: origin timeline 전용 스타일 분리
 
 .home {
-    // ===== 2. Origin Timeline (브랜드 스토리) =====
-    &__origin-timeline {
+
+    // ===== 2. Brand Story (브랜드 스토리) =====
+    &__brand-story {
         padding: 100px 0;
         background: $color-yellow-500;
         position: relative;
     }
 
-    &__origin-inner {
+    &__brand-story-inner {
         width: 100%;
         max-width: 1600px;
         margin: 0 auto;
@@ -23,7 +24,7 @@
         flex-direction: column;
     }
 
-    &__origin-line {
+    &__brand-story-line {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -37,7 +38,7 @@
         }
     }
 
-    &__origin-block {
+    &__brand-story-block {
         position: relative;
         width: 100%;
         height: clamp(600px, 90vh, 900px); // Responsive height capped at 900px
@@ -58,7 +59,7 @@
             align-items: flex-start;
         }
 
-        .home__origin-nav {
+        .home__brand-story-nav {
             width: 25%; // Percentage-based width
             display: flex;
             flex-direction: column;
@@ -84,16 +85,15 @@
             }
         }
 
-        .home__origin-icon {
+        .home__brand-story-icon {
             position: absolute;
             left: 35%; // Anchored to the line
             top: 50%;
             transform: translate(-50%, -50%);
-            background: #f5f0e6;
             padding: 20px 0;
             z-index: 2;
 
-            .origin-svg {
+            .brand-story-svg {
                 display: block;
                 width: 100px;
                 height: 120px;
@@ -108,14 +108,14 @@
                 padding: 0;
                 margin-bottom: 20px;
 
-                .origin-svg {
+                .brand-story-svg {
                     width: 60px;
                     height: auto;
                 }
             }
         }
 
-        .home__origin-content {
+        .home__brand-story-content {
             flex: 1;
             padding-left: 10%; // Offset from the line
 
@@ -123,7 +123,7 @@
                 padding-left: 0;
             }
 
-            .origin-year {
+            .brand-story-year {
                 font-family: 'Ogg', serif;
                 font-size: clamp(60px, 10vw, 150px);
                 color: rgba($color-brown-500, 0.14);
@@ -135,7 +135,7 @@
                 }
             }
 
-            .origin-title {
+            .brand-story-title {
                 font-size: clamp(20px, 2.5vw, 32px);
                 font-weight: 400;
                 color: $color-brown-500;
@@ -166,13 +166,15 @@
 // 수정사항: philosophy 전용 스타일 분리
 
 .home {
-    // ===== 3. Philosophy (철학 섹션) =====
-    &__philosophy-vertical {
-        padding: 100px 0 150px;
-        background: $color-yellow-500; // Same as main bg to blend
+
+    // ===== 3. Values (핵심 가치 섹션) =====
+    &__values {
+        padding: 0; // 아이템이 화면을 꽉 채우므로 상하 패딩 제거
+        background: $color-yellow-500;
+        scroll-snap-type: y proximity; // 자석 효과 추가
     }
 
-    &__pv-inner {
+    &__values-inner {
         width: 100%; // 100% 너비 활용
         max-width: none; // 1440px 제한 제거
         margin: 0 auto;
@@ -187,7 +189,7 @@
         }
     }
 
-    &__pv-line {
+    &__values-line {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -202,14 +204,15 @@
         }
     }
 
-    &__pv-item {
+    &__values-item {
         position: relative;
         width: 100%;
+        height: clamp(800px, 100vh, 1024px); // 화면 높이에 따라 유동적으로 변화
         display: flex;
-        align-items: center; // 컨텐츠 상하 가운데 정렬
-        padding: 100px 0;
-        padding-left: vw(301); // 이미지 왼쪽 여백 301px
-        padding-right: vw(192); // 섹션 1과 동일한 우측 여백 192px
+        align-items: center;
+        padding-left: vw(301);
+        padding-right: vw(192);
+        scroll-snap-align: start; // 스크롤 시 상단에 고정
 
         @include mobile {
             padding: 40px 20px;
@@ -217,7 +220,7 @@
             align-items: flex-start;
         }
 
-        .home__pv-img {
+        .home__values-image {
             width: vw(500); // 301 + 250(이미지절반) = 551px 지점이 선의 위치
             display: flex;
             justify-content: center;
@@ -251,7 +254,7 @@
             }
         }
 
-        .home__pv-content {
+        .home__values-content {
             margin-left: vw(150); // 이미지와 컨텐츠 간격 150px
             padding-left: 0;
             flex: 1;
@@ -268,7 +271,6 @@
                 margin-bottom: 15px;
                 font-family: 'Ogg', serif;
                 line-height: 0.95;
-                font-weight: 300;
 
                 @include mobile {
                     font-size: 26px;
@@ -303,15 +305,16 @@
 // 수정사항: ingredients 전용 스타일 분리
 
 .home {
-    // ===== 4. Ingredients (성분 섹션) =====
-    &__ingredients {
+
+    // ===== 4. Botanicals (식물 성분 섹션) =====
+    &__botanicals {
         width: 100%;
         background: $color-yellow-500;
         padding: 60px 0;
         overflow: hidden;
     }
 
-    &__ingredients-visual {
+    &__botanicals-visual {
         position: relative;
         width: 100%;
         max-width: 1440px;
@@ -319,7 +322,7 @@
         height: 600px;
     }
 
-    &__ingredients-svg {
+    &__botanicals-svg {
         position: absolute;
         inset: 0;
         width: 100%;
@@ -333,7 +336,7 @@
         }
     }
 
-    &__ingredients-text {
+    &__botanicals-text {
         font-size: 52px;
         letter-spacing: 1px;
 
@@ -346,7 +349,7 @@
         }
     }
 
-    &__ingredients-circles {
+    &__botanicals-circles {
         position: absolute;
         z-index: 2;
         right: clamp(100px, 20%, 300px);
@@ -391,7 +394,7 @@
         }
     }
 
-    &__ingredients-bottle {
+    &__botanicals-bottle {
         position: absolute;
         right: clamp(20px, 8%, 100px);
         bottom: 50px;

@@ -4,18 +4,21 @@ import './style.scss';
 
 import {
     HomeHero,
-    HomeOriginTimeline,
-    HomePhilosophy,
-    HomeIngredients,
+    HomeBrandStory,
+    HomeValues,
+    HomeBotanicals,
     HomeBestSelection,
-    HomeMessage,
-    HomeGifts,
-    HomeClosing,
+    HomeQuote,
+    HomeGiftGuide,
+    HomeCoda,
 } from './components';
 
-// 수정사항:
-// - 페이지는 조합만 담당
-// - 스타일 책임은 각 컴포넌트 그룹 폴더(HomeHero / HomeStory / HomeSections)로 이동
+/**
+ * 홈 페이지 컴포넌트
+ * 
+ * 히어로, 브랜드 스토리, 제품 하이라이트 등 모든 홈 섹션을 조합합니다.
+ * GSAP ScrollTrigger를 사용하여 페이지 전체의 애니메이션을 조정합니다.
+ */
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,13 +26,13 @@ const Home = () => {
     return (
         <main className="home">
             <HomeHero />
-            <HomeOriginTimeline />
-            <HomePhilosophy />
-            <HomeIngredients />
+            <HomeBrandStory />
+            <HomeValues />
+            <HomeBotanicals />
             <HomeBestSelection />
-            <HomeMessage />
-            <HomeGifts />
-            <HomeClosing />
+            <HomeQuote />
+            <HomeGiftGuide />
+            <HomeCoda />
         </main>
     );
 };
