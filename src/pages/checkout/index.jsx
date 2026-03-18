@@ -43,7 +43,7 @@ function Checkout() {
         {step === 2 && (
           <PaymentStep
             onPrev={() => setStep(1)}
-            onNext={() => setStep(3)}
+            onNext={() => { setStep(3); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
             setOrderId={setOrderId}
           />
         )}

@@ -1,9 +1,16 @@
 @use "../../styles/utils" as *;
 
 .checkout-page {
-  padding: 180px 250px;
-
+  padding: 120px 150px;
   background: $main-bg;
+
+  @include tablet {
+    padding: 100px 40px;
+  }
+
+  @include mobile {
+    padding: 80px 16px;
+  }
 }
 
 // Step 표시 (1 - 2 - 3)
@@ -22,7 +29,6 @@
     right: 24px;
     height: 2px;
     background: #d5cbc4;
-    /* greyish-taupe connecting line */
     z-index: 1;
   }
 }
@@ -107,8 +113,8 @@
   }
 
   &__left {
-    width: 650px;
-    flex-shrink: 0;
+    flex: 1;
+    min-width: 0;
   }
 
   .cart-title-row {
@@ -268,13 +274,13 @@
 
   // 샘플 섹션
   .cart-samples {
-    margin-top: 20px;
+    margin-top: 60px;
 
     .cart-samples__title {
       font-size: 20px;
       font-weight: 500;
       color: $color-brown-900;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
 
     .cart-samples__list {
@@ -327,7 +333,7 @@
 
   // 함께보면 좋은 제품
   .cart-recommend {
-    margin-top: 20px;
+    margin-top: 60px;
 
     .cart-recommend__title {
       font-size: 20px;
@@ -379,11 +385,10 @@
 
   // 오른쪽 결제 요약
   &__right {
-    flex: 1;
-    height: 570px;
+    width: 450px;
     flex-shrink: 0;
-    border-radius: 16px;
-    background: rgba(244, 242, 233, 0.6);
+    height: 570px;
+    background: rgba(96, 59, 45, 0.08);
     padding: 34px;
     position: sticky;
     top: 100px;
@@ -524,6 +529,8 @@
 }
 
 .checkout-payment__forms {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -531,7 +538,7 @@
 
 .checkout-payment__summary {
   flex-shrink: 0;
-  width: 400px;
+  width: 450px;
   position: sticky;
   top: 100px;
 }
@@ -540,9 +547,8 @@
 // Payment Card (주문자/배송/결제수단 공통 카드)
 // --------------------------------
 .payment-card {
-  border-radius: 20px;
-  background: rgba(244, 242, 233, 0.6);
-  width: 650px;
+  background: rgba(96, 59, 45, 0.08);
+  width: 100%;
   padding: 30px;
 
   &__head {
@@ -751,9 +757,8 @@
   }
 
   &.is-active {
-    background: $color-brown-900;
-    color: #fff;
-    font-weight: 500;
+    background: $color-brown-500;
+    color: #fdfbf2;
   }
 }
 
@@ -806,8 +811,7 @@
 // Summary 오른쪽 영역 (주문정보 + 결제금액 합침)
 // --------------------------------
 .summary-section {
-  background: rgba(244, 242, 233, 0.6);
-  border-radius: 20px;
+  background: rgba(96, 59, 45, 0.08);
   padding: 30px;
 
   h3 {
@@ -923,7 +927,7 @@
 
 .checkout-complete {
   text-align: center;
-  padding: 80px 0;
+  margin: 40px;
 
   .complete-icon {
     display: block;
@@ -955,11 +959,11 @@
   .complete-actions {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 32px;
 
     a {
       display: inline-block;
-      padding: 12px 32px;
+      padding: 10px 32px;
       font-size: 16px;
       text-decoration: none;
       border: 1px solid $color-brown-500;
