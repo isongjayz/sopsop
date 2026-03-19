@@ -6,13 +6,14 @@
 
 .Aegung_packaging {
     width: 100%;
-    margin-bottom: 660px;
+margin-bottom: 660px;
+    
 
     &__Top__line {
         width: 100%;
         height: 30px;
-        border-top: 1px solid var(--brown-brown-500-k, #603B2D);
-        border-bottom: 1px solid var(--brown-brown-500-k, #603B2D);
+       border-top: 1px solid var(--brown-brown-500-k, #603B2D);
+border-bottom: 1px solid var(--brown-brown-500-k, #603B2D);
     }
 
     // ----------------------------------
@@ -21,20 +22,24 @@
     &__Top {
         width: 100%;
         display: flex;
+        // justify-content: center;
         align-items: center;
         flex-direction: column;
+        
 
         &__inner {
             width: 1420px;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            gap: auto;
             margin-bottom: 150px;
         }
 
         // 왼쪽: 제품 이미지 + 텍스트
         &__left {
             display: flex;
+            // flex-direction: column;
             gap: 80px;
             width: 800px;
             padding: 50px 0;
@@ -89,19 +94,21 @@
 
         &__right-img {
             overflow: hidden;
+
         }
 
         &__img-block {
             display: flex;
             gap: 15px;
 
-            img {
+             img {
                 width: 100%;
                 height: auto;
                 object-fit: cover;
                 display: block;
             }
         }
+        
     }
 
     // ----------------------------------
@@ -210,206 +217,6 @@
                 font-weight: 400;
                 color: rgba($white, 0.8);
                 letter-spacing: -0.48px;
-            }
-        }
-    }
-
-    // ----------------------------------
-    // 반응형 - 태블릿 (≤1023px)
-    // 순서: 타이틀 → 사진 → 설명텍스트
-    // ----------------------------------
-    @include tablet {
-        margin-bottom: 0;
-
-        &__Top__line {
-            height: 2.93vw; // 30px
-        }
-
-        &__Top {
-            &__inner {
-                width: 100%;
-                max-width: 100%;
-                padding: 0 3.91vw; // 40px
-                box-sizing: border-box;
-                flex-direction: column;
-                gap: 4.89vw; // 50px
-                margin-bottom: 9.78vw; // 100px
-            }
-
-            &__left {
-                flex-direction: column;
-                width: 100%;
-                gap: 0;
-                padding: 4.89vw 0; // 50px
-            }
-
-            // 사진을 타이틀 아래, 설명텍스트 위로 배치
-            &__product-img {
-                order: 2;
-                width: 100%;
-                display: flex;
-                justify-content: center;
-                padding: 3.91vw 0; // 40px
-
-                img {
-                    width: 16.52vw; // 169px
-                }
-            }
-
-            &__text-group {
-                order: 1;
-                width: 100%;
-                gap: 0;
-            }
-
-            &__text-block {
-                display: flex;
-                flex-direction: column;
-                gap: 0;
-            }
-
-            &__text-title {
-                width: 100%;
-                font-size: 1.95vw; // 20px
-                padding: 2.35vw 0 1.17vw; // 24px top, 12px bottom
-            }
-
-            &__text-desc {
-                font-size: 1.56vw; // 16px
-                padding-bottom: 2.35vw; // 24px
-            }
-
-            &__right {
-                width: 100%;
-                gap: 1.47vw; // 15px
-            }
-
-            &__img-block {
-                gap: 1.47vw; // 15px
-            }
-        }
-
-        &__MiddleImg {
-            img {
-                height: 40vw;
-            }
-        }
-
-        &__slider {
-            padding: 7.82vw 0; // 80px
-
-            &__track {
-                padding-left: 3.91vw; // 40px
-                padding-right: 3.91vw;
-                gap: 1.56vw; // 16px
-            }
-
-            &__item {
-                height: 40vw;
-            }
-
-            &__overlay {
-                gap: 0.78vw; // 8px
-
-                &-name {
-                    font-size: 2.74vw; // 28px
-                    padding-bottom: 0.98vw; // 10px
-                }
-
-                &-price {
-                    font-size: 2.35vw; // 24px
-                }
-            }
-        }
-    }
-
-    // ----------------------------------
-    // 반응형 - 모바일 (≤600px)
-    // ----------------------------------
-    @include mobile {
-        margin-bottom: 0;
-
-        &__Top__line {
-            height: 5vw; // 30px
-        }
-
-        &__Top {
-            &__inner {
-                padding: 0 3.33vw; // 20px
-                gap: 6.67vw; // 40px
-                margin-bottom: 10vw; // 60px
-            }
-
-            &__left {
-                gap: 0;
-                padding: 5vw 0; // 30px
-            }
-
-            &__product-img {
-                padding: 5vw 0; // 30px
-
-                img {
-                    width: 28.17vw; // 169px
-                }
-            }
-
-            &__text-group {
-                gap: 0;
-            }
-
-            &__text-block {
-                gap: 0;
-            }
-
-            &__text-title {
-                font-size: 5vw; // 20px
-                padding: 3.33vw 0 1.67vw; // 20px top, 10px bottom
-            }
-
-            &__text-desc {
-                font-size: 2.67vw; // 16px
-                padding-bottom: 3.33vw; // 20px
-            }
-
-            &__right {
-                gap: 2.5vw; // 15px
-            }
-
-            &__img-block {
-                gap: 2.5vw; // 15px
-            }
-        }
-
-        &__MiddleImg {
-            img {
-                height: auto;
-            }
-        }
-
-        &__slider {
-            padding: 8.33vw 0; // 50px
-
-            &__track {
-                padding-left: 3.33vw; // 20px
-                padding-right: 3.33vw;
-                gap: 2.67vw; // 16px
-            }
-
-            &__item {
-                height: 60vw;
-            }
-
-            &__overlay {
-                gap: 1.33vw; // 8px
-
-                &-name {
-                    font-size: 4.67vw; // 28px
-                    padding-bottom: 1.67vw; // 10px
-                }
-
-                &-price {
-                    font-size: 4vw; // 24px
-                }
             }
         }
     }

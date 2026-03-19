@@ -154,165 +154,77 @@
     }
 
     // ----------------------------------
-    // 반응형 - 태블릿 (≤1023px)
-    // 좌우 → 상하 배치
+    // 반응형
     // ----------------------------------
     @include tablet {
-        width: 100%;
-        padding: 7.82vw 0; // 80px
-        margin-bottom: 9.78vw; // 100px
+        padding: 80px 0;
 
-        // reversed 카드도 column으로 리셋
-        &.aegung__product-card--reversed {
-            .aegung__product-card__info {
-                flex-direction: column;
-            }
-        }
-
-        &__header {
-            gap: 2.35vw; // 24px
-
-            .aegung__title-ko {
-                font-size: 5.47vw; // 56px
-                width: auto;
-                padding-right: 2.35vw; // 24px
-            }
-
-            .aegung__title-en-main {
-                font-size: 2.35vw; // 24px
-            }
-
-            .aegung__title-en-sub {
-                font-size: 1.56vw; // 16px
-            }
-        }
-
-        // 좌우 → 상하 전환 핵심
         &__info {
-            flex-direction: column;
-            width: 100%;
-            gap: 3.91vw; // 40px
+            grid-template-columns: 1fr; // 모바일/태블릿에선 1열로
+            grid-auto-flow: row;
         }
 
         &__image {
-            width: 100%;
-
-            img {
-                width: 100%;
-                max-width: 58.65vw; // 600px
-                margin: 0 auto;
-                display: block;
-            }
+            grid-column: 1;
+            grid-row: auto; // 자동 배치
+            margin: 0 auto;
         }
 
-        &__rightDesc__wrap {
-            width: 100%;
-            padding: 0;
+        &__desc,
+        &__notes,
+        &__btn {
+            grid-column: 1;
+        }
+
+        &__header {
+            .aegung__title-ko {
+                font-size: 56px;
+            }
+
+            .title-divider {
+                height: 50px;
+            }
+
+            .aegung__title-en-main {
+                font-size: 24px;
+            }
+
+            .aegung__title-en-sub {
+                font-size: 16px;
+            }
         }
 
         &__desc {
-            font-size: 1.95vw; // 20px
-            margin-bottom: 3.13vw; // 32px
-        }
-
-        &__notes {
-            width: 100%;
-            gap: 1.17vw; // 12px
-
-            .aegung__note-name {
-                font-size: 1.56vw; // 16px
-                width: 11.73vw; // 120px
-            }
-
-            .aegung__note-desc {
-                font-size: 1.56vw; // 16px
-            }
-        }
-
-        &__btn {
-            width: 19.55vw; // 200px
-            height: 4.69vw; // 48px
-            padding: 1.17vw 3.13vw; // 12px 32px
-            font-size: 1.56vw; // 16px
-            margin-top: 3.13vw; // 32px
+            font-size: 20px;
         }
     }
 
-    // ----------------------------------
-    // 반응형 - 모바일 (≤600px)
-    // ----------------------------------
     @include mobile {
-        padding: 10vw 0; // 60px
-        margin-bottom: 13.33vw; // 80px
-
-        &.aegung__product-card--reversed {
-            .aegung__product-card__info {
-                flex-direction: column;
-            }
-        }
+        padding: 60px 15px;
 
         &__header {
             flex-direction: column;
             align-items: flex-start;
-            gap: 2vw; // 12px
+            gap: 12px;
 
-            .aegung__title-ko {
-                font-size: 10vw; // 60px
-                border-right: none;
-                border-bottom: 2px solid var(--brown-brown-500-k, #603B2D);
-                padding-right: 0;
-                padding-bottom: 2vw;
-                width: 100%;
-            }
-
-            .aegung__title-en-main {
-                font-size: 4vw; // 24px
-            }
-
-            .aegung__title-en-sub {
-                font-size: 2.67vw; // 16px
-            }
-        }
-
-        &__info {
-            gap: 5vw; // 30px
-        }
-
-        &__image {
-            img {
-                max-width: 100%;
+            .title-divider {
+                display: none; // 모바일에선 세로 선 제거
             }
         }
 
         &__desc {
-            font-size: 2.67vw; // 16px
-            margin-bottom: 5.33vw; // 32px
+            font-size: 16px;
         }
 
         &__notes {
-            gap: 2vw; // 12px
-
             .aegung__note-item {
                 flex-direction: column;
-                gap: 1.33vw; // 8px
-            }
-
-            .aegung__note-name {
-                font-size: 2.67vw; // 16px
-                width: auto;
-            }
-
-            .aegung__note-desc {
-                font-size: 2.67vw; // 16px
+                gap: 8px;
             }
         }
 
         &__btn {
-            width: 100%;
-            height: 8vw; // 48px
-            padding: 2vw 0; // 12px
-            font-size: 2.67vw; // 16px
-            margin-top: 5.33vw; // 32px
+            width: 100%; // 모바일에선 꽉 찬 버튼
         }
     }
 }

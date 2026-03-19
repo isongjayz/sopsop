@@ -1,18 +1,6 @@
-@use '../../styles/utils' as *;
-
 .product {
     .inner {
         width: 1420px;
         margin: 0 auto;
-
-        @include tablet {
-            width: 100%;
-            padding: 0 3.91vw; // 40px
-            box-sizing: border-box;
-        }
-
-        @include mobile {
-            padding: 0 3.33vw; // 20px
-        }
     }
 }

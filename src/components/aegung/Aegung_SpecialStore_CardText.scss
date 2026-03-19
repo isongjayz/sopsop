@@ -34,24 +34,4 @@
         line-height: 150%;
         letter-spacing: -0.32px;
     }
-
-    // 반응형 - 태블릿
-    @include tablet {
-        gap: 1.37vw; // 14px
-        text-align: center;
-        align-items: center;
-
-        &__title { font-size: 2.35vw; } // 24px
-        &__desc  { font-size: 1.56vw; } // 16px
-    }
-
-    // 반응형 - 모바일
-    @include mobile {
-        gap: 2.33vw; // 14px
-        text-align: center;
-        align-items: center;
-
-        &__title { font-size: 4vw; }    // 24px
-        &__desc  { font-size: 2.67vw; } // 16px
-    }
 }
