@@ -37,10 +37,9 @@
     border-bottom: 1px solid $color-brown-200;
     padding: 20px 0;
   }
+
   &__nav {
     ul {
-      //   list-style: none;
-
       @include tablet {
         display: flex;
         flex-wrap: wrap;
@@ -75,16 +74,6 @@
       }
     }
   }
-
-  &__logout {
-    width: 100%;
-    padding: 12px 0;
-    font-size: 13px;
-
-    @include tablet {
-      display: none; // 모바일에서는 헤더에 있으므로 숨김 처리 가능
-    }
-  }
 }
 
 // ------------------------------
@@ -95,10 +84,13 @@
   min-width: 0;
 
   &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding-bottom: 24px;
 
     h2 {
-      font-size: 42px;
+      font-size: 50px;
       color: $color-brown-900;
       font-weight: 400;
       font-family: "Bona Nova", serif;
@@ -107,11 +99,26 @@
         font-size: 28px !important;
       }
     }
+
+    .btn-inquiry-top {
+      font-size: 16px;
+      color: $color-brown-500;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding-bottom: 2px;
+      border-bottom: 1px solid $color-brown-500;
+    }
+
+    .btn-primary {
+      padding: 10px 20px;
+      font-size: 14px;
+    }
   }
 }
 
 // ------------------------------
-// 주문 내역 (Orders) New Table Layout
+// 주문 내역 (Orders)
 // ------------------------------
 .orders-summary {
   display: flex;
@@ -176,12 +183,6 @@
       border-top: 1px solid $color-brown-500;
       border-bottom: 1px solid $color-brown-500;
       padding: 10px;
-
-      &:not(:last-child) {
-        // border-right: 1px solid $color-brown-500;
-        // 할까말까 고민.....
-        // 밑에 줄도 넘 많은가
-      }
     }
   }
 
@@ -209,8 +210,6 @@
     .col-product {
       display: flex;
       align-items: center;
-      //   justify-content: center; 넣을까말까...
-      //   justify-content: center;
       gap: 16px;
       text-align: left;
       padding-left: 40px;
@@ -265,236 +264,6 @@
         cursor: pointer;
         &:hover {
           background: #f2f2f2;
-        }
-      }
-    }
-  }
-}
-
-// ------------------------------
-// Dashboard 홈
-// ------------------------------
-.dashboard-welcome {
-  background: #fcfaf3;
-  padding: 40px;
-  border: 1px solid $color-brown-200;
-  margin-bottom: 40px;
-  text-align: center;
-
-  h3 {
-    font-size: 24px;
-    color: $color-brown-900;
-    margin-bottom: 15px;
-  }
-
-  p {
-    font-size: 15px;
-    color: $color-brown-500;
-  }
-}
-
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-
-  @include mobile {
-    grid-template-columns: 1fr;
-  }
-}
-
-.dashboard-card {
-  padding: 30px 20px;
-  border: 1px solid $color-brown-200;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    background: $color-brown-900;
-    border-color: $color-brown-900;
-
-    * {
-      color: $white;
-    }
-  }
-
-  h4 {
-    font-size: 18px;
-    color: $color-brown-900;
-    margin-bottom: 15px;
-    font-family: "Ogg", serif;
-  }
-
-  p {
-    font-size: 14px;
-    color: $color-brown-500;
-    line-height: 1.5;
-  }
-}
-
-// ------------------------------
-// 주문 내역 (Orders)
-// ------------------------------
-.mypage-content__subtext {
-  margin-top: 10px;
-  font-size: 14px;
-  color: $color-brown-500;
-}
-
-.orders-list {
-  .empty-state {
-    text-align: center;
-    padding: 80px 0;
-    color: $color-brown-500;
-    border: 1px solid $color-brown-200;
-    background: $white;
-  }
-
-  .order-card {
-    border-top: 1px solid $color-brown-200;
-    margin-bottom: 24px;
-
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
-      padding: 22px 24px;
-      border-bottom: 1px solid $color-brown-200;
-
-      .info {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .meta-row {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .date {
-        font-weight: 500;
-        color: $color-brown-900;
-      }
-
-      .id,
-      .channel-detail {
-        color: $color-brown-500;
-        font-size: 14px;
-      }
-
-      .status {
-        flex-shrink: 0;
-        color: $color-brown-900;
-        font-weight: 500;
-        font-size: 14px;
-      }
-    }
-
-    &__items {
-      padding: 24px;
-
-      &.is-compact {
-        padding-bottom: 0;
-      }
-
-      .order-item {
-        display: flex;
-        gap: 20px;
-        padding-bottom: 20px;
-        margin-bottom: 20px;
-        border-bottom: 1px solid $color-brown-100;
-
-        &:last-child {
-          border-bottom: none;
-          padding-bottom: 0;
-          margin-bottom: 0;
-        }
-
-        &.is-summary {
-          align-items: center;
-        }
-
-        .img-box {
-          width: 84px;
-          height: 84px;
-          background: #f2eddf;
-          flex-shrink: 0;
-
-          img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-        }
-
-        .desc {
-          flex: 1;
-
-          h4 {
-            font-size: 17px;
-            color: $color-brown-900;
-            margin-bottom: 8px;
-          }
-
-          p {
-            font-size: 14px;
-            color: $color-brown-500;
-            margin-bottom: 16px;
-            line-height: 1.6;
-          }
-
-          strong {
-            font-size: 15px;
-            color: $color-brown-900;
-          }
-        }
-      }
-    }
-
-    &__footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 24px 24px;
-      border-top: 1px solid $color-brown-200;
-
-      .total {
-        font-size: 14px;
-        color: $color-brown-500;
-
-        strong {
-          font-size: 18px;
-          color: $color-brown-900;
-          margin-left: 10px;
-        }
-      }
-
-      .actions {
-        display: flex;
-        gap: 10px;
-
-        button {
-          min-width: 124px;
-          padding: 10px 16px;
-          font-size: 13px;
-        }
-      }
-
-      @include mobile {
-        flex-direction: column;
-        gap: 15px;
-        align-items: stretch;
-
-        .actions {
-          width: 100%;
-
-          button {
-            flex: 1;
-          }
         }
       }
     }
@@ -587,23 +356,76 @@
       align-items: center;
       gap: 12px;
       padding: 20px 40px;
-      border-top: 1px solid rgba($color-brown-900, 0.1);
 
       .btn-footer-text {
         background: none;
         border: none;
-        font-size: 15px;
+        font-size: 16px;
         color: $color-brown-900;
         cursor: pointer;
         text-decoration: underline;
-        text-underline-offset: 4px;
-      }
-
-      .footer-sep {
-        color: rgba($color-brown-900, 0.3);
-        font-size: 14px;
+        text-underline-offset: 3px;
       }
     }
+  }
+
+  .review-item-info {
+    grid-template-columns: 60px 1fr;
+    border-bottom: 1px solid rgba($color-brown-900, 0.1);
+    padding-bottom: 16px;
+    margin-bottom: 4px;
+  }
+
+  .review-rating {
+    display: flex;
+    gap: 8px;
+    padding: 16px 0;
+
+    .review-star {
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: rgba($color-brown-900, 0.15);
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      transition: color 0.15s;
+
+      &.is-active {
+        color: $color-brown-700;
+      }
+    }
+  }
+
+  .review-textarea {
+    width: 100%;
+    height: 140px;
+    border: 1px solid rgba($color-brown-900, 0.15);
+    background: none;
+    padding: 14px 16px;
+    font-size: 14px;
+    color: $color-brown-900;
+    resize: none;
+    outline: none;
+    font-family: inherit;
+    box-sizing: border-box;
+
+    &::placeholder {
+      color: rgba($color-brown-900, 0.35);
+    }
+  }
+
+  .btn-reorder-text {
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: $color-brown-500;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    padding: 8px 0 0;
+    display: block;
+    margin-left: auto;
   }
 
   .modal-order-meta {
@@ -695,46 +517,36 @@
     }
   }
 
-  .detail-divider {
-    border: none;
-    border-top: 1px solid rgba($color-brown-900, 0.15);
-    margin: 20px 0 16px;
-  }
-
   .detail-total-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 4px 0;
+    padding: 60px 0 4px;
 
     span {
-      font-size: 15px;
+      font-size: 18px;
       color: $color-brown-900;
-
-      &:last-child {
-        font-weight: 600;
-      }
     }
   }
 
   .detail-info-section {
-    padding: 4px 0 8px;
+    padding: 16px 0;
+    border-top: 1px solid rgba($color-brown-900, 0.1);
 
     .detail-info-title {
-      font-size: 14px;
+      font-size: 18px;
       color: $color-brown-500;
-      margin-bottom: 10px;
+      font-weight: 500;
+      margin-bottom: 16px;
     }
 
     .detail-info-rows {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
     }
 
     .detail-info-row {
-      display: flex;
-      gap: 12px;
       font-size: 15px;
       color: $color-brown-900;
 
@@ -748,10 +560,6 @@
   @include tablet {
     .modal-panel {
       width: 100%;
-    }
-
-    .detail-grid {
-      grid-template-columns: 1fr;
     }
   }
 
@@ -777,16 +585,12 @@
     .detail-item {
       flex-direction: column;
       align-items: flex-start;
-
-      .item-right {
-        align-items: flex-start;
-      }
     }
   }
 }
 
 // ------------------------------
-// 위시리스트 (Wishlist) My Picks
+// 위시리스트 (Wishlist)
 // ------------------------------
 .wishlist-grid {
   display: grid;
@@ -800,63 +604,45 @@
   @include mobile {
     grid-template-columns: 1fr;
   }
+}
 
-  .wishlist-row-item {
-    .img-box {
-      display: block;
-      width: 50%;
-      background: #f2eddf;
-      margin-bottom: 20px;
-      position: relative;
-      overflow: hidden;
+.wishlist-grid--cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px 20px;
 
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        padding: 20px;
-      }
+  @include tablet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 
-      .bookmark-btn {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: none;
-        border: none;
-        color: $color-brown-500;
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-      }
-    }
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
 
-    .info {
-      text-align: center;
-      h4 {
-        font-size: 15px;
-        color: $color-brown-900;
-        font-weight: 400;
-        line-height: 1.4;
-      }
-    }
+  .product-card {
+    max-width: 250px;
+  }
+
+  .product-card__thumb {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 290 / 360;
+    padding-top: 0;
+  }
+
+  .product-card__info {
+    text-align: center;
+  }
+
+  .product-card__title {
+    text-align: center;
+    white-space: normal;
   }
 }
 
 // ------------------------------
-// 1:1 문의 (Inquiry) Conversations
+// 1:1 문의 (Inquiry)
 // ------------------------------
-.mypage-content__header {
-  .btn-inquiry-top {
-    font-size: 16px;
-    color: $color-brown-500;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding-bottom: 2px;
-    border-bottom: 1px solid $color-brown-500;
-  }
-}
-
 .conversations-list {
   .conversation-accordion {
     border-bottom: 1px solid rgba($color-brown-900, 0.1);
@@ -980,12 +766,106 @@
   }
 }
 
+.inquiry-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-content {
+    position: relative;
+    background: $main-bg;
+    width: 100%;
+    max-width: 500px;
+    padding: 40px;
+    z-index: 10;
+    border: 1px solid $color-brown-200;
+
+    h3 {
+      font-size: 24px;
+      color: $color-brown-900;
+      margin-bottom: 30px;
+      border-bottom: 1px solid $color-brown-900;
+      padding-bottom: 15px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 30px;
+      color: $color-brown-900;
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+
+      label {
+        display: block;
+        font-size: 14px;
+        color: $color-brown-900;
+        margin-bottom: 10px;
+        font-weight: 500;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 15px;
+        border: 1px solid $color-brown-200;
+        font-family: inherit;
+        font-size: 14px;
+        background: $white;
+
+        &:focus {
+          outline: none;
+          border-color: $color-brown-900;
+        }
+      }
+
+      textarea {
+        height: 150px;
+        resize: vertical;
+      }
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+
+      button {
+        flex: 1;
+        padding: 15px 0;
+        font-size: 15px;
+      }
+    }
+  }
+}
+
 // ------------------------------
 // 마이페이지 홈 (Profile Info)
 // ------------------------------
 .info-section {
   margin-bottom: 30px;
-  //   width: 1000px;
 
   .section-title {
     display: flex;
@@ -1123,202 +1003,5 @@
     &:hover {
       opacity: 0.9;
     }
-  }
-}
-
-// ------------------------------
-// 1:1 문의 (Inquiry)
-// ------------------------------
-.mypage-content__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  .btn-primary {
-    padding: 10px 20px;
-    font-size: 14px;
-  }
-}
-
-.inquiry-list {
-  .empty-state {
-    text-align: center;
-    padding: 80px 0;
-    color: $color-brown-500;
-    border: 1px solid $color-brown-200;
-    background: $white;
-  }
-
-  .table-responsive {
-    width: 100%;
-    overflow-x: auto;
-  }
-
-  .inquiry-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 600px;
-
-    th,
-    td {
-      padding: 20px;
-      border-bottom: 1px solid $color-brown-200;
-      text-align: center;
-      font-size: 14px;
-      color: $color-brown-900;
-    }
-
-    th {
-      background: #fcfaf3;
-      font-weight: 500;
-    }
-
-    td {
-      background: $white;
-
-      &.title {
-        text-align: left;
-        width: 50%;
-      }
-
-      &.is-answered {
-        color: $color-brown-900;
-        font-weight: 500;
-      }
-
-      &.is-waiting {
-        color: $color-brown-400;
-      }
-    }
-  }
-}
-
-// 문의 작성 모달
-.inquiry-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .modal-backdrop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-  }
-
-  .modal-content {
-    position: relative;
-    background: $main-bg;
-    width: 100%;
-    max-width: 500px;
-    padding: 40px;
-    z-index: 10;
-    border: 1px solid $color-brown-200;
-
-    h3 {
-      font-size: 24px;
-      color: $color-brown-900;
-      margin-bottom: 30px;
-      border-bottom: 1px solid $color-brown-900;
-      padding-bottom: 15px;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: none;
-      border: none;
-      font-size: 30px;
-      color: $color-brown-900;
-      cursor: pointer;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-
-      label {
-        display: block;
-        font-size: 14px;
-        color: $color-brown-900;
-        margin-bottom: 10px;
-        font-weight: 500;
-      }
-
-      input,
-      select,
-      textarea {
-        width: 100%;
-        padding: 15px;
-        border: 1px solid $color-brown-200;
-        font-family: inherit;
-        font-size: 14px;
-        background: $white;
-
-        &:focus {
-          outline: none;
-          border-color: $color-brown-900;
-        }
-      }
-
-      textarea {
-        height: 150px;
-        resize: vertical;
-      }
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 15px;
-      margin-top: 30px;
-
-      button {
-        flex: 1;
-        padding: 15px 0;
-        font-size: 15px;
-      }
-    }
-  }
-}
-
-.wishlist-grid--cards {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 28px 20px;
-
-  @include tablet {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  @include mobile {
-    grid-template-columns: 1fr;
-  }
-
-  .product-card {
-    max-width: 250px;
-  }
-
-  .product-card__thumb {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 290 / 360;
-    padding-top: 0;
-  }
-
-  .product-card__info {
-    text-align: center;
-  }
-
-  .product-card__title {
-    text-align: center;
-    white-space: normal;
   }
 }

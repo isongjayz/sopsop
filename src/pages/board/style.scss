@@ -8,27 +8,78 @@
 // ------------------------------
 // Hero
 // ------------------------------
-.board-hero {
-    background: $color-brown-900;
-    color: $color-yellow-500;
-    padding: 100px 0;
-    text-align: center;
+.board-page {
+    &board-hero {
+        color: $color-yellow-500;
+        padding: 60px 0;
+        text-align: center;
+        width: 100%;
+        height: auto;
 
-    h2 {
-        font-size: 40px;
-        margin-bottom: 20px;
-        color: $white;
+        &.img {
+            position: relative;
+            left: 50%;
+            x: 100%;
+            y: 100%;
+        }
+
+        &__inner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            x: 1000px;
+            y: 200px;
+            transform: translate(50%, 50%);
+            font-size: 40px;
+        }
 
         @include mobile {
             font-size: 32px;
         }
-    }
 
-    p {
-        font-size: 16px;
-        color: rgba($white, 0.8);
+        p {
+            font-size: 16px;
+            color: rgba($white, 0.8);
+        }
     }
 }
+
+
+.aroma_guide {
+    &__top {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--64, 64px);
+        align-self: stretch;
+
+        &__text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--64, 64px);
+        }
+        &desc__ko {
+            color: var(--brown-brown-500-k, #603B2D);
+            font-family: pretendard;
+            font-size: 24px;
+            line-height: 150%;
+            letter-spacing: -0.24px;
+        }
+    }
+}
+
+.board_aroma_guide_top {
+    &__content_top {
+        display: flex;
+        gap: 10px;
+        width: 1620px;
+    }
+
+
+}
+
+
+
 
 // ------------------------------
 // 본문 콘텐츠
@@ -151,6 +202,7 @@
             .faq-item__question {
                 background: #fcfaf3;
             }
+
             .faq-item__answer {
                 height: auto;
             }
@@ -172,8 +224,9 @@
         border-collapse: collapse;
         min-width: 600px;
         border-top: 1px solid $color-brown-900;
-        
-        th, td {
+
+        th,
+        td {
             padding: 20px;
             border-bottom: 1px solid $color-brown-200;
             text-align: center;

@@ -237,11 +237,42 @@
         justify-content: space-between;
         align-items: center;
 
-        .cart-item__volume {
+        .cart-item__vol-wrap {
+          position: relative;
           border: 1px solid $color-brown-200;
+          display: inline-flex;
+          align-items: center;
+        }
+
+        .cart-item__vol-select {
+          appearance: none;
+          -webkit-appearance: none;
+          background: transparent;
+          border: none;
+          padding: 6px 28px 6px 12px;
+          font-size: 14px;
+          color: $color-brown-900;
+          cursor: pointer;
+
+          &:focus {
+            outline: none;
+          }
+        }
+
+        .cart-item__vol-text {
           padding: 6px 12px;
           font-size: 14px;
           color: $color-brown-900;
+        }
+
+        .cart-item__vol-arrow {
+          position: absolute;
+          right: 8px;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 10px;
+          color: $color-brown-500;
+          pointer-events: none;
         }
 
         .cart-item__qty {
@@ -308,6 +339,7 @@
         color: $color-brown-900;
         text-align: center;
         line-height: 1.4;
+        white-space: pre-line;
       }
 
       .cart-sample-item__check {
@@ -481,7 +513,7 @@
 
   .shipping-modal {
     background: #fdfbf2;
-    padding: 48px;
+    padding: 38px;
     width: 480px;
     position: relative;
 
@@ -497,24 +529,64 @@
     }
 
     .shipping-modal__title {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 500;
       color: $color-brown-900;
-      margin-bottom: 24px;
-      padding-bottom: 16px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
       border-bottom: 1px solid $color-brown-200;
     }
 
     .shipping-modal__content {
-      p {
-        font-size: 14px;
-        color: $color-brown-500;
-        line-height: 1.8;
-        margin-bottom: 12px;
+      .shipping-modal__text {
+        margin-bottom: 24px;
 
-        strong {
-          color: $color-brown-900;
+        p {
+          font-size: 14px;
+          color: $color-brown-700;
+          line-height: 1.7;
+          margin-bottom: 12px;
         }
+
+        .shipping-modal__subtitle {
+          font-size: 16px;
+          color: $color-brown-900;
+          font-weight: 500;
+          margin: 16px 0 4px;
+        }
+
+        .shipping-modal__list {
+          list-style: none;
+          padding: 0;
+          margin-bottom: 4px;
+
+          li {
+            font-size: 14px;
+            color: $color-brown-700;
+            padding: 4px 0 4px 12px;
+            line-height: 1.7;
+            position: relative;
+
+            &::before {
+              content: "•";
+              position: absolute;
+              left: 0;
+              color: $color-brown-400;
+            }
+          }
+        }
+      }
+
+      .shipping-modal__imgs {
+        display: flex;
+        gap: 4px;
+      }
+
+      .shipping-modal__img {
+        flex: 1;
+        width: 0;
+        object-fit: cover;
+        display: block;
       }
     }
   }
@@ -555,8 +627,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
+    margin-bottom: 24px;
+    padding-bottom: 4px;
     border-bottom: 1px solid $color-brown-200;
 
     h3 {
@@ -567,12 +639,11 @@
   }
 
   &__edit {
-    background: none;
-    border: none;
     cursor: pointer;
     font-size: 16px;
     color: $color-brown-500;
     text-decoration: underline;
+    text-underline-offset: 4px;
 
     &:hover {
       color: $color-brown-900;
@@ -603,7 +674,7 @@
         padding: 12px 14px;
         border: 1px solid $color-brown-200;
         background: transparent;
-        font-size: 14px;
+        font-size: 16px;
         font-family: inherit;
 
         &:focus {
@@ -717,13 +788,10 @@
     }
 
     .agreement-view {
-      background: none;
-      border: none;
       font-size: 15px;
       color: $color-brown-400;
       text-decoration: underline;
       cursor: pointer;
-      padding: 0;
       font-family: inherit;
 
       &:hover {

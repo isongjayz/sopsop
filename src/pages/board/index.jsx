@@ -27,27 +27,49 @@ function Board() {
         <div className="board-page">
             {/* 상단 Hero 영역 */}
             <section className="board-hero">
-                <div className="inner">
-                    <h2 className="font-serif">고객 지원</h2>
-                    <p>어떤 도움이 필요하신가요?</p>
-                    {/* HMR Trigger Comment */}
+                <img src="../../public/images/board/MainVisual.png" alt="고객지원" />
+                <div className="board-hero__inner">
+                    <h2 className="board-hero__inner_title">고객 지원</h2>
+                    <p>건강한 피부와 평온한 일상을 위한 여정,<br />이솝이 사려 깊은 가이드가 되어 드립니다.</p>
                 </div>
             </section>
 
+
+            <section className="aroma_guide">
+                <div className="aroma_guide_top">
+                    <img src="../../public/images/board/guide01.png" alt="" />
+                    <div className="aroma_guide_top_text">
+                        <strong className="aroma_guide_top_text_title">AROMA GUIDE</strong>
+                        <div className="aroma_guide_top_text_desc">
+                            <p className="aroma_guide_top_text_desc_ko">온라인에서 향수를 구매하는 것은 때때로 어려울 수 있습니다.<br />이솝 컨설턴트가 상 담을 통해 맞춤형 컨설팅을 제공하고<br />개개인에게 어울리는 향을 선택할 수 있도록 도움을 드립니다.</p>
+                            <p className="aroma_guide_top_text_desc_en">Selecting a fragrance online can be a nuanced challenge. Our Aesop consultants offer personalized consultations to help you discover a scent that resonates with your unique character.</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="aroma_guide_bottom">
+                    <div className="aroma_guide_bottom_text">
+                        <p className="aroma_guide_bottom_text_ko">온라인에서 향수를 구매하는 것은 때때로 어려울 수 있습니다.<br />이솝 컨설턴트가 상 담을 통해 맞춤형 컨설팅을 제공하고<br />개개인에게 어울리는 향을 선택할 수 있도록 도움을 드립니다.</p>
+                        <p className="aroma_guide_bottom_text_en">온라인에서 향수를 구매하는 것은 때때로 어려울 수 있습니다.<br />이솝 컨설턴트가 상 담을 통해 맞춤형 컨설팅을 제공하고<br />개개인에게 어울리는 향을 선택할 수 있도록 도움을 드립니다.</p>
+                    </div>
+                    <img src="../../public/images/board/guide02.png" alt="" />
+                </div>
+                <button className="consultation_button">컨설턴트와 상담하기</button>
+            </section >
+
             {/* 메인 콘텐츠 */}
-            <section className="board-content inner">
+            < section className="board-content inner" >
                 <div className="board-tabs">
-                    <button 
-                        className={activeTab === 'faq' ? 'is-active' : ''} 
+                    <button
+                        className={activeTab === 'faq' ? 'is-active' : ''}
                         onClick={() => setActiveTab('faq')}
                     >
-                        자주 묻는 질문 (FAQ)
+                        FAQ<span>이솝의 안내서</span>
                     </button>
-                    <button 
-                        className={activeTab === 'notice' ? 'is-active' : ''} 
+                    <button
+                        className={activeTab === 'notice' ? 'is-active' : ''}
                         onClick={() => setActiveTab('notice')}
                     >
-                        공지사항
+                        Notice<span>이솝의 공지사항</span>
                     </button>
                 </div>
 
@@ -101,31 +123,63 @@ function Board() {
                         </div>
                     )}
                 </div>
-            </section>
+            </section >
+
 
             {/* 하단 Contact 영역 */}
-            <section className="board-contact inner">
+            < section className="board-contact_bottom01" >
                 <div className="contact-card">
-                    <h3 className="font-serif">직접 문의하기</h3>
-                    <p>
-                        원하시는 답변을 찾지 못하셨나요?<br />
-                        전문 상담원이 친절하게 안내해 드립니다.
-                    </p>
-                    <div className="contact-info">
-                        <div className="info-item">
-                            <strong>전화 문의</strong>
-                            <span>1800-1234</span>
-                            <em>운영시간: 평일 10:00 - 17:00 (주말/공휴일 휴무)</em>
-                        </div>
-                        <div className="info-item">
-                            <strong>1:1 문의</strong>
-                            <span>로그인 후 마이페이지에서 접수 가능</span>
-                            <em>24시간 접수 가능</em>
-                        </div>
+                    <button className="info-item01">
+                        <img src="../../public/images/board/Icon01.svg" alt="주문관련" className="info-item_icon1" />
+                        <strong>주문관련</strong>
+                        <span>결제 방법, 세금 정보 및 온라인
+                            계정 관리에 대한 도움을 드립니
+                            다.</span>
+
+                    </button>
+                    <button className="info-item02">
+                        <img src="../../public/images/board/Icon02.svg" alt="배송관련" className="info-item_icon2" />
+                        <strong>배송 및 상품</strong>
+                        <span>최근 주문을 추적하고, 국제 배
+                            송료를 확인하거나 반품을 신청
+                            하세요.</span>
+
+                    </button>
+                    <button className="info-item03">
+                        <img src="../../public/images/board/Icon03.svg" alt="제품관련" className="info-item_icon3" />
+                        <strong>제품 정보</strong>
+                        <span>이솝의 제품, 포뮬레이션, 성분, 피부 타입, 피부 타입에 적합한 제품 그리고 서비스에 대해 알아보기</span>
+
+                    </button>
+                    <button className="info-item">
+                        <img src="../../public/images/board/Icon04.svg" alt="매장관련" className="info-item_icon4" />
+                        <strong>기업문의</strong>
+                        <span>기업체 구매와 관련한 브로셔를 받    아보길 희망하시거나 구매 문의가 있으신 경우, 문의하기를 진행해주세요.</span>
+                    </button>
+                </div>
+                <div className="board-contact_bottom02">
+                    <div className="board-contact_bottom02_left">
+                        <span className='contact_bottom02_span'>문의하기</span>
+                        <strong className='contact_bottom02_strong'>직접문의</strong>
+                        <p className='contact_bottom02_p'>모든 주문 및 제품 관련 문의는 마이페이지를 통해 문의 주시면 24시간 이내에 답변드리겠습니다.</p>
+                        <button className='contact_bottom02_button_left'>마이페이지 바로기</button>
+                    </div>
+                    <div className="board-contact_bottom02_center">
+                        <span className='contact_bottom02_span'>채팅문의</span>
+                        <strong className='contact_bottom02_strong'>즉각적인 지원</strong>
+                        <p className='contact_bottom02_p'>영업 시간 중 컨설턴트와 실시간으로 상담하여 즉각적인 도움을 받으세요.</p>
+                        <button className='contact_bottom02_button_center'>채팅 시작하기</button>
+                    </div>
+                    <div className="board-contact_bottom02_right">
+                        <span className='contact_bottom02_span'>전화문의</span>
+                        <strong className='contact_bottom02_strong_number'>+61 3 9412 8900</strong>
+                        <p className='contact_bottom02_p_right'>월요일 - 금요일
+                            오전 9:00 — 오후 5:00 (AEDT)</p>
+                        <button className='contact_bottom02_button_right'>일반 통화 요금이 적용됩니다.</button>
                     </div>
                 </div>
-            </section>
-        </div>
+            </section >
+        </div >
     );
 }
 

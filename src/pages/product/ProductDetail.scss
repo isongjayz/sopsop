@@ -32,7 +32,6 @@
         flex: 1;
         position: relative;
         padding-top: 50%; // 1:1에 가까운 비율
-        background: #f2eddf;
         overflow: hidden;
 
         @include tablet {
@@ -388,7 +387,6 @@
         width: 100%;
         padding-top: 130%;
         position: relative;
-        background: #f2eddf;
         margin-bottom: 15px;
 
         img {

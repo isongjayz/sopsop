@@ -98,21 +98,8 @@
             padding: 20px 0;
             z-index: 2;
 
-            .brand-story-path-align,
             .brand-story-svg {
                 display: block;
-            }
-
-            // Align each icon's path start/end x-coordinate to the shared vertical guide at x=552.
-            .brand-story-path-align--genesis {
-                transform: translateX(-14px);
-            }
-
-            .brand-story-path-align--heritage {
-                transform: translateX(25.5px);
-            }
-
-            .brand-story-svg {
                 width: 100px;
                 height: 120px;
             }
@@ -125,11 +112,6 @@
                 background: transparent;
                 padding: 0;
                 margin-bottom: 20px;
-
-                .brand-story-path-align--genesis,
-                .brand-story-path-align--heritage {
-                    transform: none;
-                }
 
                 .brand-story-svg {
                     width: 60px;

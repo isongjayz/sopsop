@@ -19,7 +19,7 @@ const sampleList = [
   },
   {
     id: "s-002",
-    name: "이그젝티드 아이 세럼",
+    name: "이그젝티드\n아이 세럼",
     image: "/images/checkout/cart_sample.png",
   },
   {
@@ -203,12 +203,38 @@ function CartStep({ onNext }) {
             </button>
             <h3 className="shipping-modal__title">이솝의 실용적인 배송 방법</h3>
             <div className="shipping-modal__content">
-              <p>
-                주문 후 <strong>1-3 영업일</strong> 이내 출고됩니다.
-              </p>
-              <p>
-                배송비는 <strong>무료</strong>입니다.
-              </p>
+              <div className="shipping-modal__text">
+                <p>
+                  이솝 공식 온라인 몰에서 주문하신 제품은 선물포장이 가능합니다.
+                  별도의 요청이 없는 경우 한 매한 모든 제품은 합포장하여
+                  출고됩니다.
+                </p>
+                <p className="shipping-modal__subtitle">
+                  &lt;개별 포장을 원하시는 경우&gt;
+                </p>
+                <ul className="shipping-modal__list">
+                  <li>
+                    장바구니 단계에서 '개별 포장' 옵션을 선택해 주시면 개별 포장
+                    반영하여 출고해 드리고 있습니다.
+                  </li>
+                  <li>
+                    개별 포장 시 각각의 제품을 기프트 박스에 담아 포장해 드리며
+                    코튼 백과 샘플 또한 개별 포장 수량만큼 제공됩니다.
+                  </li>
+                </ul>
+              </div>
+              <div className="shipping-modal__imgs">
+                <img
+                  src="https://kr.assistance.aesop.com/hc/article_attachments/10498033464719"
+                  alt="이솝 배송 안내 1"
+                  className="shipping-modal__img"
+                />
+                <img
+                  src="https://kr.assistance.aesop.com/hc/article_attachments/10498033465103"
+                  alt="이솝 배송 안내 2"
+                  className="shipping-modal__img"
+                />
+              </div>
             </div>
           </div>
         </div>

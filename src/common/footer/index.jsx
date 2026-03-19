@@ -10,7 +10,7 @@ const policyLinks = [
     { label: "개인정보처리방침", to: "#none" },
     { label: "영상정보처리기기 운영관리방침", to: "#none" },
     { label: "사이트맵", to: "#none" },
-    { label: "고객지원", to: "#none" },
+    { label: "고객지원", to: "/board" },
 ];
 
 const snsLinks = [

@@ -44,6 +44,9 @@ function MyPageOrders() {
   const { user, getUserOrders, isLoggedIn, addToCart } = useStore();
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedReviewItem, setSelectedReviewItem] = useState(null);
+  const [reviewText, setReviewText] = useState("");
+  const [reviewRating, setReviewRating] = useState(0);
   const [toastMessage, setToastMessage] = useState("");
 
   useEffect(() => {
@@ -73,24 +76,6 @@ function MyPageOrders() {
       return bTime - aTime;
     });
   }, [orders]);
-
-  const handleReorder = (order) => {
-    order.items.forEach((item) => {
-      // 수정: 주문내역에서 바로 장바구니에 다시 담을 수 있도록 처리
-      addToCart({
-        productId: item.productId || item.id || `${order.id}-${item.name}`,
-        name: item.name,
-        image: item.image,
-        volume: item.volume,
-        price: item.price,
-        quantity: item.quantity || 1,
-      });
-    });
-
-    setToastMessage(
-      `'${order.items[0]?.name || "상품"}' 외 ${order.items.length}개를 장바구니에 담았습니다.`,
-    );
-  };
 
   if (!isLoggedIn) return null;
 
@@ -255,7 +240,9 @@ function MyPageOrders() {
                 </div>
 
                 <div className="modal-channel-row">
-                  <span className={`order-badge ${getOrderChannel(selectedOrder).className}`}>
+                  <span
+                    className={`order-badge ${getOrderChannel(selectedOrder).className}`}
+                  >
                     {getOrderChannel(selectedOrder).label} 구매
                   </span>
                   <span className="channel-sep">|</span>
@@ -266,28 +253,75 @@ function MyPageOrders() {
 
                 <div className="detail-items">
                   {selectedOrder.items.map((item, idx) => (
-                    <div className="detail-item" key={`${selectedOrder.id}-${idx}`}>
+                    <div
+                      className="detail-item"
+                      key={`${selectedOrder.id}-${idx}`}
+                    >
                       <div className="item-img">
                         <img src={item.image} alt={item.name} />
                       </div>
-                      <span className="item-name">{item.name} {item.volume}</span>
+                      <span className="item-name">
+                        {item.name} {item.volume}
+                      </span>
                       <span className="item-qty">{item.quantity}개</span>
-                      <span className="item-price">{(item.price * item.quantity).toLocaleString()}원</span>
-                      <button type="button" className="btn-review">리뷰쓰기</button>
+                      <span className="item-price">
+                        {(item.price * item.quantity).toLocaleString()}원
+                      </span>
+                      <button
+                        type="button"
+                        className="btn-review"
+                        onClick={() => {
+                          setReviewRating(0);
+                          setReviewText("");
+                          setSelectedReviewItem({ ...item, orderId: selectedOrder.id });
+                        }}
+                      >
+                        리뷰쓰기
+                      </button>
                     </div>
                   ))}
                 </div>
 
-                <hr className="detail-divider" />
+                <button
+                  type="button"
+                  className="btn-reorder-text"
+                  onClick={() => {
+                    selectedOrder.items.forEach((item) => {
+                      addToCart({
+                        productId:
+                          item.productId ||
+                          item.id ||
+                          `${selectedOrder.id}-${item.name}`,
+                        name: item.name,
+                        image: item.image,
+                        volume: item.volume,
+                        price: item.price,
+                        quantity: item.quantity || 1,
+                      });
+                    });
+                    setToastMessage(
+                      `'${selectedOrder.items[0]?.name || "상품"}' 외 ${selectedOrder.items.length - 1}개를 장바구니에 담았습니다.`,
+                    );
+                  }}
+                >
+                  장바구니 담기
+                </button>
 
                 <div className="detail-total-row">
                   <span>상품합계금액</span>
-                  <span>총 {(selectedOrder.totalPrice || selectedOrder.total || 0).toLocaleString()}원</span>
+                  <span>
+                    총{" "}
+                    {(
+                      selectedOrder.totalPrice ||
+                      selectedOrder.total ||
+                      0
+                    ).toLocaleString()}
+                    원
+                  </span>
                 </div>
 
                 {selectedOrder.source !== "offline-import" && (
                   <>
-                    <hr className="detail-divider" />
                     <div className="detail-info-section">
                       <p className="detail-info-title">주문자 정보</p>
                       <div className="detail-info-rows">
@@ -303,7 +337,6 @@ function MyPageOrders() {
                       </div>
                     </div>
 
-                    <hr className="detail-divider" />
                     <div className="detail-info-section">
                       <p className="detail-info-title">배송 정보</p>
                       <div className="detail-info-rows">
@@ -333,9 +366,81 @@ function MyPageOrders() {
               </div>
 
               <div className="modal-panel__footer">
-                <button type="button" className="btn-footer-text">영수증보기</button>
-                <span className="footer-sep">|</span>
-                <button type="button" className="btn-footer-text">문의하기</button>
+                <button type="button" className="btn-footer-text">
+                  문의하기
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {selectedReviewItem && (
+          <div className="order-detail-modal" role="dialog" aria-modal="true">
+            <button
+              className="modal-backdrop"
+              aria-label="리뷰 작성 닫기"
+              onClick={() => setSelectedReviewItem(null)}
+            />
+            <div className="modal-panel">
+              <div className="modal-panel__header">
+                <h3>리뷰 작성</h3>
+                <button
+                  className="close-btn"
+                  onClick={() => setSelectedReviewItem(null)}
+                  aria-label="닫기"
+                >
+                  ×
+                </button>
+              </div>
+
+              <div className="modal-panel__body">
+                <div className="detail-item review-item-info">
+                  <div className="item-img">
+                    <img src={selectedReviewItem.image} alt={selectedReviewItem.name} />
+                  </div>
+                  <span className="item-name">
+                    {selectedReviewItem.name} {selectedReviewItem.volume}
+                  </span>
+                </div>
+
+                <div className="review-rating">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      className={`review-star ${star <= reviewRating ? "is-active" : ""}`}
+                      onClick={() => setReviewRating(star)}
+                    >
+                      ★
+                    </button>
+                  ))}
+                </div>
+
+                <textarea
+                  className="review-textarea"
+                  placeholder="제품에 대한 솔직한 리뷰를 작성해주세요."
+                  value={reviewText}
+                  onChange={(e) => setReviewText(e.target.value)}
+                />
+              </div>
+
+              <div className="modal-panel__footer">
+                <button
+                  type="button"
+                  className="btn-footer-text"
+                  onClick={() => setSelectedReviewItem(null)}
+                >
+                  취소
+                </button>
+                <button
+                  type="button"
+                  className="btn-footer-text"
+                  onClick={() => {
+                    setToastMessage("리뷰가 등록되었습니다.");
+                    setSelectedReviewItem(null);
+                  }}
+                >
+                  등록
+                </button>
               </div>
             </div>
           </div>

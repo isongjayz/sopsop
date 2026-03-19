@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useStore from "../../../store/useStore";
+import CartModal from "../CartModal";
 import "./ProductItem.scss";
 
 const ProductItem = ({ product, hideActions = false }) => {
@@ -10,6 +11,7 @@ const ProductItem = ({ product, hideActions = false }) => {
   const isWishlisted = user ? isProductWishlisted(user.id, product.id) : false;
 
   const [selectedIdx, setSelectedIdx] = useState(0);
+  const [showCartModal, setShowCartModal] = useState(false);
 
   // 수정: 세트 상품은 용량 버튼 대신 SET 라벨을 노출하고,
   // 단일 사이즈 상품은 옵션이 1개여도 버튼이 보이도록 분리 처리
@@ -36,7 +38,7 @@ const ProductItem = ({ product, hideActions = false }) => {
       giftWrap: false,
     };
     addToCart(cartItem);
-    alert("장바구니에 추가되었습니다.");
+    setShowCartModal(true);
   };
 
   const handleWishlist = (e) => {
@@ -50,6 +52,8 @@ const ProductItem = ({ product, hideActions = false }) => {
   };
 
   return (
+    <>
+    {showCartModal && <CartModal onClose={() => setShowCartModal(false)} />}
     <div className="product-card" style={{ position: "relative" }}>
       <Link to={`/product/${product.id}`} className="product-card__link">
         <div className="product-card__thumb">
@@ -124,6 +128,7 @@ const ProductItem = ({ product, hideActions = false }) => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

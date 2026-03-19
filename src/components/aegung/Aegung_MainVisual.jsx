@@ -7,7 +7,7 @@ const Aegung_MainVisual = () => {
                 {/* 왼쪽 하단 배경 문양 */}
                 <div className="aegung__main-visual__bg aegung__main-visual__bg--left">
                     <img
-                        src="/images/aegung/01-MainVisual/Background01.png"
+                        src="/images/aegung/01-MainVisual/Background01.svg"
                         alt="한국 전통 문양 배경"
                     />
                 </div>
@@ -15,7 +15,7 @@ const Aegung_MainVisual = () => {
                 {/* 오른쪽 상단 배경 문양 */}
                 <div className="aegung__main-visual__bg aegung__main-visual__bg--right">
                     <img
-                        src="/images/aegung/01-MainVisual/Background02.png"
+                        src="/images/aegung/01-MainVisual/Background02.svg"
                         alt="한국 전통 문양 배경"
                     />
                 </div>

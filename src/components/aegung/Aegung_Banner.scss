@@ -15,12 +15,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-<<<<<<< HEAD
-
-    &__bg {
-        stroke-width: 1px;
-        stroke: rgba(206, 203, 189, 0.50);
-=======
     margin-bottom: 7.81vw; // 150px at 1920px
 
     // 패키징 배너 - 그린 색상
@@ -37,9 +31,7 @@
         height: auto;
         z-index: 1;
         pointer-events: none;
->>>>>>> 49c77f431ee2cdbe72fb4b85156ed39dbd4824aa
     }
-
 
 
     // ----------------------------------
@@ -53,6 +45,7 @@
         flex-direction: column;
         align-items: center;
         gap: 16px;
+        z-index: 3
     }
 
     &__top {

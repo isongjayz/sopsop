@@ -105,7 +105,7 @@ function ProductDetail() {
                         </Link>
                     </nav>
 
-                    <h1 className="product-detail__name font-serif">{currentProduct.name}</h1>
+                    <h1 className="product-detail__name">{currentProduct.name}</h1>
 
                     {/* 가격 및 정보 요약 (이름 바로 아래 배치) */}
                     <div className="product-detail__status-wrap">
@@ -232,7 +232,7 @@ function ProductDetail() {
             {recommendedProducts.length > 0 && (
                 <div className="product-detail__recommend">
                     <div className="inner">
-                        <h2 className="font-serif">함께 사용하기 좋은 제품</h2>
+                        <h2>함께 사용하기 좋은 제품</h2>
                         <Swiper
                             modules={[Navigation]}
                             spaceBetween={30}

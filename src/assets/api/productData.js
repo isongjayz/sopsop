@@ -46,7 +46,7 @@ const rawProductData = [
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dwfbbdd53d/images/products/BM06/Aesop_Hand_Resurrection_Aromatique_Hand_Balm_75mL_Web_Front_A_2000x2000px.png",
     hoverImage: "/images/product/handbalm02.png",
     description: "시트러스, 우디, 허브",
-    isNew: true,
+    isNew: false,
     isBest: false,
     stock: 10,
     volumes: [
@@ -77,7 +77,7 @@ const rawProductData = [
     hoverImage: "/images/product/handbalm03.png",
     description: "우디, 흙내음, 스모키",
     isNew: false,
-    isBest: true,
+    isBest: false,
     stock: 10,
     volumes: [
       {
@@ -111,14 +111,14 @@ const rawProductData = [
     stock: 20,
     volumes: [
       {
-        volume: "500ml(펌프 포함)",
+        volume: "500ml",
         price: 56000,
         stock: 20,
         image:
           "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dwfce24fa1/images/products/BT17/Aesop_Hand_Reverence_Aromatique_Hand_Wash_500mL_Web_Front_2000x2000px.png",
       },
       {
-        volume: "500ml(펌프 미포함)",
+        volume: "500ml 리필용",
         price: 54000,
         stock: 20,
         image:
@@ -136,19 +136,19 @@ const rawProductData = [
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dwfce24fa1/images/products/BT17/Aesop_Hand_Reverence_Aromatique_Hand_Wash_500mL_Web_Front_2000x2000px.png",
     hoverImage: "/images/product/handbalm03.png",
     description: "다마스크 로즈, 로즈마리 잎",
-    isNew: true,
+    isNew: false,
     isBest: false,
     stock: 35,
     volumes: [
       {
-        volume: "500ml(펌프 포함)",
+        volume: "500ml",
         price: 42000,
         stock: 35,
         image:
           "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dwfce24fa1/images/products/BT17/Aesop_Hand_Reverence_Aromatique_Hand_Wash_500mL_Web_Front_2000x2000px.png",
       },
       {
-        volume: "500ml(펌프 미포함)",
+        volume: "500ml 리필용",
         price: 40000,
         stock: 35,
         image:
@@ -167,7 +167,7 @@ const rawProductData = [
     hoverImage: "/images/product/handbalm02.png",
     description: "시트러스,우디,허브가 어우러진 핸드케어 2종",
     isNew: false,
-    isBest: true,
+    isBest: false,
     stock: 10,
     volumes: [{ volume: "", price: 170000, stock: 10 }],
     isSet: true,
@@ -182,7 +182,7 @@ const rawProductData = [
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dw942e9045/images/products/APB109/Aesop_Kits_Reverence_Duet_Web_Front_A_2000x2000px.png",
     hoverImage: "/images/product/handbalm01.png",
     description: "베티버 뿌리, 페티그레인",
-    isNew: true,
+    isNew: false,
     isBest: false,
     stock: 10,
     volumes: [{ volume: "", price: 170000, stock: 10 }],
@@ -214,7 +214,7 @@ const rawProductData = [
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/default/dw90deb69a/images/products/BS34/Aesop_Body_Refresh_Bar_Soap_Web_Front_2000x2000px.png",
     hoverImage: "/images/product/body02.png",
     description: "대부분의 피부 타입에 적합한 바 솝",
-    isNew: true,
+    isNew: false,
     isBest: false,
     stock: 10,
     volumes: [{ volume: "150g", price: 30000, stock: 10 }],
@@ -230,7 +230,7 @@ const rawProductData = [
     hoverImage: "/images/product/body03.png",
     description: "시트러스, 플로럴, 상쾌한",
     isNew: false,
-    isBest: true,
+    isBest: false,
     stock: 10,
     volumes: [{ volume: "310ml", price: 43000, stock: 10 }],
   },
@@ -238,25 +238,25 @@ const rawProductData = [
     id: "body-cleanser-01",
     category: "body",
     subcategory: "bodycleanser",
-    name: "에이 로즈 바이 애니 아더 네임 바디 클렌저",
+    name: "코리안더 씨드 바디 클렌저",
     price: 59000,
     image:
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dwfce24fa1/images/products/BT17/Aesop_Hand_Reverence_Aromatique_Hand_Wash_500mL_Web_Front_2000x2000px.png",
     hoverImage: "/images/product/body04.png",
-    description: "플로랄, 스파이시, 따뜻함",
+    description: "우디, 스파이시, 따뜻함",
     isNew: false,
     isBest: false,
     stock: 10,
     volumes: [
       {
-        volume: "500ml(펌프 포함)",
+        volume: "500ml",
         price: 59000,
         stock: 10,
         image:
           "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dwfce24fa1/images/products/BT17/Aesop_Hand_Reverence_Aromatique_Hand_Wash_500mL_Web_Front_2000x2000px.png",
       },
       {
-        volume: "500ml(펌프 미포함)",
+        volume: "500ml 리필용",
         price: 57000,
         stock: 10,
         image:
@@ -264,36 +264,7 @@ const rawProductData = [
       },
     ],
   },
-  {
-    id: "body-cleanser-02",
-    category: "body",
-    subcategory: "bodycleanser",
-    name: "에이 로즈 바이 애니 아더 네임 바디 클렌저",
-    price: 59000,
-    image:
-      "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dwfce24fa1/images/products/BT17/Aesop_Hand_Reverence_Aromatique_Hand_Wash_500mL_Web_Front_2000x2000px.png",
-    hoverImage: "/images/product/body01.png",
-    description: "스파이시, 우디, 따뜻한 향",
-    isNew: false,
-    isBest: false,
-    stock: 10,
-    volumes: [
-      {
-        volume: "500ml(펌프 포함)",
-        price: 59000,
-        stock: 10,
-        image:
-          "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dwfce24fa1/images/products/BT17/Aesop_Hand_Reverence_Aromatique_Hand_Wash_500mL_Web_Front_2000x2000px.png",
-      },
-      {
-        volume: "500ml(펌프 미포함)",
-        price: 57000,
-        stock: 10,
-        image:
-          "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dwc52d0736/images/products/BT17/Aesop_Hand_Reverence_Aromatique_Hand_Wash_Refill_500mL_Web_Front_2000x2000px.png",
-      },
-    ],
-  },
+
   {
     id: "body-cleanser-03",
     category: "body",
@@ -309,14 +280,14 @@ const rawProductData = [
     stock: 10,
     volumes: [
       {
-        volume: "500ml(펌프 포함)",
+        volume: "500ml",
         price: 59000,
         stock: 10,
         image:
           "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dwfce24fa1/images/products/BT17/Aesop_Hand_Reverence_Aromatique_Hand_Wash_500mL_Web_Front_2000x2000px.png",
       },
       {
-        volume: "500ml(펌프 미포함)",
+        volume: "500ml 리필용",
         price: 57000,
         stock: 10,
         image:
@@ -333,8 +304,8 @@ const rawProductData = [
     image:
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/default/dw194890b3/images/products/BS19/Aesop_Body_Redemption_Body_Scrub_180mL_Web_Front_2000x2000px.png",
     hoverImage: "/images/product/body06.png",
-    description: "부드럽게 클렌징하고 각질을 씻어주는 고운 입자의 스크럽 젤",
-    isNew: true,
+    description: "부드럽게 각질을 씻어주는 스크럽 젤",
+    isNew: false,
     isBest: false,
     stock: 10,
     volumes: [{ volume: "180ml", price: 49000, stock: 10 }],
@@ -349,7 +320,7 @@ const rawProductData = [
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dw4b15e463/images/products/BM08/Aesop_Body_Geranium_Leaf_Body_Balm_100mL_Web_Front_A_2000x2000px.png",
     hoverImage: "/images/product/body07.png",
     description: "스파이시, 우디, 따뜻한 향",
-    isNew: true,
+    isNew: false,
     isBest: false,
     stock: 10,
     volumes: [
@@ -409,7 +380,7 @@ const rawProductData = [
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dw4f073cea/images/products/BM07/Aesop_Body_Rind_Concentrate_Body_Balm_100mL_Web_Front_B_2000x2000px.png",
     hoverImage: "/images/product/body09.png",
     description: "스파이시, 우디, 따뜻한 향",
-    isNew: true,
+    isNew: false,
     isBest: false,
     stock: 10,
     volumes: [
@@ -438,8 +409,8 @@ const rawProductData = [
     image:
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dwc660402b/images/products/BD11/Aesop_Body_Geranium_Leaf_Hydrating_Body_Treatment_Web_Front_2000x2000px.png",
     hoverImage: "/images/product/body10.png",
-    description: "집중적인 수분 공급으로 건조한 피부를 부드럽게 가꿔주는 오일",
-    isNew: true,
+    description: "건조한 피부를 부드럽게 가꿔주는 오일",
+    isNew: false,
     isBest: false,
     stock: 10,
     volumes: [{ volume: "100ml", price: 49000, stock: 10 }],
@@ -453,7 +424,7 @@ const rawProductData = [
     image:
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/default/dwd1aede44/images/products/BM16/Aesop_Body_Petitgrain_Reviving_Body_Gel_150mL_Web_Front_2000x2000px.png",
     hoverImage: "/images/product/body11.png",
-    description: "집중적인 수분 공급으로 건조한 피부를 부드럽게 가꿔주는 오일",
+    description: "신속하게 흡수되며 끈적이지 않는 마무리",
     isNew: true,
     isBest: false,
     stock: 10,
@@ -485,7 +456,7 @@ const rawProductData = [
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/ko_KR/dwd5ebdc8c/images/products/FR20/Aesop_Fragrance_Rozu_Eau_de_Parfum_50mL_Bottle_Only_Media_Release_Transparent_1080x1080px.png",
     hoverImage: "/images/product/froral02.jpg",
     description: "로즈, 시소, 과이악우드",
-    isNew: true,
+    isNew: false,
     isBest: false,
     stock: 10,
     volumes: [{ volume: "50ml", price: 225000, stock: 10 }],
@@ -503,7 +474,7 @@ const rawProductData = [
     isNew: false,
     isBest: true,
     stock: 10,
-    volumes: [{ volume: "kit", price: 63000, stock: 10 }],
+    volumes: [{ volume: "Only one", price: 63000, stock: 10 }],
   },
   {
     id: "fragrance-04",
@@ -636,7 +607,7 @@ const rawProductData = [
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/default/dwa7a7179b/images/products/FR18/Aesop_Home_Cythera_Aromatique_Room_Spray_100mL_Web_Front_2000x2000px.png",
     description: "상쾌한, 우디, 시트러스",
     isNew: false,
-    isBest: true,
+    isBest: false,
     stock: 25,
     volumes: [{ volume: "100ml", price: 77000, stock: 25 }],
   },
@@ -649,7 +620,7 @@ const rawProductData = [
     image:
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/default/dw6b216180/images/products/FR17/Aesop_Home_Istros_Aromatique_Room_Spray_100mL_Web_Front_2000x2000px.png",
     description: "생기넘치는, 플로랄, 스모키",
-    isNew: true,
+    isNew: false,
     isBest: false,
     stock: 20,
     volumes: [{ volume: "100ml", price: 77000, stock: 20 }],
@@ -658,15 +629,15 @@ const rawProductData = [
     id: "room-spray-03",
     category: "room",
     subcategory: "roomspray",
-    name: "존재의 상태 : 아로마틱 룸 스프레이 트리오",
+    name: "아로마틱 룸 스프레이 트리오",
     price: 128000,
     image:
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/default/dw7f5c6466/images/products/APB230/Aesop_Kits_States_of_Being_Aromatique_Room_Spray_Trio_Web_Front_2000x2000px.png",
-    description: "키트",
+    description: "공간을 한층 더 아름답게 만들어주는 세가지",
     isNew: true,
     isBest: false,
     stock: 20,
-    volumes: [{ volume: "kit", price: 128000, stock: 20 }],
+    volumes: [{ volume: "Only one", price: 128000, stock: 20 }],
   },
   {
     id: "room-candle-01",
@@ -705,8 +676,8 @@ const rawProductData = [
     image:
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/default/dwf5f438ff/images/products/BB21/Aesop_Home_Beatrice_Oil_Burner_Blend_25mL_Web_Front_2000x2000px.png",
     description: "시트러스, 그린,상쾌한",
-    isNew: true,
-    isBest: true,
+    isNew: false,
+    isBest: false,
     stock: 12,
     volumes: [{ volume: "25ml", price: 48000, stock: 12 }],
   },
@@ -719,8 +690,8 @@ const rawProductData = [
     image:
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/default/dwf5f438ff/images/products/BB21/Aesop_Home_Beatrice_Oil_Burner_Blend_25mL_Web_Front_2000x2000px.png",
     description: "우디, 시트러스, 스모키",
-    isNew: true,
-    isBest: true,
+    isNew: false,
+    isBest: false,
     stock: 12,
     volumes: [{ volume: "25ml", price: 48000, stock: 12 }],
   },
@@ -734,7 +705,7 @@ const rawProductData = [
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/default/dwe1834385/images/products/AHM01/Aesop_Home_Brass_Oil_Burner_Web_Front_2000x2000px.png",
     description: "헨리 윌슨 스튜디오와 협업으로 디자인",
     isNew: true,
-    isBest: true,
+    isBest: false,
     stock: 12,
     volumes: [{ volume: "157mm*125mm*108mm", price: 252000, stock: 12 }],
   },
@@ -747,7 +718,7 @@ const rawProductData = [
     image:
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/default/dw3cfa0024/images/products/HM15/Aesop_Home_Sarashina_Aromatique_Incense_Web_Front_2000x2000px.png",
     description: "우디, 따뜻한, 달콤한",
-    isNew: true,
+    isNew: false,
     isBest: false,
     stock: 40,
     volumes: [{ volume: "33개", price: 48000, stock: 40 }],
@@ -761,7 +732,7 @@ const rawProductData = [
     image:
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/default/dw3cfa0024/images/products/HM15/Aesop_Home_Sarashina_Aromatique_Incense_Web_Front_2000x2000px.png",
     description: "그린, 허브, 우디",
-    isNew: true,
+    isNew: false,
     isBest: false,
     stock: 40,
     volumes: [{ volume: "33개", price: 48000, stock: 40 }],
@@ -775,7 +746,7 @@ const rawProductData = [
     image:
       "https://kr.aesop.com/dw/image/v2/AARM_PRD/on/demandware.static/-/Sites-aesop-master-catalog/default/dwee511358/images/products/AHM16/Aesop_Home_Bronze_Incense_Holder_Web_Front_2000x2000px.png",
     description: "보겔 스튜디오 디자인",
-    isNew: true,
+    isNew: false,
     isBest: false,
     stock: 40,
     volumes: [{ volume: "90mm*145mm*34mm", price: 204000, stock: 40 }],

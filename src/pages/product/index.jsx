@@ -21,6 +21,8 @@ function ProductList() {
   const [sortOrder, setSortOrder] = useState("recommend"); // recommend, lowPrice, highPrice, new
   const [subTab, setSubTab] = useState(""); // local subcategory filter
 
+  const newProducts = products.filter((p) => p.isNew);
+
   useEffect(() => {
     // Reset subcategory when main category changes
     setSubTab("");
@@ -151,7 +153,7 @@ function ProductList() {
         style={{ backgroundImage: `url(${heroImage})` }}
       >
         <div className="product-hero__inner">
-          <h2 className="font-serif product-hero__title">{headerTitle}</h2>
+          <h2 className="product-hero__title">{headerTitle}</h2>
         </div>
       </header>
 
@@ -234,6 +236,11 @@ function ProductList() {
           </div>
         )}
 
+        {/* Best 타이틀 */}
+        {currentCategory === "best" && (
+          <h3 className="product-section-title">Best Seller</h3>
+        )}
+
         {/* 정렬 컨트롤 */}
         <div className="product-controls">
           <select
@@ -248,7 +255,6 @@ function ProductList() {
           </select>
         </div>
 
-        {/* 상품 그리드 */}
         {filteredProducts.length > 0 ? (
           <div className="product-grid">
             {filteredProducts.map((product) => (
@@ -261,6 +267,20 @@ function ProductList() {
           </div>
         )}
       </div>
+
+      {/* NEW 상품 섹션 - best 페이지 하단에만 노출 */}
+      {currentCategory === "best" && newProducts.length > 0 && (
+        <div className="product-new-section">
+          <div className="product-new-section__header">
+            <h3>New Arrivals</h3>
+          </div>
+          <div className="product-grid">
+            {newProducts.map((product) => (
+              <ProductItem key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
