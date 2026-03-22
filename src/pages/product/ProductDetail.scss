@@ -24,13 +24,12 @@
 
     &__top {
         display: grid;
-        grid-template-columns: minmax(0, 1.2fr) minmax(360px, 0.88fr);
-        gap: 90px;
+        grid-template-columns: 677px 550px;
+        gap: 119px;
         align-items: start;
-        padding-top: 140px;
-        padding-bottom: 120px;
-        padding-left: 200px;
-        padding-right: 200px;
+        justify-content: center;
+        padding-top: 260px;
+        padding-bottom: 408px;
 
         @include tablet {
             grid-template-columns: 1fr;
@@ -52,17 +51,19 @@
 
     &__gallery {
         background: #efe7da;
-        aspect-ratio: 1 / 0.72;
+        width: 677px;
+        aspect-ratio: 677 / 518;
         overflow: hidden;
 
         img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
     }
 
     &__info {
+        width: 550px;
         display: flex;
         flex-direction: column;
         gap: 20px;
@@ -70,6 +71,7 @@
         top: 120px;
 
         @include tablet {
+            width: 100%;
             position: static;
         }
     }
@@ -96,41 +98,52 @@
         background: rgba(255, 255, 255, 0.18);
     }
 
-    &__category {
+    &__heading {
+        margin-bottom: 32px;
+    }
+
+    &__stock {
         padding: 18px 18px 0;
-        font-size: 10px;
-        letter-spacing: 0.12em;
-        color: $color-brown-400;
+        font-size: 16px;
+        letter-spacing: -0.32px;
+        color: $color-brown-300;
     }
 
     &__name {
-        padding: 6px 18px 0;
-        font-size: 42px;
+        padding: 6px 18px 0 18px;
+        font-size: 46px;
         font-weight: 400;
         color: $color-brown-900;
-        line-height: 1.16;
+        letter-spacing: -0.92px;
+        line-height: 1.2;
 
         @include mobile {
             font-size: 34px;
         }
     }
 
-    &__meta,
     &__shipping-copy {
         padding: 0 18px;
-        font-size: 14px;
-        line-height: 1.7;
-        color: $color-brown-400;
+        margin-bottom: 32px;
+        font-size: 18px;
+        color: $color-brown-200;
+        letter-spacing: -0.36px;
     }
 
-    &__shipping-copy {
-        padding-bottom: 22px;
+    &__shipping-date {
+        font-size: 20px;
+        color: $color-brown-300;
+        letter-spacing: -0.4px;
     }
 
     &__options-list {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         border-top: 1px solid $color-brown-200;
+
+        &.is-single {
+            grid-template-columns: minmax(0, 1fr);
+        }
     }
 
     &__option-btn {
@@ -138,12 +151,17 @@
         border: none;
         border-right: 1px solid $color-brown-200;
         background: transparent;
-        color: $color-brown-700;
-        font-size: 16px;
+        color: $color-brown-600;
+        font-size: 22px;
+        letter-spacing: -0.44px;
         cursor: pointer;
         transition: background 0.2s ease, color 0.2s ease;
 
         &:last-child {
+            border-right: none;
+        }
+
+        .product-detail__options-list.is-single & {
             border-right: none;
         }
 
@@ -161,10 +179,11 @@
     &__add-btn {
         width: 100%;
         min-height: 60px;
-        border: none;
-        background: $color-brown-700;
+        padding: 14px 0;
+        border: 1px solid $color-brown-200;
+        background: #924b1f;
         color: $white;
-        font-size: 16px;
+        font-size: 32px;
         font-weight: 500;
         cursor: pointer;
 
@@ -203,17 +222,23 @@
     }
 
     &__tab-btn {
-        padding: 20px 12px;
+        width: 100%;
+        min-height: 78px;
+        padding: 0 12px;
         border: none;
         border-bottom: 2px solid transparent;
         background: transparent;
-        color: $color-brown-300;
-        font-size: 18px;
+        color: $color-brown-200;
+        font-size: 30px;
+        letter-spacing: -0.6px;
         cursor: pointer;
 
         &.is-active {
-            color: $color-brown-900;
-            border-bottom-color: $color-brown-900;
+            color: $color-brown-500;
+            border-bottom-color: $color-brown-500;
+            font-size: 36px;
+            font-weight: 600;
+            letter-spacing: -0.72px;
         }
     }
 
@@ -235,13 +260,16 @@
     }
 
     &__intro {
-        max-width: 720px;
+        width: 850px;
+        max-width: 100%;
     }
 
     &__eyebrow {
         margin-bottom: 8px;
-        font-size: 44px;
-        line-height: 1;
+        font-family: 'Bona Nova', serif;
+        font-size: 58px;
+        line-height: 1.2;
+        letter-spacing: -1.16px;
         color: $color-brown-900;
 
         @include mobile {
@@ -251,15 +279,20 @@
 
     &__heading {
         margin-bottom: 12px;
-        font-size: 18px;
+        font-family: 'Bona Nova', serif;
+        font-size: 58px;
         font-weight: 400;
+        line-height: 1.2;
+        letter-spacing: -1.16px;
         color: $color-brown-900;
     }
 
     &__copy {
-        font-size: 15px;
-        line-height: 1.8;
-        color: $color-brown-500;
+        font-size: 28px;
+        font-weight: 300;
+        line-height: 1.3;
+        letter-spacing: -0.56px;
+        color: $color-brown-700;
         white-space: pre-line;
     }
 
@@ -296,25 +329,30 @@
         border-bottom: 1px solid $color-brown-200;
 
         h4 {
-            margin-bottom: 14px;
-            font-size: 26px;
+            margin-bottom: 16px;
+            font-size: 34px;
             font-weight: 400;
-            color: $color-brown-900;
+            line-height: 47px;
+            color: $color-brown-500;
         }
 
         strong {
             display: block;
-            margin-bottom: 14px;
-            font-size: 18px;
+            margin-bottom: 16px;
+            font-size: 26px;
             font-weight: 400;
-            line-height: 1.6;
-            color: $color-brown-700;
+            line-height: 34px;
+            letter-spacing: -0.26px;
+            color: $color-brown-400;
         }
 
         p {
-            font-size: 15px;
-            line-height: 1.8;
-            color: $color-brown-500;
+            margin-bottom: 0;
+            font-size: 21px;
+            font-weight: 300;
+            line-height: 34px;
+            letter-spacing: -0.21px;
+            color: $color-brown-400;
             white-space: pre-line;
         }
     }
@@ -325,7 +363,7 @@
         position: relative;
         overflow: hidden;
         background: #d8c7b4;
-        aspect-ratio: 2 / 0.78;
+        aspect-ratio: 1920 / 800;
     }
 
     &__intro-image {
@@ -343,21 +381,25 @@
         position: absolute;
         right: 8%;
         bottom: 14%;
-        max-width: 360px;
+        width: 569px;
         text-align: right;
-        color: $white;
 
         h3 {
             margin-bottom: 12px;
-            font-size: 48px;
+            font-family: 'Bona Nova', serif;
+            font-size: 72px;
             font-weight: 400;
-            line-height: 1.05;
+            line-height: 1.2;
+            letter-spacing: -1.44px;
+            color: $color-yellow-500;
         }
 
         p {
-            font-size: 15px;
-            line-height: 1.8;
-            color: rgba(255, 255, 255, 0.92);
+            font-size: 30px;
+            font-weight: 300;
+            line-height: 1.2;
+            letter-spacing: -0.6px;
+            color: $color-yellow-500;
         }
 
         @include mobile {
@@ -382,7 +424,7 @@
     }
 
     &__section-copy {
-        max-width: 560px;
+        width: 772px;
     }
 
     &__packaging {
@@ -470,8 +512,11 @@
 
     &__title {
         margin-bottom: 32px;
-        font-size: 56px;
+        font-family: 'Bona Nova', serif;
+        font-size: 58px;
         font-weight: 400;
+        line-height: 1.2;
+        letter-spacing: -1.16px;
         color: $color-brown-900;
 
         @include mobile {
@@ -520,14 +565,18 @@
 
         h3 {
             margin-bottom: 10px;
-            font-size: 20px;
+            font-size: 30px;
             font-weight: 400;
-            color: $color-brown-900;
+            line-height: 1.2;
+            letter-spacing: -0.6px;
+            color: $color-brown-500;
         }
 
         p {
-            font-size: 15px;
-            color: $color-brown-500;
+            font-size: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.48px;
+            color: $color-brown-300;
         }
     }
 }

@@ -268,7 +268,7 @@
     }
 
     &__values-line-path {
-        stroke: $color-brown-200;
+        stroke: $color-brown-500;
     }
 
     &__values-line-base {
@@ -518,6 +518,7 @@
 
     &__product-image {
         pointer-events: none;
+        opacity: 0;
     }
 
     &__line,
@@ -576,7 +577,7 @@
         font-family: 'Ogg', serif;
         line-height: 1.1;
         letter-spacing: -0.02em;
-        opacity: 0.28;
+        opacity: 0;
     }
 
     &__thumb {
@@ -587,6 +588,7 @@
         overflow: hidden;
         box-shadow: 0 14px 30px rgba(70, 44, 32, 0.18);
         transform: translate(-50%, -50%);
+        opacity: 0;
 
         img {
             display: block;

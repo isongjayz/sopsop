@@ -6,9 +6,16 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const BRAND_STORY_LINE_X = 552;
-const BRAND_STORY_BLOCK_HEIGHT = 900;
-const BRAND_STORY_BLOCKS = 3;
-const BRAND_STORY_TOTAL_HEIGHT = BRAND_STORY_BLOCK_HEIGHT * BRAND_STORY_BLOCKS;
+const TIMING = {
+    line: {
+        baseDuration: 0.62,
+        blend: 0.35,
+    },
+    icon: {
+        baseDuration: 0.68,
+        blend: 0.35,
+    },
+};
 
 const LINE_SEGMENTS = [
     { top: 0, height: 305 },
@@ -26,13 +33,24 @@ function HomeBrandStory() {
 
     useGSAP(
         () => {
+            const getBlendedDuration = (baseDuration, ratio, blend) =>
+                baseDuration * (1 + (ratio - 1) * blend);
+
+            const averageSegmentHeight =
+                LINE_SEGMENTS.reduce((sum, segment) => sum + segment.height, 0) / LINE_SEGMENTS.length;
+            const iconPathLengths = iconPathRefs.current.map((paths) =>
+                paths.reduce((sum, path) => (path ? sum + path.getTotalLength() : sum), 0)
+            );
+            const averageIconPathLength =
+                iconPathLengths.reduce((sum, length) => sum + length, 0) / iconPathLengths.length;
+
             const timeline = gsap.timeline({
                 defaults: { ease: 'none' },
                 scrollTrigger: {
                     trigger: containerRef.current,
-                    start: 'top 75%',
+                    start: 'top bottom',
                     end: 'bottom 40%',
-                    scrub: 1,
+                    scrub: true,
                 },
             });
 
@@ -76,11 +94,16 @@ function HomeBrandStory() {
 
             LINE_SEGMENTS.forEach((_, index) => {
                 const segment = lineSegmentRefs.current[index];
+                const segmentDuration = getBlendedDuration(
+                    TIMING.line.baseDuration,
+                    LINE_SEGMENTS[index].height / averageSegmentHeight,
+                    TIMING.line.blend
+                );
 
                 if (segment) {
                     timeline.to(segment, {
                         scaleY: 1,
-                        duration: index === LINE_SEGMENTS.length - 1 ? 0.42 : 0.62,
+                        duration: segmentDuration,
                     });
                 }
 
@@ -88,14 +111,23 @@ function HomeBrandStory() {
                     const nav = navRefs.current[index];
                     const content = contentRefs.current[index];
                     const paths = iconPathRefs.current[index];
+                    const iconDuration = getBlendedDuration(
+                        TIMING.icon.baseDuration,
+                        iconPathLengths[index] / averageIconPathLength,
+                        TIMING.icon.blend
+                    );
 
                     paths.forEach((path, pathIndex) => {
                         const isGenesisPrimaryPath = index === 0 && pathIndex === 0;
+                        const pathLength = path.getTotalLength();
+                        const pathDuration =
+                            iconDuration * (pathLength / iconPathLengths[index]);
+
                         timeline.to(
                             path,
                             {
                                 strokeDashoffset: 0,
-                                duration: pathIndex === 0 ? 0.68 : 0.52,
+                                duration: pathDuration,
                                 ease: 'power2.out',
                                 onStart: () => {
                                     if (isGenesisPrimaryPath) {

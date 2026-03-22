@@ -101,6 +101,26 @@ const ingredients = [
     },
 ];
 
+const DRAW_SEQUENCE = {
+    start: [0.02, 0.2],
+    branches: [
+        [0.18, 0.42],
+        [0.22, 0.46],
+        [0.26, 0.5],
+        [0.3, 0.54],
+        [0.34, 0.58],
+    ],
+    ingredients: [
+        [0.24, 0.38],
+        [0.3, 0.44],
+        [0.36, 0.5],
+        [0.42, 0.56],
+    ],
+    merge: [0.58, 0.74],
+    outline: [0.72, 0.9],
+    product: [0.88, 1],
+};
+
 function getQuoteAdvance(character, context) {
     const measuredWidth = context.measureText(character === ' ' ? '\u00A0' : character).width;
 
@@ -110,6 +130,17 @@ function getQuoteAdvance(character, context) {
 
     return measuredWidth + QUOTE_TRACKING;
 }
+
+function getPathLength(d) {
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', d);
+    return path.getTotalLength();
+}
+
+const START_PATH_LENGTH = getPathLength(START_PATH_D);
+const FLOW_LINE_LENGTHS = flowLines.map((line) => getPathLength(line.d));
+const MERGE_PATH_LENGTH = getPathLength(MERGE_PATH_D);
+const OUTLINE_PATH_LENGTH = getPathLength(BOTTLE_OUTLINE_PATH);
 
 function getQuoteLetters() {
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -158,6 +189,20 @@ function getQuoteLetters() {
 
 function clamp01(value) {
     return Math.max(0, Math.min(1, value));
+}
+
+function getWindowProgress(progress, start, end) {
+    return clamp01((progress - start) / Math.max(end - start, 0.0001));
+}
+
+function getSegmentDrawStyle(progress, window, length) {
+    const localProgress = getWindowProgress(progress, window[0], window[1]);
+    const easedProgress = easeOutCubic(localProgress);
+
+    return {
+        strokeDasharray: length,
+        strokeDashoffset: length * (1 - easedProgress),
+    };
 }
 
 function easeOutCubic(value) {
@@ -289,6 +334,43 @@ function HomeBotanicals() {
     }, [previewMode]);
 
     const motionQuoteLetters = getMotionQuoteLetters(quoteLetters, quoteProgress);
+    const startLineStyle = getSegmentDrawStyle(
+        quoteProgress,
+        DRAW_SEQUENCE.start,
+        START_PATH_LENGTH
+    );
+    const flowLineStyles = flowLines.map((_, index) =>
+        getSegmentDrawStyle(quoteProgress, DRAW_SEQUENCE.branches[index], FLOW_LINE_LENGTHS[index])
+    );
+    const mergeLineStyle = getSegmentDrawStyle(
+        quoteProgress,
+        DRAW_SEQUENCE.merge,
+        MERGE_PATH_LENGTH
+    );
+    const outlineLineStyle = getSegmentDrawStyle(
+        quoteProgress,
+        DRAW_SEQUENCE.outline,
+        OUTLINE_PATH_LENGTH
+    );
+    const ingredientStyles = ingredients.map((ingredient, index) => {
+        const localProgress = easeOutCubic(
+            getWindowProgress(
+                quoteProgress,
+                DRAW_SEQUENCE.ingredients[index][0],
+                DRAW_SEQUENCE.ingredients[index][1]
+            )
+        );
+
+        return {
+            ...ingredient,
+            opacity: localProgress,
+            translateY: (1 - localProgress) * 32,
+            scale: 0.86 + localProgress * 0.14,
+        };
+    });
+    const productRevealProgress = easeOutCubic(
+        getWindowProgress(quoteProgress, DRAW_SEQUENCE.product[0], DRAW_SEQUENCE.product[1])
+    );
 
     return (
         <section ref={sectionRef} className={`home__botanicals ${previewMode ? 'is-preview' : ''}`}>
@@ -318,19 +400,22 @@ function HomeBotanicals() {
                             <path
                                 className="botanical-flow__line botanical-flow__line--start"
                                 d={START_PATH_D}
+                                style={startLineStyle}
                             />
 
-                            {flowLines.map((line) => (
+                            {flowLines.map((line, index) => (
                                 <path
                                     key={line.id}
                                     className="botanical-flow__line botanical-flow__line--branch"
                                     d={line.d}
+                                    style={flowLineStyles[index]}
                                 />
                             ))}
 
                             <path
                                 className="botanical-flow__line botanical-flow__line--merge"
                                 d={MERGE_PATH_D}
+                                style={mergeLineStyle}
                             />
 
                             <image
@@ -342,11 +427,15 @@ function HomeBotanicals() {
                                 clipPath={`url(#${PRODUCT_CLIP_ID})`}
                                 preserveAspectRatio="none"
                                 className="botanical-flow__product-image"
+                                style={{
+                                    opacity: productRevealProgress,
+                                }}
                             />
 
                             <path
                                 className="botanical-flow__bottle-outline"
                                 d={BOTTLE_OUTLINE_PATH}
+                                style={outlineLineStyle}
                             />
                         </svg>
 
@@ -368,7 +457,7 @@ function HomeBotanicals() {
                         </div>
 
                         <div className="botanical-flow__nodes">
-                            {ingredients.map((ingredient) => (
+                            {ingredientStyles.map((ingredient) => (
                                 <div
                                     key={ingredient.id}
                                     className={`ingredient ingredient--${ingredient.id}`}
@@ -379,6 +468,8 @@ function HomeBotanicals() {
                                             color: ingredient.color,
                                             left: ingredient.labelX,
                                             top: ingredient.labelY,
+                                            opacity: ingredient.opacity,
+                                            transform: `translate(-50%, calc(-50% + ${ingredient.translateY}px))`,
                                         }}
                                     >
                                         {ingredient.label}
@@ -388,6 +479,8 @@ function HomeBotanicals() {
                                         style={{
                                             left: ingredient.thumbX,
                                             top: ingredient.thumbY,
+                                            opacity: ingredient.opacity,
+                                            transform: `translate(-50%, calc(-50% + ${ingredient.translateY}px)) scale(${ingredient.scale})`,
                                         }}
                                     >
                                         <img src={ingredient.image} alt={ingredient.label} />

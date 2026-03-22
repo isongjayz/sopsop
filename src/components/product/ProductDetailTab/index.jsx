@@ -204,12 +204,35 @@ const defaultContent = {
 
 function ProductDetailTab({ product }) {
     const detailContent = detailContentByCategory[product.category] || defaultContent;
+    const detailImageFolderMap = {
+        handwash: 'handwash',
+        handbalm: 'handbalm',
+        fragrance: 'fragrance',
+    };
+    const detailImageFolder =
+        detailImageFolderMap[product.subcategory] ||
+        detailImageFolderMap[product.category] ||
+        null;
+    const introImage = detailImageFolder
+        ? `/images/product/detail/${detailImageFolder}/intro.jpg`
+        : detailContent.introImage;
+    const sectionImageKeys = ['texture', 'scent', 'ingredient'];
+    const sections = detailContent.sections.map((section, index) => ({
+        ...section,
+        image:
+            detailImageFolder && sectionImageKeys[index]
+                ? `/images/product/detail/${detailImageFolder}/${sectionImageKeys[index]}.jpg`
+                : section.image,
+    }));
+    const packagingImage = detailImageFolder
+        ? `/images/product/detail/${detailImageFolder}/packaging.jpg`
+        : detailContent.packagingImage;
 
     return (
         <div className="product-detail-tab">
             <section className="product-detail-tab__intro-visual">
                 <div className="product-detail-tab__intro-image">
-                    <img src={detailContent.introImage} alt={`${product.name} visual`} />
+                    <img src={introImage} alt={`${product.name} visual`} />
                 </div>
                 <div className="product-detail-tab__intro-copy">
                     <h3>{detailContent.introTitle}</h3>
@@ -218,7 +241,7 @@ function ProductDetailTab({ product }) {
             </section>
 
             <div className="product-detail-tab__sections">
-                {detailContent.sections.map((section) => (
+                {sections.map((section) => (
                     <section
                         className="product-detail-tab__section"
                         key={`${section.title}-${section.subtitle}`}
@@ -249,7 +272,7 @@ function ProductDetailTab({ product }) {
                 </div>
 
                 <div className="product-detail-tab__packaging-image">
-                    <img src={detailContent.packagingImage} alt={`${product.name} packaging`} />
+                    <img src={packagingImage} alt={`${product.name} packaging`} />
                 </div>
             </section>
         </div>

@@ -154,10 +154,17 @@ const defaultShippingContent = {
 
 function ProductShippingTab({ product }) {
     const shippingContent = shippingContentByCategory[product.category] || defaultShippingContent;
+    const shippingSections = shippingContent.sections.map((section) => ({
+        ...section,
+        image:
+            section.title === 'Signature'
+                ? '/images/product/detail/signature.jpg'
+                : '/images/product/detail/delivery.jpg',
+    }));
 
     return (
         <div className="product-shipping-tab">
-            {shippingContent.sections.map((section) => (
+            {shippingSections.map((section) => (
                 <section className="product-shipping-tab__section" key={section.title}>
                     <div className="product-shipping-tab__section-copy">
                         <h3 className="product-shipping-tab__eyebrow">{section.serviceTitle}</h3>

@@ -78,7 +78,7 @@ function HomeGiftGuide() {
                             </div>
                             <h3 className="font-serif">An Everyday Essential for a Balanced Life</h3>
                             <p>가장 많이 사랑받는 구성 속에 담긴 변치 않는 가치<br />실패 없는 선택을 넘어 정중한 환대의 마음까지 선물하세요.</p>
-                            <Link to="/gift" className="home__gift-link">바로가기</Link>
+                            <Link to="/product/hand-wash-01" className="home__gift-link">바로가기</Link>
                         </div>
 
                         {/* Item 2 */}
@@ -88,7 +88,7 @@ function HomeGiftGuide() {
                             </div>
                             <h3 className="font-serif">A Thoughtful Gesture of Quiet Sincerity</h3>
                             <p>부담 없이 전하는 진심 속에 담긴 사유의 흔적.<br />작은 손길 하나로 당신의 감각적인 안목을 증명하는 선물입니다.</p>
-                            <Link to="/gift" className="home__gift-link">바로가기</Link>
+                            <Link to="/product/hand-balm-01" className="home__gift-link">바로가기</Link>
                         </div>
 
                         {/* Item 3 */}
@@ -98,7 +98,7 @@ function HomeGiftGuide() {
                             </div>
                             <h3 className="font-serif">A Scent for Lasting Memories</h3>
                             <p>소중한 이의 특별한 날을 완성하는 감각적인 향의 여정,<br />함께 나눈 시간의 밀도만큼 깊고 우아한 여운을 선물하세요.</p>
-                            <Link to="/gift" className="home__gift-link">바로가기</Link>
+                            <Link to="/product/fragrance-01" className="home__gift-link">바로가기</Link>
                         </div>
                     </div>
                 </div>

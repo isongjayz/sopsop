@@ -9,13 +9,7 @@ import './ProductDetail.scss';
 
 function ProductDetail() {
     const { id } = useParams();
-    const {
-        fetchProducts,
-        fetchProductById,
-        currentProduct,
-        products,
-        addToCart,
-    } = useStore();
+    const { fetchProducts, fetchProductById, currentProduct, products, addToCart } = useStore();
 
     const [selectedVolume, setSelectedVolume] = useState('');
     const [activeTab, setActiveTab] = useState('details');
@@ -44,15 +38,26 @@ function ProductDetail() {
     const currentOption = volumes?.find((volume) => volume.volume === selectedVolume);
     const selectedImage = currentOption?.image || currentProduct.image;
     const displayPrice = currentOption ? currentOption.price : currentProduct.price;
-    const isOutOfStock = currentOption
-        ? currentOption.stock === 0
-        : currentProduct.stock === 0;
+    const isOutOfStock = currentOption ? currentOption.stock === 0 : currentProduct.stock === 0;
+    const currentStock = currentOption ? currentOption.stock : currentProduct.stock;
+    const stockLabel =
+        currentStock >= 5 ? '재고 5개 이상' : currentStock > 0 ? `재고 ${currentStock}개` : '품절';
+    const shippingEstimateLabel = (() => {
+        const dayLabels = ['일', '월', '화', '수', '목', '금', '토'];
+        const estimatedDate = new Date();
+        estimatedDate.setDate(estimatedDate.getDate() + 3);
+
+        const month = String(estimatedDate.getMonth() + 1).padStart(2, '0');
+        const date = String(estimatedDate.getDate()).padStart(2, '0');
+        const day = dayLabels[estimatedDate.getDay()];
+
+        return `${month}.${date} (${day}) 도착예정`;
+    })();
 
     const recommendedProducts = products
         .filter(
             (product) =>
-                product.category === currentProduct.category &&
-                product.id !== currentProduct.id
+                product.category === currentProduct.category && product.id !== currentProduct.id
         )
         .slice(0, 3);
 
@@ -113,20 +118,26 @@ function ProductDetail() {
                     </nav>
 
                     <div className="product-detail__panel">
-                        <p className="product-detail__category">
-                            {currentProduct.category.toUpperCase()}
-                        </p>
-                        <h1 className="product-detail__name">{currentProduct.name}</h1>
-                        <p className="product-detail__meta">{detail?.description}</p>
+                        <div className="product-detail__heading">
+                            <p className="product-detail__stock">{stockLabel}</p>
+                            <h1 className="product-detail__name">{currentProduct.name}</h1>
+                        </div>
+
                         <p className="product-detail__shipping-copy">
-                            전 제품 무료배송
+                            전 지역 무료배송
                             <br />
-                            영업일 기준 1~3일 소요
+                            <span className="product-detail__shipping-date">
+                                {shippingEstimateLabel}
+                            </span>
                         </p>
 
                         {volumes?.length > 0 && (
                             <div className="product-detail__options">
-                                <div className="product-detail__options-list">
+                                <div
+                                    className={`product-detail__options-list ${
+                                        volumes.length === 1 ? 'is-single' : ''
+                                    }`}
+                                >
                                     {volumes.map((volume) => (
                                         <button
                                             key={volume.volume}
@@ -134,8 +145,7 @@ function ProductDetail() {
                                                 selectedVolume === volume.volume ? 'is-active' : ''
                                             } ${volume.stock === 0 ? 'is-disabled' : ''}`}
                                             onClick={() =>
-                                                volume.stock > 0 &&
-                                                setSelectedVolume(volume.volume)
+                                                volume.stock > 0 && setSelectedVolume(volume.volume)
                                             }
                                             disabled={volume.stock === 0}
                                         >
