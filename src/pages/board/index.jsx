@@ -4,14 +4,17 @@
 // ========================================
 
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import useStore from "../../store/useStore";
 import { Plus, Minus } from "lucide-react";
+import ChatBot from "../../components/ChatBot";
 import "./style.scss";
 
 function Board() {
   const { faqs, notices, fetchNotices, fetchFAQs } = useStore();
   const [activeTab, setActiveTab] = useState("faq"); // 'faq' | 'notice'
   const [openFaqId, setOpenFaqId] = useState(null);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {
     // 컴포넌트 마운트 시 공지사항과 FAQ 초기 데이터 로드 (Zustand 데이터 가져오기)
@@ -250,9 +253,9 @@ function Board() {
                   모든 주문 및 제품 관련 문의는 마이페이지를 통해 문의 주시면
                   24시간 이내에 답변드리겠습니다.
                 </p>
-                <button className="board-card_bottom02_left_bottom_button">
+                <Link to="/mypage" className="board-card_bottom02_left_bottom_button">
                   마이페이지 바로가기
-                </button>
+                </Link>
               </div>
             </div>
             <div className="board-card_bottom02_center">
@@ -267,7 +270,7 @@ function Board() {
                   영업 시간 중 컨설턴트와 실시간으로 상담하여 즉각적인 도움을
                   받으세요.
                 </p>
-                <button className="board-card_bottom02_center_bottom__button">
+                <button className="board-card_bottom02_center_bottom__button" onClick={() => setIsChatOpen(true)}>
                   채팅 시작하기
                 </button>
               </div>
@@ -287,6 +290,7 @@ function Board() {
           </div>
         </div>
       </section>
+      {isChatOpen && <ChatBot onClose={() => setIsChatOpen(false)} />}
     </div>
   );
 }

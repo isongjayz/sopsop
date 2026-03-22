@@ -2,6 +2,7 @@
 
 .Aegung_specialStores {
   width: 100%;
+  margin-top: 400px;
 
   // ── Section 1 (삼청 + 한남) ──
   &__section1 {
@@ -137,18 +138,16 @@
       height: 660px;
     }
 
-
     &__card6 {
       width: 738px;
       height: 416px;
     }
 
     &__card7 {
-      width: 600px;
-      height: 400px;
+      width: 880px;
+      height: 480px;
     }
   }
-
 
   // ── Card 1 (삼청) ──
   &__card1 {
@@ -198,7 +197,6 @@
       align-items: flex-start;
     }
   }
-
 
   // ── Card 3 (서촌) — 별도 블록 ──
   .Aegung_specialStores__card3 {
@@ -275,16 +273,12 @@
     }
   }
 
-
-
-
   // ── Card 6 텍스트+커넥터 (성수) ──
   .Aegung_specialStores__section3__card6 {
     width: 1420px;
     margin: 0 auto;
     display: flex;
     flex-direction: row;
-
 
     &__img {
       margin-top: -20px;
@@ -299,8 +293,50 @@
       flex-direction: row;
       align-items: flex-start;
       gap: 30px;
+    }
+  }
 
+  // ── Card 7 (파르나스) ──
+  &__card7 {
+    width: 1420px;
+    margin: 80px 0 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
 
+    &__left {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 30px;
+
+      flex-shrink: 0;
+      width: 390px;
+      align-items: flex-end;
+    }
+
+    &__title-row {
+      display: flex;
+      align-items: center;
+    }
+
+    &__title {
+      font-family: "Pretendard", sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: $color-brown-500;
+      letter-spacing: -0.24px;
+      white-space: nowrap;
+    }
+
+    &__desc {
+      font-family: "Pretendard", sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: $color-brown-200;
+      line-height: 160%;
+      letter-spacing: -0.32px;
+      width: 500px;
     }
   }
 }

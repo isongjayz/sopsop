@@ -1,30 +1,15 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
 import Aegung_Banner from "./Aegung_Banner";
 import './Aegung_Packaging.scss';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const Aegung_Packaging = () => {
-    const sliderRef = useRef(null);
-    const [isDragging, setIsDragging] = useState(false);
-    const [startX, setStartX] = useState(0);
-    const [scrollLeft, setScrollLeft] = useState(0);
-
-    const handleMouseDown = (e) => {
-        setIsDragging(true);
-        setStartX(e.pageX - sliderRef.current.offsetLeft);
-        setScrollLeft(sliderRef.current.scrollLeft);
-    };
-
-    const handleMouseUp = () => {
-        setIsDragging(false);
-    };
-
-    const handleMouseMove = (e) => {
-        if (!isDragging) return;
-        e.preventDefault();
-        const x = e.pageX - sliderRef.current.offsetLeft;
-        const walk = (x - startX) * 1.5;
-        sliderRef.current.scrollLeft = scrollLeft - walk;
-    };
+    const sliderSectionRef = useRef(null);
+    const trackRef = useRef(null);
 
     const Aegung_sliderImages = [
         { id: 1, src: '/images/aegung/04-Packaging/Slider01.png', alt: '패키징 슬라이더 1', name: '한국 Special Gift Card', price: '' },
@@ -34,6 +19,24 @@ const Aegung_Packaging = () => {
         { id: 5, src: '/images/aegung/04-Packaging/Slider05.png', alt: '패키징 슬라이더 5', name: '아로마틱 스톤', price: '₩ 64,000' },
         { id: 6, src: '/images/aegung/04-Packaging/Slider06.png', alt: '패키징 슬라이더 6', name: '샴푸린스바 set', price: '₩ 32,000' },
     ];
+
+    useGSAP(() => {
+        const track = trackRef.current;
+
+        // 수직 스크롤 → 가로 슬라이드 변환
+        gsap.to(track, {
+            x: () => -(track.scrollWidth - window.innerWidth),
+            ease: 'none',
+            scrollTrigger: {
+                trigger: sliderSectionRef.current,
+                start: 'top top',
+                end: () => `+=${track.scrollWidth - window.innerWidth}`,
+                pin: true,
+                scrub: 1,
+                invalidateOnRefresh: true,
+            },
+        });
+    }, { scope: sliderSectionRef });
 
     return (
         <section className="Aegung_packaging">
@@ -102,22 +105,14 @@ const Aegung_Packaging = () => {
             {/* 구분선 */}
             <div className="Aegung_packaging__divider"></div>
 
-            {/* 하단 슬라이더 */}
-            <div className="Aegung_packaging__slider">
-                <div
-                    className="Aegung_packaging__slider__track"
-                    ref={sliderRef}
-                    onMouseDown={handleMouseDown}
-                    onMouseUp={handleMouseUp}
-                    onMouseLeave={handleMouseUp}
-                    onMouseMove={handleMouseMove}
-                >
+            {/* 하단 슬라이더 — GSAP 수평 스크롤 */}
+            <div className="Aegung_packaging__slider" ref={sliderSectionRef}>
+                <div className="Aegung_packaging__slider__track" ref={trackRef}>
                     {Aegung_sliderImages.map((slide) => (
                         <div className="Aegung_packaging__slider__item" key={slide.id}>
                             <img src={slide.src} alt={slide.alt} draggable="false" />
                             <div className="Aegung_packaging__slider__overlay">
                                 <span className={`Aegung_packaging__slider__overlay-name ${!slide.price ? 'Aegung_packaging__slider__overlay-name--no-border' : ''}`}>{slide.name}</span>
-                                
                                 {slide.price && <span className="Aegung_packaging__slider__overlay-price">{slide.price}</span>}
                             </div>
                         </div>

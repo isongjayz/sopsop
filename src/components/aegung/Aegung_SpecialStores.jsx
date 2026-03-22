@@ -108,14 +108,17 @@ const Aegung_SpecialStores = () => {
               <img src={card3.image} alt={card3.title} />
             </div>
             <div className="Aegung_specialStores__card3__text-connector">
-              <Aegung_SpecialStore_Connector className="card3__line" length="120px" rotate={180} />
+              <Aegung_SpecialStore_Connector
+                className="card3__line"
+                length="120px"
+                rotate={180}
+              />
               <Aegung_SpecialStore_CardText
                 title={card3.title}
                 description={card3.description}
                 align="left"
                 descWidth="470px"
               />
-
             </div>
           </div>
         </div>
@@ -125,7 +128,6 @@ const Aegung_SpecialStores = () => {
           Section 2: Card4(가로수길) + Card5(롯데월드몰)
           ══════════════════════════════════════════ */}
       <div className="Aegung_specialStores__section2">
-
         {/* 가로수길 */}
         <div className="Aegung_specialStores__section2__card4">
           {/* 가로수길 큰 이미지 */}
@@ -152,7 +154,10 @@ const Aegung_SpecialStores = () => {
         <div className="Aegung_specialStores__section2__card5">
           {/* 롯데월드몰 이미지 */}
           <div className="Aegung_specialStores__card-image__card5-small">
-            <img src="/images/aegung/05-SpecialStores/StoreItem05.png" alt="이솝 롯데월드몰" />
+            <img
+              src="/images/aegung/05-SpecialStores/StoreItem05.png"
+              alt="이솝 롯데월드몰"
+            />
           </div>
 
           {/* 롯데월드몰 텍스트 */}
@@ -165,40 +170,56 @@ const Aegung_SpecialStores = () => {
                 align="left"
                 descWidth="340px"
               />
-
             </div>
           )}
         </div>
-
       </div>
 
       {/* ══════════════════════════════════════════
           Section 3: Card6(성수)
           ══════════════════════════════════════════ */}
       <div className="Aegung_specialStores__section3__card6">
-          {/* 성수 이미지 */}
-          <div className="Aegung_specialStores__section3__card6__img">
-            {card6 && (
+        {/* 성수 이미지 */}
+        <div className="Aegung_specialStores__section3__card6__img">
+          {card6 && (
             <div className="Aegung_specialStores__card-image__card6-big">
               <img src={card6.image} alt={card6.title} />
             </div>
           )}
-          </div>
-          {/* 성수 텍스트 + 커넥터 */}
-          {card6 && (
-            <div className="Aegung_specialStores__section3__card6__text-connector">
-                <Aegung_SpecialStore_Connector length="116px" rotate={180} />
-              <Aegung_SpecialStore_CardText
-                title={card6.title}
-                description={card6.description}
-                align="left"
-                descWidth="340px"
-              />
-            
-            </div>
-          )}
         </div>
+        {/* 성수 텍스트 + 커넥터 */}
+        {card6 && (
+          <div className="Aegung_specialStores__section3__card6__text-connector">
+            <Aegung_SpecialStore_Connector length="116px" rotate={180} />
+            <Aegung_SpecialStore_CardText
+              title={card6.title}
+              description={card6.description}
+              align="left"
+              descWidth="340px"
+            />
+          </div>
+        )}
+      </div>
+      {/* Card 7 - 파르나스: 타이틀+커넥터 행 → 이미지, 설명은 아래 */}
+      {card7 && (
+        <div className="Aegung_specialStores__card7">
+          <div className="Aegung_specialStores__card7__left">
+            <div className="Aegung_specialStores__card7__title-row">
+              <h3 className="Aegung_specialStores__card7__title">
+                {card7.title}
+              </h3>
+            </div>
+            <p className="Aegung_specialStores__card7__desc">
+              {card7.description}
+            </p>
+          </div>
+          <Aegung_SpecialStore_Connector length="110px" />
 
+          <div className="Aegung_specialStores__card-image__card7">
+            <img src={card7.image} alt={card7.title} />
+          </div>
+        </div>
+      )}
     </section>
   );
 };

@@ -21,6 +21,14 @@
   justify-content: left;
   padding-bottom: 180px;
 
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%);
+    z-index: 1;
+  }
+
   &__inner {
     position: relative;
     z-index: 2;
@@ -194,7 +202,7 @@
   &__title {
     color: $color-brown-700;
     text-align: center;
-    font-family: "Ogg", sans-serif;
+    font-family: "Ogg", serif;
     font-size: 60px;
     font-style: normal;
     font-weight: 400;
@@ -545,7 +553,7 @@
 
     &_bottom02_strong_number {
       color: var(--brown-brown-500-k, #603b2d);
-      font-family: 'Ogg';
+      font-family: 'Ogg', serif;
       font-size: 24px;
       line-height: 28px;
     }
@@ -577,7 +585,7 @@
 }
 .board-card_bottom02_p {
   color: $color-brown-900;
-  font-family: "Pretendard";
+  font-family: "";
   font-size: 16px;
   line-height: 150%;
   letter-spacing: -0.36px;

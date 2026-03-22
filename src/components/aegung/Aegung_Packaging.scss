@@ -6,7 +6,6 @@
 
 .Aegung_packaging {
     width: 100%;
-margin-bottom: 660px;
     
 
     &__Top__line {
@@ -118,6 +117,7 @@ border-bottom: 1px solid var(--brown-brown-500-k, #603B2D);
         width: 100%;
         max-width: 1920px;
         margin: 0 auto;
+        margin-bottom: 120px;
 
         img {
             width: 100%;
@@ -132,7 +132,9 @@ border-bottom: 1px solid var(--brown-brown-500-k, #603B2D);
     // ----------------------------------
     &__slider {
         width: 100%;
-        padding: 80px 0;
+        height: 100vh;
+        display: flex;
+        align-items: center;
         overflow: hidden;
 
         &__track {
@@ -140,19 +142,7 @@ border-bottom: 1px solid var(--brown-brown-500-k, #603B2D);
             gap: 16px;
             padding-left: 250px;
             padding-right: 60px;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            cursor: grab;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-
-            &::-webkit-scrollbar {
-                display: none;
-            }
-
-            &:active {
-                cursor: grabbing;
-            }
+            will-change: transform;
         }
 
         &__item {

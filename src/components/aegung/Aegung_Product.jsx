@@ -12,10 +12,11 @@ const productData = [
         imageAlt: "경복궁 HandWash, HandCream",
         desc: "한국의 고궁, 경복궁의 정온한 공기와 고즈넉한 나무의 결을 향으로 재해석한 특별한 세트입니다. 시간이 멈춘 듯한 고궁의 단청 아래서 느껴지는 묵직한 우디 향과 대지의 기운을 담은 베티버가 조화를 이루어, 일상 속 손을 씻고 보듬는 행위를 하나의 명상적인 의식으로 바꿔줍니다.",
         notes: [
-            { name: "시더우드", desc: "고궁의 기둥과 서까래에서 느껴지는 깊고 단단한 나무의 향." },
+            { name: "시더우드", desc: "고궁의 기둥과 서까래에서 느껴지는 깊고 단단한 나무의 향."  },
             { name: "베티버", desc: "비 갠 뒤의 흙내음처럼 차분하게 가라앉는 대지의 기운." },
             { name: "세이지", desc: "지친 감각을 부드럽게 깨우는 허브의 정화 기능." },
         ],
+        price: "76,000",
         reversed: false,
     },
     {
@@ -31,6 +32,7 @@ const productData = [
             { name: "그린 플로럴", desc: "전각 사이사이 피어난 야생화와 풀꽃들이 바람에 실어 보내는 은은하고 우아한 결." },
             { name: "젖은 흙", desc: "단비가 내린 뒤 고즈넉한 고궁의 산책로에서 느껴지는 묵직하고 차분한 대지의 숨결." },
         ],
+        price: "85,000",
         reversed: true,
     },
     {
@@ -46,6 +48,7 @@ const productData = [
             { name: "샌달우드", desc: "오래된 전각의 기둥에서 느껴지는 깊고 묵직한 나무의 온기" },
             { name: "앰버", desc: "석조전에 내려앉은 노을처럼 따뜻하고 신비로운 진향" },
         ],
+        price: "120,000",
         reversed: false,
     },
 ];
@@ -58,6 +61,7 @@ const Aegung_Product = () => {
                 {productData.map((product) => (
                     <Aegung_Product_Card
                         key={product.id}
+                        id={product.id}
                         titleKo={product.titleKo}
                         titleEnSub={product.titleEnSub}
                         titleEnMain={product.titleEnMain}
@@ -65,6 +69,7 @@ const Aegung_Product = () => {
                         imageAlt={product.imageAlt}
                         desc={product.desc}
                         notes={product.notes}
+                        price={product.price}
                         reversed={product.reversed}
                     />
                 ))}
