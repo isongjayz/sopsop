@@ -1,0 +1,306 @@
+@use "./../utils" as *;
+
+#header {
+  height: 60px;
+  background: $main-bg;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  border-bottom: 1px solid $border-color;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+
+  &.is-transparent {
+    background-color: transparent;
+    border-bottom-color: transparent;
+  }
+
+  &.is-hidden {
+    transform: translateY(-100%);
+  }
+
+  .header_inner {
+    width: 100%;
+    max-width: 1920px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  .header_logo {
+    img {
+      height: 38px;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+  }
+
+  .nav {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    &__list {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    &__link {
+      color: $color-brown-900;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 150%;
+      text-decoration: none;
+      position: relative;
+      padding: 5px 0;
+      letter-spacing: 1.5px;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background-color: $color-brown-500;
+        transition: width 0.3s ease;
+      }
+
+      &:hover {
+        opacity: 0.6;
+
+        &::after {
+          width: 100%;
+        }
+      }
+
+      &.active::after {
+        width: 100%;
+      }
+    }
+
+    &__mobile-util {
+      display: none;
+    }
+  }
+
+  .header_icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    button,
+    .util-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      color: $color-brown-700;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      transition: color 0.2s ease;
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      &:hover {
+        color: $color-brown-500;
+        opacity: 0.6;
+      }
+    }
+
+    .cart-btn {
+      position: relative;
+
+      .cart-count {
+        position: absolute;
+        top: -6px;
+        right: -8px;
+        background-color: $color-brown-700;
+        color: $white;
+        font-size: 10px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+    }
+
+    .hamburger-btn {
+      display: none;
+      z-index: 1001;
+    }
+
+    .login-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: $color-brown-700;
+      letter-spacing: 1px;
+      text-decoration: none;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+      background: none;
+      border: none;
+      cursor: pointer;
+
+      &:hover {
+        color: $color-brown-500;
+      }
+
+      @include mobile {
+        display: none;
+      }
+    }
+
+    a[href="/mypage"] {
+      @include mobile {
+        display: none;
+      }
+    }
+  }
+
+  // 태블릿 반응형
+  @include tablet {
+    .header_inner {
+      height: 70px;
+      padding: 0 20px;
+    }
+
+    .header_logo {
+      z-index: 2001;
+      position: relative;
+    }
+
+    .header_icons {
+      z-index: 2001;
+      position: relative;
+
+      .hamburger-btn {
+        display: flex;
+      }
+    }
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100vh;
+      background-color: $color-yellow-500;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: left 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+
+      &.is-open {
+        left: 0;
+      }
+
+      &__list {
+        flex-direction: column;
+        gap: 35px;
+      }
+
+      &__link {
+        font-size: 22px;
+        font-weight: 400;
+        letter-spacing: 3px;
+      }
+    }
+  }
+
+  // 모바일 반응형
+  @include mobile {
+    .header_inner {
+      height: 60px;
+      padding: 0 15px;
+    }
+
+    .header_logo {
+      z-index: 2001;
+    }
+
+    .header_icons {
+      z-index: 2001;
+      gap: 12px;
+
+      .util-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .nav {
+      z-index: 2000;
+
+      &__list {
+        gap: 28px;
+      }
+
+      &__link {
+        font-size: 18px;
+      }
+
+      &__mobile-util {
+        display: flex;
+        margin-top: 50px;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+        padding-top: 30px;
+        border-top: 1px solid rgba($color-brown-900, 0.1);
+
+        .util-link {
+          font-size: 15px;
+          color: $color-brown-900;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          text-decoration: none;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
+  // 오버레이
+  &__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1500;
+    backdrop-filter: blur(2px);
+  }
+}

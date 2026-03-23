@@ -1,0 +1,288 @@
+// ========================================
+// Product List Page - 상품 목록 메인 (Aesop 스타일)
+// ========================================
+
+import { useEffect, useState } from "react";
+import { useLocation, Link } from "react-router-dom";
+import useStore from "../../store/useStore";
+import ProductItem from "../../components/product/ProductItem";
+import "./style.scss";
+
+function ProductList() {
+  const { pathname } = useLocation();
+  const { products, fetchProducts, filters, setFilters } = useStore();
+
+  // 현재 경로에 따른 카테고리 판별 (/, /hand, /body, /fragrance, /room, /best)
+  const currentCategory = pathname.split("/").pop();
+  const isMainProductPage =
+    currentCategory === "product" || currentCategory === "";
+
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [sortOrder, setSortOrder] = useState("recommend"); // recommend, lowPrice, highPrice, new
+  const [subTab, setSubTab] = useState(""); // local subcategory filter
+
+  const newProducts = products.filter((p) => p.isNew);
+
+  useEffect(() => {
+    // Reset subcategory when main category changes
+    setSubTab("");
+  }, [currentCategory]);
+
+  useEffect(() => {
+    // 실제로는 처음 앱 마운트 시 호출되지만, 확실히 보장하기 위해 한 번 더 호출 가능
+    fetchProducts();
+  }, [fetchProducts]);
+
+  useEffect(() => {
+    let result = [...products];
+
+    // 1. 이름(검색어) 필터 적용
+    if (filters.name) {
+      const query = filters.name.trim().toLowerCase();
+      result = result.filter(
+        (p) =>
+          p.name.toLowerCase().includes(query) ||
+          (p.description && p.description.toLowerCase().includes(query)),
+      );
+    }
+
+    // 2. 카테고리 필터링
+    if (!isMainProductPage && currentCategory !== "best") {
+      result = result.filter((p) => p.category === currentCategory);
+      // Apply subcategory filter if selected
+      if (subTab) {
+        // Support grouped subcategories (e.g., bodycleanser_bodyscrub)
+        const subTabs = subTab.split("_");
+        result = result.filter((p) => subTabs.includes(p.subcategory));
+      }
+    } else if (currentCategory === "best") {
+      result = result.filter((p) => p.isBest);
+    }
+
+    // 정렬
+    switch (sortOrder) {
+      case "lowPrice":
+        result.sort((a, b) => a.price - b.price);
+        break;
+      case "highPrice":
+        result.sort((a, b) => b.price - a.price);
+        break;
+      case "new":
+        result.sort((a, b) => (b.isNew === a.isNew ? 0 : b.isNew ? 1 : -1));
+        break;
+      case "recommend":
+      default:
+        // 기본 추천순: 베스트 먼저, 그 다음 랜덤 유지 (기존 순서)
+        result.sort((a, b) => (b.isBest === a.isBest ? 0 : b.isBest ? 1 : -1));
+        break;
+    }
+
+    setFilteredProducts(result);
+  }, [
+    products,
+    currentCategory,
+    isMainProductPage,
+    sortOrder,
+    filters.name,
+    subTab,
+  ]);
+
+  // 카테고리 탭 클릭 시 검색어 제거를 위한 핸들러
+  const handleCategoryClick = () => {
+    if (filters.name) {
+      setFilters({ name: "" });
+    }
+  };
+
+  const titleMap = {
+    product: "All",
+    hand: "Hand",
+    body: "Body",
+    fragrance: "Fragrance",
+    room: "Room",
+    best: "Best",
+  };
+
+  const heroImageMap = {
+    product: "/images/hero/best_hero_img.png",
+    hand: "/images/hero/hand_hero_img.png",
+    body: "/images/hero/best_hero_img.png",
+    fragrance: "/images/hero/fragrance_hero_img.png",
+    room: "/images/hero/room_hero_img.png",
+    best: "/images/hero/best_hero_img.png",
+  };
+
+  const subcategoryTabsMap = {
+    hand: [
+      { id: "", label: "전체 상품" },
+      { id: "handwash", label: "핸드 워시" },
+      { id: "handbalm", label: "핸드 밤" },
+    ],
+    body: [
+      { id: "", label: "전체 상품" },
+      { id: "bodysoap", label: "바 솝" },
+      { id: "bodycleanser_bodyscrub", label: "바디클렌저 & 스크럽" },
+      { id: "bodybalm_bodyoil", label: "바디 밤 & 오일" },
+    ],
+    fragrance: [
+      { id: "", label: "전체 상품" },
+      { id: "floral", label: "플로럴" },
+      { id: "fresh", label: "프레쉬" },
+      { id: "woody", label: "우디" },
+      { id: "opulent", label: "오퓰런트" },
+    ],
+    room: [
+      { id: "", label: "전체 상품" },
+      { id: "roomspray", label: "룸 스프레이" },
+      { id: "incense", label: "인센스" },
+      { id: "candle", label: "캔들" },
+      { id: "oilburner", label: "오일 버너 블렌드" },
+    ],
+  };
+
+  const categoryKey = isMainProductPage ? "product" : currentCategory;
+  const headerTitle = titleMap[categoryKey] || "Products";
+  const heroImage = heroImageMap[categoryKey] || heroImageMap["product"];
+  const currentSubTabs = subcategoryTabsMap[currentCategory] || null;
+
+  return (
+    <div className="product-page">
+      {/* 상단 Hero 영역 - 이미지 + 카테고리명 */}
+      <header
+        className="product-hero"
+        style={{ backgroundImage: `url(${heroImage})` }}
+      >
+        <div className="product-hero__inner">
+          <h2 className="product-hero__title">{headerTitle}</h2>
+        </div>
+      </header>
+
+      {/* 카테고리 탭 / 서브 카테고리 탭 */}
+      {currentCategory !== "best" && (
+        <nav className="product-tabs">
+          {currentSubTabs ? (
+            currentSubTabs.map((tab) => (
+              <button
+                key={tab.id}
+                className={`product-tab ${subTab === tab.id ? "is-active" : ""}`}
+                onClick={() => {
+                  setSubTab(tab.id);
+                  if (filters.name) setFilters({ name: "" });
+                }}
+              >
+                {tab.label}
+              </button>
+            ))
+          ) : (
+            <>
+              <Link
+                to="/product"
+                onClick={handleCategoryClick}
+                className={`product-tab ${isMainProductPage ? "is-active" : ""}`}
+              >
+                전체상품
+              </Link>
+              <Link
+                to="/product/best"
+                onClick={handleCategoryClick}
+                className={`product-tab ${currentCategory === "best" ? "is-active" : ""}`}
+              >
+                베스트
+              </Link>
+              <Link
+                to="/product/hand"
+                onClick={handleCategoryClick}
+                className={`product-tab ${currentCategory === "hand" ? "is-active" : ""}`}
+              >
+                핸드
+              </Link>
+              <Link
+                to="/product/body"
+                onClick={handleCategoryClick}
+                className={`product-tab ${currentCategory === "body" ? "is-active" : ""}`}
+              >
+                바디
+              </Link>
+              <Link
+                to="/product/fragrance"
+                onClick={handleCategoryClick}
+                className={`product-tab ${currentCategory === "fragrance" ? "is-active" : ""}`}
+              >
+                향수
+              </Link>
+              <Link
+                to="/product/room"
+                onClick={handleCategoryClick}
+                className={`product-tab ${currentCategory === "room" ? "is-active" : ""}`}
+              >
+                홈
+              </Link>
+            </>
+          )}
+        </nav>
+      )}
+
+      {/* 메인 리스트 뷰 */}
+      <div className="product-main">
+        {/* 검색 결과 안내 */}
+        {filters.name && (
+          <div className="search-result-info">
+            <p>
+              <strong>"{filters.name}"</strong> 검색 결과입니다.
+            </p>
+            <button onClick={() => setFilters({ name: "" })}>
+              검색 지우기
+            </button>
+          </div>
+        )}
+
+        {/* Best 타이틀 */}
+        {currentCategory === "best" && (
+          <h3 className="product-section-title">Best Seller</h3>
+        )}
+
+        {/* 정렬 컨트롤 */}
+        <div className="product-controls">
+          <select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+            className="product-sort"
+          >
+            <option value="recommend">기본 추천순</option>
+            <option value="lowPrice">낮은 가격순</option>
+            <option value="highPrice">높은 가격순</option>
+            <option value="new">신상품순</option>
+          </select>
+        </div>
+
+        {filteredProducts.length > 0 ? (
+          <div className="product-grid">
+            {filteredProducts.map((product) => (
+              <ProductItem key={product.id} product={product} />
+            ))}
+          </div>
+        ) : (
+          <div className="product-empty">
+            <p>해당 조건의 상품이 없습니다.</p>
+          </div>
+        )}
+      </div>
+
+      {/* NEW 상품 섹션 - best 페이지 하단에만 노출 */}
+      {currentCategory === "best" && newProducts.length > 0 && (
+        <div className="product-new-section">
+          <div className="product-new-section__header">
+            <h3>New Arrivals</h3>
+          </div>
+          <div className="product-grid">
+            {newProducts.map((product) => (
+              <ProductItem key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default ProductList;

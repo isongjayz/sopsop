@@ -1,0 +1,33 @@
+// ========================================
+// Tag 스타일 (Aesop)
+// 배지, 레이블 용도
+// ========================================
+
+@use './../utils' as *;
+
+.tag {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    &--new {
+        color: $color-brown-500;
+    }
+
+    &--best {
+        color: $color-brown-500;
+    }
+
+    &--set {
+        background-color: $color-brown-300;
+        color: $white;
+    }
+
+    &--sold-out {
+        background-color: $gray-400;
+        color: $white;
+    }
+}

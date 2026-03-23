@@ -1,0 +1,118 @@
+@use "../../styles/utils" as *;
+
+.mypage {
+  display: flex;
+  gap: 0;
+  margin: 180px 250px;
+  min-height: calc(100vh - 360px);
+  background: $main-bg;
+
+  @include tablet {
+    flex-direction: column;
+    gap: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+// ------------------------------
+// 사이드바
+// ------------------------------
+.mypage-divider {
+  width: 1px;
+  background: $color-brown-100;
+  align-self: stretch;
+  margin-left: 32px;
+  margin-right: 80px;
+}
+
+.mypage-sidebar {
+  align-self: stretch;
+  flex-shrink: 0;
+  width: 160px;
+
+  @include tablet {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid $color-brown-200;
+    padding: 20px 0;
+  }
+
+  &__nav {
+    ul {
+      @include tablet {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+    }
+
+    li {
+      margin-bottom: 25px;
+
+      @include tablet {
+        margin-bottom: 0;
+      }
+    }
+
+    a {
+      display: block;
+      font-size: 16px;
+      color: rgba($color-brown-900, 0.4);
+      text-decoration: none;
+      transition: color 0.2s;
+      text-align: right;
+
+      &:hover {
+        color: $color-brown-900;
+      }
+
+      &.is-active {
+        color: $color-brown-900;
+        font-size: 30px;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// ------------------------------
+// 메인 콘텐츠 영역
+// ------------------------------
+.mypage-content {
+  flex: 1;
+  min-width: 0;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 24px;
+
+    h2 {
+      font-size: 50px;
+      color: $color-brown-900;
+      font-weight: 400;
+      font-family: "Bona Nova", serif;
+
+      @include mobile {
+        font-size: 28px !important;
+      }
+    }
+
+    .btn-inquiry-top {
+      font-size: 16px;
+      color: $color-brown-500;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding-bottom: 2px;
+      border-bottom: 1px solid $color-brown-500;
+    }
+
+    .btn-primary {
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+  }
+}

@@ -1,0 +1,511 @@
+.about {
+    background-color: #fffef9; // 이솝 고유의 아이보리 톤
+    color: #333;
+    font-family: "Noto Sans KR", sans-serif;
+    overflow-x: hidden;
+
+    /* ─────────────────────────────
+        1. Hero Section
+    ───────────────────────────── */
+    &__hero {
+        position: relative;
+        overflow: hidden;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+
+        &-bg {
+            position: absolute;
+            inset: 0;
+            background: url('/images/about/about_hero_bg.jpg') no-repeat center center;
+            background-size: cover;
+            z-index: 0;
+        }
+
+        &-watermark {
+            position: absolute;
+            font-family: 'Libre Baskerville', serif;
+            font-style: italic;
+            font-size: clamp(5rem, 15vw, 14rem);
+            color: rgba(255, 255, 255, 0.15);
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 1;
+
+            &--top {
+                top: 3%;
+                left: -10%;
+            }
+
+            &--bottom {
+                bottom: 3%;
+                right: -12%;
+            }
+        }
+
+        &-inner {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 60px;
+            color: #fff;
+        }
+
+        &-big-a {
+            font-family: 'Ogg', serif;
+            font-size: clamp(7rem, 14vw, 12rem);
+            line-height: 0.8;
+            margin-bottom: 20px;
+        }
+
+        &-title {
+            font-family: 'Bona Nova', serif;
+            font-size: clamp(1.6rem, 3.5vw, 3rem);
+            line-height: 1.2;
+        }
+    }
+
+    /* ─────────────────────────────
+        2. Philosophy (A-E-S-O-P)
+    ───────────────────────────── */
+    &__philosophy {
+        padding: 150px 0;
+
+        .inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 140px;
+        }
+
+        .philosophy-item {
+            display: flex;
+            align-items: center;
+            gap: 80px;
+
+            &:nth-child(even) {
+                flex-direction: row-reverse;
+                text-align: right;
+
+                .philosophy-content {
+                    border-left: none;
+                    border-right: 1px solid #d4c5b9;
+                    padding: 0 40px 0 0;
+                }
+            }
+        }
+
+        .philosophy-letter {
+            font-family: 'Libre Baskerville', serif;
+            font-size: clamp(8rem, 18vw, 16rem);
+            color: #603B2D;
+            flex: 1;
+            text-align: center;
+        }
+
+        .philosophy-content {
+            flex: 1;
+            padding-left: 40px;
+            border-left: 1px solid #d4c5b9;
+
+            .label {
+                display: block;
+                font-size: 0.9rem;
+                color: #b5a596;
+                font-style: italic;
+                margin-bottom: 15px;
+            }
+
+            .title {
+                font-family: 'Libre Baskerville', serif;
+                font-size: 2.4rem;
+                color: #603B2D;
+                margin-bottom: 25px;
+            }
+
+            .desc {
+                font-size: 1rem;
+                line-height: 1.9;
+                color: #666;
+                word-break: keep-all;
+            }
+        }
+    }
+
+    /* ─────────────────────────────
+        3. Gallery (지그재그)
+    ───────────────────────────── */
+    &__gallery {
+        position: relative;
+        padding: 120px 0;
+
+        &-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Libre Baskerville', serif;
+            font-style: italic;
+            font-size: clamp(10rem, 25vw, 250px);
+            color: rgba(96, 59, 45, 0.04);
+            white-space: nowrap;
+            z-index: 0;
+        }
+
+        &-track {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        &-item {
+            flex-shrink: 0;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+
+            &--small {
+                width: 287px;
+                height: 433px;
+                align-self: flex-end;
+            }
+
+            &--large {
+                width: 438px;
+                height: 600px;
+                align-self: flex-start;
+            }
+        }
+    }
+
+    /* ─────────────────────────────
+        4. Journey & Timeline (중앙 이미지형)
+    ───────────────────────────── */
+    // ─── Variables (전역에 선언된 것 참고)
+    $cream: #f5f0e8;
+    $sand: #c9bfa8;
+    $espresso: #2a1f14;
+    $sepia: #8b7355;
+    $brown: #603B2D;
+
+    // ─── SECTION INTRO
+    .section-intro {
+        position: relative;
+        padding: 10vh 6vw 8vh;
+        text-align: center;
+        overflow: hidden;
+
+        &__watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+            font-family: 'Libre Baskerville', serif;
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 400;
+            font-style: italic;
+            color: $brown;
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 0;
+            line-height: 1;
+        }
+
+        &__inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        &__title {
+            font-family: 'Pretendard';
+            font-size: clamp(1.4rem, 3vw, 2rem);
+            font-weight: 400;
+            color: var(--brown-brown-500-k, #603B2D);
+            letter-spacing: 0.05em;
+            line-height: 1.4;
+            margin-bottom: 1.6rem;
+        }
+
+        &__rule {
+            width: 100%;
+            max-width: 600px;
+            height: 1px;
+            background: $sand;
+            margin: 0 auto 1.4rem;
+            opacity: 0.6;
+        }
+
+        &__sub {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 0.82rem;
+            color: $sepia;
+            letter-spacing: 0.12em;
+            font-weight: 300;
+        }
+    }
+
+    &__journey {
+        position: relative;
+        padding: 180px 0;
+        text-align: center;
+
+        &-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Libre Baskerville', serif;
+            font-style: italic;
+            font-size: clamp(8rem, 20vw, 16rem);
+            color: rgba(96, 59, 45, 0.05);
+            z-index: 0;
+        }
+
+        &-title {
+            font-size: 2.8rem;
+            color: #603B2D;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        &-subtitle {
+            font-size: 1.1rem;
+            color: #888;
+            position: relative;
+            z-index: 1;
+        }
+    }
+
+    &__timeline {
+        padding: 100px 0 200px;
+
+        &-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 100px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        &-visual {
+            flex: 0 0 400px;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        &-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 150px;
+
+            &.left {
+                text-align: right;
+            }
+
+            &.right {
+                text-align: left;
+            }
+
+            .text-item {
+                h3 {
+                    font-family: 'Libre Baskerville', serif;
+                    font-size: 1.3rem;
+                    color: #603B2D;
+                    margin-bottom: 15px;
+                }
+
+                p {
+                    font-size: 0.95rem;
+                    line-height: 1.8;
+                    color: #666;
+                }
+            }
+        }
+    }
+
+    // ─── NOW SECTION
+    .now {
+        position: relative;
+        padding: 12vh 6vw 14vh;
+        text-align: center;
+        overflow: hidden;
+
+        &__watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-46%, -30%);
+            white-space: nowrap;
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: clamp(3.5rem, 9vw, 8rem);
+            font-weight: 400;
+            font-style: italic;
+            color: $brown;
+            opacity: 0.07;
+            pointer-events: none;
+            z-index: 0;
+            line-height: 1;
+        }
+
+        &__inner {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        &__heading {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: clamp(4rem, 10vw, 9rem);
+            font-weight: 400;
+            color: $espresso;
+            line-height: 1;
+            letter-spacing: -0.01em;
+            margin-bottom: 1.2rem;
+        }
+
+        &__rule {
+            width: 1px;
+            height: clamp(3rem, 5vw, 5rem);
+            background: $sand;
+            margin-bottom: 2rem;
+            opacity: 0.7;
+        }
+
+        &__title {
+            font-family: 'Noto Serif KR', serif;
+            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+            font-weight: 400;
+            color: $espresso;
+            letter-spacing: 0.04em;
+            margin-bottom: 1rem;
+        }
+
+        &__sub {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 0.8rem;
+            color: $sepia;
+            letter-spacing: 0.08em;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+    }
+
+    /* ─────────────────────────────
+        5. Sensory & Quote (콜라주)
+    ───────────────────────────── */
+    &__sensory {
+        padding: 150px 0;
+
+        &-title {
+            font-family: 'Libre Baskerville', serif;
+            font-style: italic;
+            font-size: clamp(4rem, 10vw, 8rem);
+            color: #b5a596;
+            margin-bottom: -40px;
+            margin-left: 100px;
+            position: relative;
+            z-index: 10;
+        }
+
+        &-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+
+            .sensory-item {
+                position: relative;
+
+                img {
+                    width: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .item-bubbles {
+                grid-column: 1 / 5;
+                margin-top: 50px;
+            }
+
+            .item-cream {
+                grid-column: 6 / 12;
+                z-index: 2;
+
+                .texture-label {
+                    position: absolute;
+                    bottom: -30px;
+                    right: 40%;
+                    font-family: 'Libre Baskerville', serif;
+                    color: #b5a596;
+                    font-size: 1.5rem;
+                }
+            }
+
+            .item-face {
+                grid-column: 3 / 7;
+                margin-top: -80px;
+                z-index: 3;
+            }
+
+            .item-wave {
+                grid-column: 6 / 13;
+                margin-top: -150px;
+                z-index: 1;
+
+                .quote-wrap {
+                    position: absolute;
+                    bottom: 40px;
+                    left: -80%;
+                    width: 150%;
+                    color: #603B2D;
+
+                    .quote-title {
+                        font-family: 'Libre Baskerville', serif;
+                        font-size: clamp(3rem, 6vw, 5rem);
+                        font-style: italic;
+                        margin-bottom: 20px;
+                    }
+
+                    .quote-text {
+                        font-size: 0.85rem;
+                        line-height: 1.8;
+                        max-width: 500px;
+                        opacity: 0.8;
+                    }
+                }
+            }
+        }
+    }
+
+    /* ─────────────────────────────
+        6. Brand Footer
+    ───────────────────────────── */
+    &__brand-footer {
+        padding: 180px 0;
+        background-color: #603B2D;
+        text-align: center;
+
+        .brand-logo {
+            font-family: 'Libre Baskerville', serif;
+            font-size: clamp(8rem, 20vw, 18rem);
+            color: #fffef9;
+            letter-spacing: -0.03em;
+        }
+    }
+}

@@ -1,0 +1,37 @@
+@use '../../styles/utils' as *;
+
+// ========================================
+// 스페셜 스토어 카드 텍스트
+// ========================================
+
+.Aegung_cardText {    
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: left;
+
+    // 오른쪽 정렬 모디파이어
+    &--right {
+        text-align: right;
+    }
+
+    // 제목
+    &__title {
+        font-family: 'Pretendard', sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+        color: $color-brown-500;
+        line-height: 150%;
+        letter-spacing: -0.24px;
+    }
+
+    // 설명
+    &__desc {
+        font-family: 'Pretendard', sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        color: $color-brown-200;
+        line-height: 150%;
+        letter-spacing: -0.32px;
+    }
+}

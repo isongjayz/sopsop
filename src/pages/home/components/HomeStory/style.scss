@@ -1,0 +1,674 @@
+@use '../../../../styles/utils' as *;
+
+// 수정사항:
+// - origin / philosophy / ingredients를 story 영역으로 묶어 파일 수를 줄임
+// - 홈에서 구조가 긴 서사형 섹션만 한 파일에서 관리하도록 정리
+
+// 수정사항: origin timeline 전용 스타일 분리
+
+.home {
+    // ===== 2. Brand Story (브랜드 스토리) =====
+    &__brand-story {
+        padding: 0;
+        background: $color-yellow-500;
+        position: relative;
+    }
+
+    &__brand-story-inner {
+        width: 100%;
+        max-width: 1920px;
+        margin: 0 auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__brand-story-line {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+
+        &-base,
+        &-path {
+            position: absolute;
+            width: 2px;
+            margin-left: -1px;
+        }
+
+        &-base {
+            background: rgba($color-brown-500, 0.18);
+        }
+
+        &-path {
+            background: $color-brown-500;
+        }
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &__brand-story-block {
+        position: relative;
+        width: 100%;
+        height: 900px;
+        display: flex;
+        align-items: center;
+        padding: 0;
+        background-color: var(--main-bg, $color-yellow-500); // Blend with background
+
+        @include tablet {
+            height: clamp(500px, 80vh, 700px);
+            padding: 0 4%;
+        }
+
+        @include mobile {
+            height: auto; // Content-driven height on mobile
+            padding: 80px 20px 80px 40px;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .home__brand-story-nav {
+            position: absolute;
+            left: 156px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: max-content;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 12px;
+            font-size: 20px;
+            font-family: 'Bona Nova', serif;
+            color: rgba($color-brown-500, 0.35);
+            z-index: 3;
+
+            span {
+                cursor: pointer;
+                transition:
+                    color 0.3s,
+                    font-size 0.3s;
+
+                &.active {
+                    color: $color-brown-500;
+                    font-size: 32px;
+                }
+            }
+
+            @include mobile {
+                display: none;
+            }
+        }
+
+        .home__brand-story-icon {
+            position: absolute;
+            left: 552px;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+
+            .brand-story-path-align,
+            .brand-story-svg {
+                display: block;
+            }
+
+            // Align each icon's path start/end x-coordinate to the shared vertical guide at x=552.
+            .brand-story-path-align--genesis {
+                transform: translateX(-14px);
+            }
+
+            .brand-story-path-align--heritage {
+                transform: translateX(25.5px);
+            }
+
+            .brand-story-path-align--presence {
+                width: 218px;
+                height: 205px;
+                transform: translateX(17px);
+            }
+
+            @include mobile {
+                position: relative;
+                left: 0;
+                top: 0;
+                transform: none;
+                background: transparent;
+                padding: 0;
+                margin-bottom: 20px;
+
+                .brand-story-path-align--genesis,
+                .brand-story-path-align--heritage,
+                .brand-story-path-align--presence {
+                    transform: none;
+                }
+
+                .brand-story-path-align--presence {
+                    width: 60px;
+                    height: auto;
+                }
+            }
+        }
+
+        .home__brand-story-content {
+            --content-left-base: 772px;
+            position: absolute;
+            top: 50%;
+            left: var(--content-left-base);
+            transform: translateY(-50%);
+            width: min(780px, calc(100% - 980px));
+            display: flex;
+            flex-direction: column;
+            z-index: 3;
+
+            @include mobile {
+                position: relative;
+                top: auto;
+                transform: none;
+                width: 100%;
+                padding-left: 0;
+            }
+
+            .brand-story-year {
+                font-family: 'Ogg', serif;
+                font-size: clamp(60px, 10vw, 150px);
+                color: rgba($color-brown-500, 0.14);
+                margin-bottom: -0.2em;
+
+                @include mobile {
+                    font-size: 60px;
+                    margin-bottom: 0;
+                }
+            }
+
+            .brand-story-title {
+                font-size: clamp(20px, 2.5vw, 32px);
+                font-weight: 400;
+                color: $color-brown-500;
+                margin-bottom: 20px;
+                word-break: keep-all;
+                letter-spacing: -0.32px;
+
+                strong {
+                    font-weight: 700;
+                }
+
+                @include mobile {
+                    font-size: 18px;
+                }
+            }
+
+            p {
+                font-size: clamp(14px, 1.2vw, 16px);
+                color: $color-brown-300;
+                letter-spacing: -0.32px;
+                max-width: 480px;
+            }
+        }
+    }
+
+    &__brand-story-content--genesis {
+        left: calc(var(--content-left-base) + 8px);
+    }
+
+    &__brand-story-content--heritage {
+        left: calc(var(--content-left-base) - 5px);
+    }
+
+    &__brand-story-content--presence {
+        left: var(--content-left-base);
+    }
+}
+
+// 수정사항: philosophy 전용 스타일 분리
+
+.home {
+    // ===== 3. Values (핵심 가치 섹션) =====
+    &__values {
+        padding: 0;
+        background: $color-yellow-500;
+        position: relative;
+    }
+
+    &__values-inner {
+        width: 100%;
+        max-width: none;
+        margin: 0 auto;
+        position: relative;
+        height: 100%;
+
+        @include mobile {
+            padding: 0 20px;
+        }
+    }
+
+    &__values-svg-wrap {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1024px;
+        pointer-events: none;
+        z-index: 1;
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &__values-svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    &__values-line-path {
+        stroke: $color-brown-500;
+    }
+
+    &__values-line-base {
+        stroke: rgba($color-brown-500, 0.18);
+    }
+
+    &__values-viewport {
+        position: sticky;
+        top: 0;
+        height: 1024px;
+        z-index: 5;
+        overflow: hidden;
+
+        @include mobile {
+            position: relative;
+            top: auto;
+            height: auto;
+        }
+    }
+
+    &__values-stage {
+        display: none;
+    }
+
+    &__values-item {
+        position: relative;
+        width: 100%;
+        height: 1024px;
+        display: flex;
+        align-items: center;
+        padding-left: 302px;
+        padding-right: 192px;
+        z-index: 5;
+
+        @include mobile {
+            position: relative;
+            inset: auto;
+            height: auto;
+            padding: 40px 20px;
+            flex-direction: column;
+            align-items: flex-start;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .home__values-image {
+            width: 500px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            flex-shrink: 0;
+
+            img {
+                width: 100%;
+                height: 500px;
+                object-fit: cover;
+                background-color: $color-yellow-500;
+            }
+
+            @include tablet {
+                img {
+                    width: 200px;
+                    height: 200px;
+                }
+            }
+
+            @include mobile {
+                width: 100%;
+                justify-content: flex-start;
+                margin-bottom: 20px;
+
+                img {
+                    width: 100%;
+                    height: auto;
+                    aspect-ratio: 1;
+                }
+            }
+        }
+
+        .home__values-content {
+            margin-left: 150px;
+            flex: 1;
+
+            @include mobile {
+                width: 100%;
+                margin-left: 0;
+            }
+
+            h3 {
+                font-size: 78px;
+                color: $color-brown-700;
+                margin-bottom: 15px;
+                font-family: 'Ogg', serif;
+                line-height: 0.95;
+
+                @include mobile {
+                    font-size: 26px;
+                    margin-bottom: 10px;
+                }
+            }
+
+            h4 {
+                font-size: 28px;
+                color: $color-brown-500;
+                line-height: 1.2;
+                margin-bottom: 20px;
+                letter-spacing: -0.36px;
+
+                @include mobile {
+                    font-size: 14px;
+                    margin-bottom: 15px;
+                }
+            }
+
+            p {
+                font-size: 18px;
+                color: $color-brown-200;
+                max-width: 600px;
+                letter-spacing: -0.36px;
+            }
+        }
+    }
+}
+
+// 수정사항: ingredients 전용 스타일 분리
+
+.home {
+    // ===== 4. Botanicals (식물 성분 섹션: 가로 스크롤형) =====
+    &__botanicals {
+        width: 100%;
+        height: 100vh;
+        background: $color-yellow-500;
+        overflow: hidden;
+        position: relative;
+    }
+
+    &__botanicals-horizontal {
+        height: 100%;
+        width: 100%;
+        position: relative;
+    }
+
+    &__botanicals-canvas {
+        width: 5659px;
+        height: 2539px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: $color-yellow-500;
+        transform-origin: left top;
+        // 캔버스의 높이를 화면 높이(100vh)에 맞게 비율 조절
+        // 이로 인해 모든 좌표가 화면 안에 비례해서 들어옵니다.
+    }
+
+    &__botanicals-interactive {
+        position: absolute;
+        inset: 0;
+        z-index: 5;
+
+        .ingredient-point {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+
+            .ingredient-label {
+                font-size: 24px;
+                opacity: 0.6;
+                transition:
+                    opacity 0.3s,
+                    transform 0.3s;
+            }
+
+            .ingredient-image-wrap {
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                overflow: hidden;
+                opacity: 0;
+                transform: scale(0.8);
+                transition:
+                    opacity 0.3s,
+                    transform 0.3s;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            // 호버 시 혹은 활성화 시
+        }
+    }
+
+    &__botanicals-final-bottle {
+        position: absolute;
+        width: 200px;
+        z-index: 10;
+
+        .product-appearance {
+            width: 100%;
+            height: auto;
+            will-change: opacity, filter, transform;
+
+            img {
+                width: 100%;
+                height: auto;
+                filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.2));
+            }
+        }
+    }
+}
+
+.botanical-flow {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    &__svg,
+    &__quote-layer,
+    &__nodes {
+        position: absolute;
+        inset: 0;
+    }
+
+    &__svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    &__quote-layer {
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    &__nodes {
+        z-index: 3;
+        pointer-events: none;
+    }
+
+    &__product-image {
+        pointer-events: none;
+        opacity: 0;
+    }
+
+    &__line,
+    &__bottle-outline {
+        fill: none;
+        stroke: rgba($color-brown-900, 0.72);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+    }
+
+    &__line {
+        stroke-width: 2;
+    }
+
+    &__line--start {
+        stroke-width: 2;
+    }
+
+    &__line--branch {
+        stroke-width: 2;
+        opacity: 0.92;
+    }
+
+    &__line--merge {
+        stroke-width: 2;
+    }
+
+    &__bottle-outline {
+        stroke-width: 2;
+    }
+
+    &__quote-letter {
+        position: absolute;
+        display: block;
+        left: 0;
+        top: 0;
+        color: $color-brown-500;
+        font-family: 'Ogg', serif;
+        font-size: 120px;
+        line-height: 1;
+        white-space: pre;
+        transform-origin: 0% 90%;
+        will-change: transform;
+    }
+}
+
+.ingredient {
+    position: static;
+    white-space: nowrap;
+
+    &__label {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        font-size: 36px;
+        font-family: 'Ogg', serif;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        opacity: 0;
+    }
+
+    &__thumb {
+        position: absolute;
+        width: 148px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 14px 30px rgba(70, 44, 32, 0.18);
+        transform: translate(-50%, -50%);
+        opacity: 0;
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+}
+
+.home {
+    &__botanicals {
+        position: relative;
+        width: 100%;
+        min-height: 100svh;
+        background: $color-yellow-500;
+        overflow: visible;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 552px;
+            width: 2px;
+            background: rgba($color-brown-900, 0.4);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        &.is-preview {
+            height: auto;
+            overflow-x: auto;
+            overflow-y: hidden;
+
+            &::before {
+                display: none;
+            }
+        }
+    }
+
+    &__botanicals-viewport {
+        position: relative;
+        height: 100svh;
+        overflow: hidden;
+
+        .home__botanicals.is-preview & {
+            position: relative;
+            top: auto;
+            height: auto;
+            width: fit-content;
+            min-width: 100%;
+            overflow: visible;
+            padding: 0;
+        }
+    }
+
+    &__botanicals-stage {
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform-origin: left top;
+        will-change: transform;
+
+        .home__botanicals.is-preview & {
+            position: relative;
+        }
+    }
+
+    &__botanicals-track {
+        position: absolute;
+        left: 0;
+        top: 0;
+        will-change: transform;
+    }
+
+
+    &__botanicals-horizontal,
+    &__botanicals-canvas {
+        width: 100%;
+        height: 100%;
+    }
+}

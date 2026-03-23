@@ -1,0 +1,306 @@
+@use '../../styles/utils' as *;
+
+// ========================================
+// AE-GUNG 메인 비주얼
+// ========================================
+
+
+.aegung__main-visual {
+    // position: relative;
+    width: 100%;
+    height: 1000px;
+    background-color: $color-yellow-500;
+    overflow: hidden;
+    padding-bottom: 300px;
+    margin-top: 50px;
+
+    .aegung__inner {
+        position: relative;
+        height: 100%;
+        width: 1420px;
+        max-width: 100%;
+        margin: 50px auto;
+    }
+
+    // ----------------------------------
+    // 배경 문양
+    // ----------------------------------
+    &__bg {
+        position: absolute;
+        z-index: 1;
+        pointer-events: none;
+        width: 520px;
+        opacity: 0.5;
+        
+
+        img {
+            display: block;
+        }
+
+        &--left {
+            left: 0px;
+            bottom: 0px;
+
+        }
+
+        &--right {
+            right: 0px;
+            top: 0px;
+            
+        }
+    }
+
+    // ----------------------------------
+    // 왼쪽 텍스트 영역
+    // ----------------------------------
+    &__text {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        left: 0;
+        top: 44%;
+        z-index: 3;
+        gap: 16px;
+    }
+
+    &__title {
+        font-family: 'Noto Serif KR', serif;
+        font-size: 64px;
+        color: $color-brown-500;
+        font-weight: 600;
+        line-height: 95%;
+        letter-spacing: -0.64px;
+    }
+
+    &__subtitle {
+        font-family: 'Bona Nova', serif;
+        font-size: 16px;
+        text-align: center;
+        color: $color-brown-300;
+        line-height: 150%;
+        letter-spacing: -0.16px;
+    }
+
+    // ----------------------------------
+    // 중앙 제품 이미지 영역
+    // ----------------------------------
+    &__products {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 4;
+        // width: 660px;
+        // height: 800px;
+    }
+
+    &__product {
+        position: absolute;
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 24px rgba(0, 0, 0, 0.1));
+        }
+
+        // 핸드 밤 튜브 (왼쪽)
+        &--1 {
+            width: 276px;
+            left: -200px;
+            top: -280px;
+            transform: rotate(-16deg);
+            z-index: 1;
+        }
+
+        // 파슬리 씨앗 오일 (오른쪽 위)
+        &--2 {
+            width: 200px;
+            right: -280px;
+            top: -310px;
+            transform: rotate(14.436deg);
+            z-index: 2;
+        }
+
+        // 루센트 크림 (가운데 아래)
+        &--3 {
+            width: 283px;
+            left: -10px;
+            bottom: -410px;
+            transform: rotate(3deg);
+            z-index: 3;
+        }
+    }
+
+    // ----------------------------------
+    // 오른쪽 브랜드명
+    // ----------------------------------
+    &__brand {
+        position: absolute;
+        right: 0%;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2;
+    }
+
+    &__brand-name {
+        font-family: 'Ogg', 'Playfair Display', 'Libre Baskerville', serif;
+        font-size: 120px;
+        color: $color-brown-700;
+        letter-spacing: -2px;
+        line-height: 1;
+    }
+
+    // ----------------------------------
+    // 반응형 - 태블릿 ~ 모바일 (세로 한줄, 가운데 정렬)
+    // ----------------------------------
+    @include tablet {
+        height: auto;
+        margin-top: 70px;
+        padding: 80px 0 80px;
+        padding-bottom: 50px;
+
+        .aegung__inner {
+            width: 95%;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 50px;
+        }
+
+        // 배경 문양
+        &__bg {
+            img {
+                width: 320px;
+            }
+
+            &--left {
+                left: -20px;
+                bottom: -20px;
+            }
+
+            &--right {
+                right: -20px;
+                top: 20px;
+            }
+        }
+
+        // 텍스트 영역 (1번째)
+        &__text {
+            position: relative;
+            left: auto;
+            top: auto;
+            text-align: center;
+            align-items: center;
+            order: 1;
+        }
+
+        &__title {
+            font-size: 44px;
+        }
+
+        &__subtitle {
+            font-size: 14px;
+        }
+
+        // 제품 이미지 영역 (2번째)
+        &__products {
+            position: relative;
+            left: auto;
+            top: auto;
+            transform: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            order: 3;
+        }
+
+        &__product {
+            position: relative !important;
+            left: auto !important;
+            right: auto !important;
+            top: auto !important;
+            bottom: auto !important;
+            transform: none !important;
+
+            &--1 {
+                width: 200px !important;
+            }
+
+            &--2 {
+                width: 160px !important;
+            }
+
+            &--3 {
+                width: 200px !important;
+            }
+        }
+
+        // 브랜드명 (3번째)
+        &__brand {
+            position: relative;
+            right: auto;
+            top: auto;
+            transform: none;
+            text-align: center;
+            order: 2;
+        }
+
+        &__brand-name {
+            font-size: 80px;
+        }
+    }
+
+    // ----------------------------------
+    // 반응형 - 모바일 (더 작은 사이즈 조정)
+    // ----------------------------------
+    @include mobile {
+        margin-top: 60px;
+        padding: 50px 0 40px;
+
+        .aegung__inner {
+            gap: 36px;
+            padding: 0 15px;
+        }
+
+        &__bg {
+            img {
+                width: 200px;
+            }
+        }
+
+        &__title {
+            font-size: 32px;
+        }
+
+        &__subtitle {
+            font-size: 12px;
+        }
+
+        &__products {
+            gap: 12px;
+        }
+
+        &__product {
+            &--1 {
+                width: 140px !important;
+            }
+
+            &--2 {
+                width: 110px !important;
+            }
+
+            &--3 {
+                width: 140px !important;
+            }
+        }
+
+        &__brand-name {
+            font-size: 52px;
+        }
+    }
+}

@@ -1,0 +1,232 @@
+@use "../../styles/utils" as *;
+
+// ------------------------------
+// 1:1 문의 (Inquiry)
+// ------------------------------
+.conversations-list {
+  .conversation-accordion {
+    border-bottom: 1px solid rgba($color-brown-900, 0.1);
+  }
+
+  .conversation-item {
+    display: grid;
+    grid-template-columns: 120px 1fr 150px;
+    align-items: center;
+    padding: 20px 0;
+    cursor: pointer;
+
+    @include mobile {
+      grid-template-columns: 80px 1fr;
+      gap: 8px;
+
+      .actions-col {
+        grid-column: 1 / -1;
+        text-align: left;
+      }
+    }
+
+    &:hover .title {
+      opacity: 0.6;
+    }
+
+    &.is-open .title {
+      font-weight: 500;
+    }
+
+    .status-col {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      color: $color-brown-500;
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #ccc;
+        &.is-done {
+          background: $color-brown-500;
+        }
+        &.is-wait {
+          background: #bbb;
+        }
+      }
+    }
+
+    .title-col {
+      .title {
+        font-size: 20px;
+        color: $color-brown-900;
+        transition: opacity 0.2s;
+      }
+    }
+
+    .actions-col {
+      text-align: right;
+      .btn-text {
+        background: none;
+        border: none;
+        font-size: 16px;
+        color: $color-brown-400;
+        cursor: pointer;
+        &:hover {
+          color: $color-brown-900;
+        }
+        &.is-disabled {
+          color: rgba($color-brown-900, 0.15);
+          cursor: not-allowed;
+        }
+      }
+      .sep {
+        margin: 0 5px;
+        color: rgba($color-brown-900, 0.1);
+      }
+    }
+  }
+
+  .conversation-detail {
+    padding: 21px 0 21px;
+    border-top: 1px solid rgba($color-brown-900, 0.1);
+
+    &__meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 21px;
+
+      .meta-row {
+        display: grid;
+        grid-template-columns: 60px 1fr 60px 1fr;
+        font-size: 15px;
+      }
+
+      .meta-label {
+        color: $color-brown-400;
+      }
+
+      .meta-value {
+        color: $color-brown-400;
+      }
+    }
+
+    &__section {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 0 12px;
+      padding: 20px 0;
+      border-top: 1px solid rgba($color-brown-900, 0.1);
+
+      &.is-reply {
+        background: rgba($color-brown-900, 0.02);
+        border-top: 1px solid rgba($color-brown-900, 0.1);
+      }
+
+      .section-label {
+        font-size: 16px;
+        color: $color-brown-500;
+      }
+
+      .section-content {
+        font-size: 16px;
+        color: $color-brown-500;
+        white-space: pre-line;
+      }
+    }
+  }
+}
+
+.inquiry-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-content {
+    position: relative;
+    background: $main-bg;
+    width: 100%;
+    max-width: 500px;
+    padding: 40px;
+    z-index: 10;
+    border: 1px solid $color-brown-200;
+
+    h3 {
+      font-size: 24px;
+      color: $color-brown-900;
+      margin-bottom: 30px;
+      border-bottom: 1px solid $color-brown-900;
+      padding-bottom: 15px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 30px;
+      color: $color-brown-900;
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+
+      label {
+        display: block;
+        font-size: 14px;
+        color: $color-brown-900;
+        margin-bottom: 10px;
+        font-weight: 500;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 15px;
+        border: 1px solid $color-brown-200;
+        font-family: inherit;
+        font-size: 14px;
+        background: $white;
+
+        &:focus {
+          outline: none;
+          border-color: $color-brown-900;
+        }
+      }
+
+      textarea {
+        height: 150px;
+        resize: vertical;
+      }
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+
+      button {
+        flex: 1;
+        padding: 15px 0;
+        font-size: 15px;
+      }
+    }
+  }
+}

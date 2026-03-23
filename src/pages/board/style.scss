@@ -1,0 +1,592 @@
+@use "../../styles/utils" as *;
+
+.board-page {
+  background: $main-bg;
+  padding-top: 60px;
+}
+
+// ------------------------------
+// Hero
+// ------------------------------
+.board-hero {
+  position: relative;
+  width: 100%;
+  min-height: 900px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: left;
+  padding-bottom: 180px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%);
+    z-index: 1;
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 2;
+    color: $color-yellow-500;
+    font-family: "Pretendard";
+    justify-content: center;
+    text-align: left;
+    left: 250px;
+    margin: 80px;
+  }
+
+  &__inner_title {
+    color: $color-yellow-500;
+    font-size: 64px;
+    font-weight: 500;
+    font-weight: 600;
+    line-height: 150%; /* 96px */
+    letter-spacing: -1.28px;
+  }
+
+  p {
+    color: $color-yellow-500;
+    line-height: 170%;
+    letter-spacing: -0.3px;
+    font-size: 28px;
+    font-style: normal;
+    line-height: 150%;
+    letter-spacing: -0.56px;
+  }
+
+  @include tablet {
+    min-height: 60vw;
+
+    &__inner_title {
+      font-size: 5vw;
+    }
+
+    p {
+      font-size: 2vw;
+    }
+  }
+
+  @include mobile {
+    min-height: 70vw;
+
+    &__inner {
+      padding: 40px 20px;
+    }
+
+    &__inner_title {
+      font-size: 7vw;
+    }
+
+    p {
+      font-size: 3.5vw;
+    }
+  }
+}
+
+.board__inner {
+  max-width: 1420px;
+  margin: 0 auto;
+}
+
+.aroma_guide {
+  margin: 200px 0;
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 660px;
+  }
+
+  &__title {
+    color: $color-brown-700;
+    font-family: "Ogg";
+    font-size: 78px;
+    line-height: 95%;
+    letter-spacing: -1.56px;
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  &__top {
+    display: flex;
+    flex-direction: row;
+    gap: auto;
+    justify-content: space-between;
+    align-items: center;
+
+    .aroma_guide__text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: auto;
+      padding: 0 50px;
+    }
+  }
+  &__bottom {
+    display: flex;
+    flex-direction: row;
+    gap: auto;
+    justify-content: space-between;
+    align-items: center;
+
+    .aroma_guide__text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: auto;
+      padding: 0 50px;
+    }
+  }
+  .consultation_button {
+    display: block;
+    margin: 64px auto 0;
+    padding: 10px 20px;
+    border: 1px solid $color-brown-500;
+    color: $color-brown-500;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: -0.36px;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      background: $color-brown-900;
+      color: $white;
+    }
+  }
+}
+
+.aroma_guide__text__ko {
+  color: $color-brown-500;
+  font-family: "Pretendard";
+  font-size: 24px;
+  line-height: 150%;
+  letter-spacing: -0.24px;
+}
+.aroma_guide__text__en {
+  color: $color-brown-300;
+  font-family: "Bona Nova", "serif";
+  font-size: 24px;
+  line-height: 150%;
+  letter-spacing: -0.24px;
+}
+
+.aroma_guide__img {
+  width: 700px;
+  height: auto;
+}
+
+.consultation_btm {
+}
+
+// ------------------------------
+// FAQ / NOTICE
+// ------------------------------
+.board-FAQ_inner {
+  padding-top: 60px;
+  margin-bottom: 200px;
+}
+
+.board-tabs {
+  display: flex;
+  margin-bottom: 40px;
+  border-bottom: 1px solid $color-brown-200;
+
+  &__title {
+    color: $color-brown-700;
+    text-align: center;
+    font-family: "Ogg", serif;
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 84px */
+    letter-spacing: 1.4px;
+    top: 1px;
+  }
+  &__subtitle {
+    color: $color-brown-700;
+    text-align: center;
+    font-family: "Pretendard";
+    font-size: 24px;
+    line-height: 150%;
+    letter-spacing: -0.24px;
+  }
+
+  button {
+    flex: 1;
+    padding: 20px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @include mobile {
+      font-size: 15px;
+      padding: 15px 0;
+    }
+
+    &.is-active {
+      color: $color-brown-900;
+      font-weight: 500;
+      border-bottom: 2px solid $color-brown-900;
+    }
+
+    &:hover:not(.is-active) {
+      color: $color-brown-700;
+    }
+  }
+}
+
+// ------------------------------
+// FAQ
+// ------------------------------
+
+.faq-list {
+  border-top: 1px solid $color-brown-300;
+
+  .faq-item {
+    border-bottom: 1px solid $color-brown-100;
+
+    &__question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding: 25px 30px;
+      background: none;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover {
+        background: #fcfaf3;
+      }
+
+      .q-mark {
+        font-family: "Ogg", serif;
+        font-size: 22px;
+        color: $color-brown-700;
+        margin-right: 15px;
+      }
+
+      .title {
+        flex: 1;
+        font-size: 22px;
+        color: $color-brown-700;
+        font-weight: 400;
+      }
+
+      .icon {
+        color: $color-brown-500;
+        margin-left: 20px;
+      }
+    }
+
+    &__answer {
+      height: 0;
+      overflow: hidden;
+      background: #fcfaf3;
+      transition: height 0.3s ease;
+
+      .answer-inner {
+        display: flex;
+        padding: 30px 0px 60px 20px;
+        margin-left: 20px;
+        border-top: 1px dashed $color-brown-200;
+        align-items: top;
+      }
+
+      .a-mark {
+        font-family: "Ogg", serif;
+        font-size: 22px;
+        color: $color-brown-300;
+        margin-right: 15px;
+        font-weight: 600;
+      }
+
+      p {
+        flex: 1;
+        color: $color-brown-300;
+        line-height: 1.6;
+        white-space: pre-line;
+        font-family: "Pretendard";
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 400;
+      }
+    }
+
+    // 활성화(열림) 상태
+    &.is-open {
+      .faq-item__question {
+        background: #fcfaf3;
+      }
+
+      .faq-item__answer {
+        height: auto;
+      }
+    }
+  }
+}
+
+// ------------------------------
+// 공지사항
+// ------------------------------
+.notice-list {
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+    border-top: 1px solid $color-brown-900;
+
+    th,
+    td {
+      padding: 20px;
+      border-bottom: 1px solid $color-brown-200;
+      text-align: center;
+      font-size: 22px;
+      color: $color-brown-900;
+    }
+
+    th {
+      background: #fcfaf3;
+      font-weight: 500;
+    }
+
+    td {
+      &.title {
+        text-align: left;
+        width: 60%;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+          text-underline-offset: 4px;
+        }
+      }
+
+      &.num {
+        color: $color-brown-500;
+      }
+
+      &.date {
+        color: $color-brown-500;
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+// ------------------------------
+// 카드 안내사항
+// ------------------------------
+.board-card {
+  margin: 200px 0 ;
+  width: 100%;
+
+  &_bottom01 {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-bottom: 40px;
+
+    &__card {
+      flex: 1;
+      border: 1px solid $color-brown-200;
+    }
+
+    @include mobile {
+      padding: 40px 20px;
+    }
+  }
+}
+
+.board-card_bottom01__card {
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 58px;
+  gap: 34px;
+  &:hover {
+    background: $color-brown-500;
+    .board-card_bottom01__card__icon {
+      filter: brightness(0) invert(1);
+    }
+    .board-card_bottom01__card__text strong {
+      color: $white;
+    }
+    .board-card_bottom01__card__text span {
+      color: $white;
+    }
+  }
+  &__icon {
+    font-size: 37px;
+    fill: $color-brown-700;
+  }
+  &__text {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 16px;
+    & strong {
+      color: $color-brown-500;
+      font-family: "Pretendard";
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 150%;
+      letter-spacing: -0.56px;
+    }
+    span {
+      color: $color-brown-200;
+      font-family: "Pretendard";
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%;
+      letter-spacing: -0.4px;
+      text-align: left;
+    }
+  }
+}
+
+// -----bottom2----------
+
+.board-card_bottom02 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 180px;
+  align-items: space-between;
+  grid-auto-flow: row;
+  border: 1px solid $color-brown-200;
+  padding: 64px 80px;
+  color: $color-brown-900;
+  font-family: "Pretendard";
+  font-size: 18px;
+  line-height: 150%;
+  letter-spacing: -0.36px;
+
+  &_left {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 16px;
+    .board-card_bottom02_left_top {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .board-card_bottom02_left_bottom {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      &_button {
+        background: none;
+        border: none;
+        border-bottom: 1px solid $color-brown-500;
+        color: $color-brown-500;
+        font-family: "Pretendard";
+        font-size: 16px;
+        line-height: 150%;
+        letter-spacing: -0.32px;
+        cursor: pointer;
+        padding: 0;
+      }
+    }
+  }
+  &_center {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 16px;
+    &_top {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    &_bottom {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+
+      &__button {
+        background: $color-brown-500;
+        display: flex;
+        height: 40px;
+        padding: 12px 32px;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        text-align: center;
+        font-family: "pretendard";
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 16px;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+      }
+    }
+  }
+  &_right {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 14px;
+
+    &_bottom02_strong_number {
+      color: var(--brown-brown-500-k, #603b2d);
+      font-family: 'Ogg', serif;
+      font-size: 24px;
+      line-height: 28px;
+    }
+    &_right_comment {
+      color: $color-brown-400;
+      font-family: 'Pretendard';
+      font-size: 14px;
+      line-height: 150%;
+      letter-spacing: -0.28px;
+    }
+  }
+}
+
+// bottom2  공통
+.board-card_bottom02_chip {
+  color: $color-brown-500;
+  font-family: "Pretendard";
+  font-size: 14px;
+  line-height: 150%;
+  letter-spacing: -0.28px;
+}
+.board-card_bottom02_strong {
+  color: $color-brown-500;
+  font-family: "Pretendard";
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 150%;
+  letter-spacing: -0.24px;
+}
+.board-card_bottom02_p {
+  color: $color-brown-900;
+  font-family: "";
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: -0.36px;
+}

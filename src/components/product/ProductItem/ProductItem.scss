@@ -1,0 +1,174 @@
+@use "../../../styles/utils" as *;
+
+.product-card {
+  display: block;
+  width: 100%;
+  border: 1px solid $color-brown-100;
+  overflow: hidden;
+
+  &__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      .product-card__thumb {
+        .product-card__img-hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  &__thumb {
+    position: relative;
+    width: 100%;
+    padding-top: 120%;
+    overflow: hidden;
+    margin-bottom: 0;
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 0.625rem;
+    }
+
+    .product-card__img-hover {
+      opacity: 0;
+    }
+  }
+
+  &__badges {
+    position: absolute;
+    top: 0.25rem;
+    left: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+
+    .tag {
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+
+      &--new {
+        color: $color-brown-500;
+      }
+
+      &--best {
+        color: $color-brown-500;
+      }
+    }
+  }
+
+  &__wish {
+    position: absolute;
+    top: 0.125rem;
+    right: 0.75rem;
+    border: none;
+    font-size: 1.5rem;
+    color: $color-brown-900;
+    cursor: pointer;
+    z-index: 2;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &.is-active {
+      color: $color-brown-500;
+    }
+  }
+
+  &__info {
+    padding: 0 1rem;
+  }
+
+  &__description {
+    font-size: 0.875rem;
+    color: $color-brown-400;
+    margin-bottom: 0.25rem;
+  }
+
+  &__title {
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: $color-brown-900;
+    overflow: hidden;
+  }
+
+  &__action {
+    margin-top: 0.3125rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__options {
+    display: flex;
+  }
+
+  // 볼륨 등 선택된 값을 텍스트로 표시하는 라벨
+  &__option-label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $main-bg;
+    font-size: 1rem;
+    padding: 0.375em;
+    color: $color-brown-500;
+    letter-spacing: 0.08em;
+    border-top: 1px solid $color-brown-100;
+    border-right: 1px solid $color-brown-100;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+  &__option-btn {
+    flex: 1;
+    font-size: 1rem;
+    padding: 0.375em;
+    border-top: 1px solid $color-brown-100;
+    border-right: 1px solid $color-brown-100;
+    color: $color-brown-500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+
+    &:last-child {
+      border-right: none;
+    }
+
+    &:hover {
+      background: $color-brown-100;
+      color: $color-brown-900;
+    }
+
+    &.is-active {
+      color: $color-brown-500;
+    }
+  }
+
+  &__add-btn {
+    display: block;
+    width: 100%;
+    padding: 0.9375rem 0;
+    background-color: $color-brown-700;
+    color: #fdfbf2;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: $color-brown-100;
+    }
+  }
+}

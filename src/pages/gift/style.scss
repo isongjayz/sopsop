@@ -1,0 +1,575 @@
+@use "../../styles/utils" as *;
+
+// ------------------------------
+// Gift Index (메인 진입 페이지)
+// ------------------------------
+.gift-index {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #1a1008;
+
+  &__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.75;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  &__categories {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+
+    @include tablet {
+      bottom: 40px;
+    }
+
+    @include mobile {
+      flex-direction: column;
+      bottom: 0;
+      padding: 20px 16px;
+      gap: 16px;
+    }
+  }
+
+  &__item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 80px;
+    gap: 6px;
+    text-decoration: none;
+    transition: opacity 0.3s;
+
+    &:first-child {
+      border-left: none;
+    }
+
+    &.is-dim {
+      opacity: 0.35;
+    }
+
+    @include tablet {
+      padding: 0 30px;
+    }
+
+    @include mobile {
+      padding: 0;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+    }
+  }
+
+  &__en {
+    font-size: 40px;
+    font-style: italic;
+    font-family: "Libre Baskerville", serif;
+    color: rgba(255, 255, 255, 0.5);
+    transition:
+      color 0.3s,
+      font-size 0.3s;
+    line-height: 1.2;
+
+    .is-active & {
+      color: #fff;
+      font-size: 50px;
+    }
+
+    @include tablet {
+      font-size: 28px;
+
+      .is-active & {
+        font-size: 36px;
+      }
+    }
+
+    @include mobile {
+      font-size: 22px;
+
+      .is-active & {
+        font-size: 26px;
+      }
+    }
+  }
+
+  &__title {
+    font-size: 21px;
+    color: rgba(255, 255, 255, 0.5);
+    transition: color 0.3s;
+    letter-spacing: 0.05em;
+
+    .is-active & {
+      font-size: 31px;
+      color: #fff;
+    }
+
+    @include tablet {
+      font-size: 16px;
+
+      .is-active & {
+        font-size: 22px;
+      }
+    }
+
+    @include mobile {
+      font-size: 15px;
+
+      .is-active & {
+        font-size: 18px;
+      }
+    }
+  }
+
+  &__desc {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0);
+    line-height: 1.7;
+    white-space: pre-line;
+    transition: color 0.3s;
+    margin-top: 4px;
+
+    .is-active & {
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    @include tablet {
+      display: none;
+    }
+  }
+}
+
+.gift-page {
+  width: 100%;
+  background: $main-bg;
+  padding-bottom: 120px;
+}
+
+.gift-inner {
+  width: auto;
+  margin: 0 250px;
+
+  @include tablet {
+    margin: 0 40px;
+  }
+
+  @include mobile {
+    margin: 0 16px;
+  }
+}
+
+.gift-hero {
+  width: 100%;
+  padding: 100px 0 60px;
+  background: $main-bg;
+  text-align: center;
+
+  &__title {
+    font-size: 48px;
+    font-weight: 400;
+    color: $color-brown-900;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+
+    @include mobile {
+      font-size: 32px;
+    }
+  }
+
+  &__desc {
+    font-size: 16px;
+    color: $color-brown-400;
+    line-height: 1.6;
+  }
+}
+
+.gift-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+
+  @include tablet {
+    padding: 0 40px;
+  }
+
+  @include mobile {
+    padding: 0 16px;
+    justify-content: flex-start;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+.gift-tab {
+  padding: 0 4px 2px;
+  margin: 0 20px;
+  font-size: 18px;
+  color: $color-brown-400;
+  border-bottom: 1px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.03em;
+
+  &:hover {
+    color: $color-brown-900;
+    border-bottom-color: $color-brown-300;
+  }
+
+  &.is-active {
+    color: $color-brown-900;
+    border-bottom-color: $color-brown-900;
+    font-weight: 500;
+  }
+}
+
+.gift-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+
+  @include tablet {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  @include mobile {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+}
+
+// 기프트 큐레이션 메인 페이지
+.gift-curation {
+  width: 100%;
+  background: $main-bg;
+  padding-bottom: 120px;
+
+  &__title {
+    font-size: 48px;
+    font-weight: 400;
+    color: $color-brown-900;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+
+    @include mobile {
+      font-size: 32px;
+    }
+  }
+
+  &__desc {
+    font-size: 16px;
+    color: $color-brown-400;
+    line-height: 1.6;
+  }
+}
+
+// 기프트 큐레이션 메인 페이지 (4-column 100vh)
+.gift-curation-full {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  @include mobile {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  &__container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    @include mobile {
+      flex-direction: column;
+    }
+  }
+
+  &__column {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: flex-end; // Text at the bottom
+    padding: 40px;
+    text-decoration: none;
+    overflow: hidden;
+    transition: flex 0.5s ease; // Expand on hover effect
+    cursor: pointer;
+
+    &:hover {
+      flex: 1.2;
+
+      .gift-curation-full__bg {
+        transform: scale(1.05);
+      }
+
+      .gift-curation-full__overlay {
+        background: rgba(0, 0, 0, 0.2); // Slightly lighter on hover
+      }
+    }
+
+    @include mobile {
+      flex: none;
+      height: 25vh; // 4 rows on mobile
+      padding: 20px;
+
+      &:hover {
+        flex: none;
+      }
+    }
+  }
+
+  &__bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.6s ease;
+    z-index: 1;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4); // Darken image for text readability
+    transition: background 0.3s ease;
+    z-index: 2;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 3;
+    color: #fff; // Force white text on dark background
+
+    h3 {
+      font-size: 32px;
+      font-weight: 400;
+      margin-bottom: 10px;
+
+      @include tablet {
+        font-size: 24px;
+      }
+
+      @include mobile {
+        font-size: 20px;
+      }
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 1.6;
+      opacity: 0.9;
+      word-break: keep-all;
+
+      @include tablet {
+        display: none; // Hide desc on small tablets to save space
+      }
+
+      @include mobile {
+        display: block; // Show back on mobile since rows are horizontal
+        font-size: 13px;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// 카테고리별 기프트 상세 (GiftList.jsx 추가 스타일)
+.gift-hero-banner {
+  width: 100%;
+  height: 900px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  margin-bottom: 100px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 0 250px 150px;
+
+  @include tablet {
+    padding: 0 40px 60px;
+  }
+
+  @include mobile {
+    height: 500px;
+    padding: 0 16px 40px;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 2;
+    text-align: left;
+  }
+
+  &__title {
+    font-size: 64px;
+    color: #fdfbf2;
+
+    @include mobile {
+      font-size: 32px;
+    }
+  }
+
+  &__desc {
+    font-size: 26px;
+    color: #e6e4dc;
+    white-space: pre-line;
+  }
+}
+
+.gift-content__header {
+  text-align: center;
+  margin-bottom: 80px;
+
+  h3 {
+    font-size: 36px;
+    font-weight: 400;
+    color: $color-brown-900;
+    margin: 60px 0 12px;
+
+    @include mobile {
+      font-size: 28px;
+    }
+  }
+
+  p {
+    font-size: 16px;
+    color: $color-brown-500;
+  }
+}
+
+.gift-others {
+  margin-top: 200px;
+
+  @include tablet {
+    margin-top: 120px;
+  }
+
+  @include mobile {
+    margin-top: 80px;
+  }
+
+  &__title {
+    font-size: 50px;
+    color: $color-brown-400;
+    text-align: left;
+    margin-bottom: 32px;
+
+    @include tablet {
+      font-size: 36px;
+    }
+
+    @include mobile {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 270px;
+
+    &.is-reverse {
+      .gift-others__img {
+        order: 2;
+      }
+      .gift-others__text {
+        order: 1;
+      }
+    }
+
+    @include mobile {
+      grid-template-columns: 1fr;
+      min-height: auto;
+
+      &.is-reverse {
+        .gift-others__img {
+          order: 1;
+        }
+        .gift-others__text {
+          order: 2;
+        }
+      }
+    }
+  }
+
+  &__img {
+    background-size: cover;
+    background-position: center;
+    min-height: 270px;
+
+    @include mobile {
+      min-height: 200px;
+    }
+  }
+
+  &__text {
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @include tablet {
+      padding: 40px 40px;
+    }
+
+    @include mobile {
+      padding: 30px 20px;
+    }
+
+    h4 {
+      font-size: 36px;
+      font-weight: 400;
+      color: $color-brown-500;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 18px;
+      color: $color-brown-300;
+      margin-bottom: 32px;
+      word-break: keep-all;
+    }
+  }
+
+  &__link {
+    font-size: 18px;
+    color: $color-brown-500;
+    border-bottom: 1px solid $color-brown-300;
+    padding-bottom: 1px;
+    width: fit-content;
+    transition: all 0.2s;
+  }
+}

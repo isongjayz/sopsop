@@ -1,0 +1,52 @@
+@use "../../styles/utils" as *;
+
+// ------------------------------
+// 위시리스트 (Wishlist)
+// ------------------------------
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.wishlist-grid--cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px 20px;
+
+  @include tablet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+
+  .product-card {
+    max-width: 250px;
+  }
+
+  .product-card__thumb {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 290 / 360;
+    padding-top: 0;
+  }
+
+  .product-card__info {
+    text-align: center;
+  }
+
+  .product-card__title {
+    text-align: center;
+    white-space: normal;
+  }
+}

@@ -1,0 +1,240 @@
+@use "../../styles/utils" as *;
+
+.aegung__product-card {
+  width: 1420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 500px;
+
+  // 좌우 반전 레이아웃 (두 번째 카드)
+  &--reversed {
+    .aegung__product-card__info {
+      flex-direction: row-reverse;
+    }
+  }
+
+  // 타이틀 영역
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    .aegung__title-ko {
+      font-family: "Pretendard", sans-serif;
+      font-size: 82px;
+      font-weight: 500;
+      color: $color-brown-700;
+      line-height: 100%;
+      letter-spacing: -1.804px;
+      width: 240px;
+      border-right: 2px solid var(--brown-brown-500-k, #603b2d);
+    }
+
+    .aegung__title-en-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .aegung__title-en-sub {
+      font-family: "Bona Nova", serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: $color-brown-200;
+      line-height: 150%;
+      letter-spacing: -0.2px;
+    }
+
+    .aegung__title-en-main {
+      font-family: "Bona Nova", serif;
+      font-size: 32px;
+      font-weight: 400;
+      color: $color-brown-500;
+      line-height: 150%;
+      letter-spacing: -0.32px;
+    }
+  }
+
+  // 오른쪽 정보 및 왼쪽 이미지 랩퍼
+  &__info {
+    display: flex;
+    width: 1420px;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  // 왼쪽 이미지 영역
+  &__image {
+    img {
+      width: 600px;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  &__rightDesc__wrap {
+    width: 712px;
+    display: flex;
+    padding: 16px 0;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  // 본문 상세 영역
+  &__desc {
+    // width: 712px;
+    font-family: "Pretendard", sans-serif;
+    font-size: 24px;
+    color: $color-brown-500;
+    line-height: 150%;
+    letter-spacing: -0.24px;
+    margin-bottom: 32px;
+  }
+
+  // 향 정보, 노트 리스트
+  &__notes {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+    padding: 10px 12px;
+    border-top: 1px solid $color-brown-200;
+    border-bottom: 1px solid $color-brown-200;
+
+    .aegung__note-item {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .aegung__note-name {
+      font-family: "Pretendard", sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: $color-brown-200;
+      line-height: 150%;
+      letter-spacing: -0.32px;
+      flex-shrink: 0;
+      width: 120px; // 이름 영역에 고정 너비 할당
+    }
+
+    .aegung__note-desc {
+      font-family: "Pretendard", sans-serif;
+      font-size: 16px;
+      color: $color-brown-200;
+      line-height: 150%;
+      letter-spacing: -0.32px;
+    }
+  }
+  &__price {
+    margin-top: 32px;
+    font-family: "Pretendard", sans-serif;
+    font-size: 24px;
+    color: $color-brown-500;
+    font-weight: 600;
+    line-height: 150%;
+    letter-spacing: -0.24px;
+    padding-right: 20px;
+  }
+
+  // 장바구니 버튼
+  &__btn {
+    display: flex;
+    width: 200px;
+    height: 48px;
+    padding: 12px 32px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 32px;
+
+    background-color: transparent;
+    border: 1px solid $color-brown-500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    font-family: "Pretendard", sans-serif;
+    font-size: 16px;
+    color: $color-brown-500;
+
+    &:hover {
+      background-color: $color-brown-500;
+      color: $white;
+    }
+  }
+
+  // ----------------------------------
+  // 반응형
+  // ----------------------------------
+  @include tablet {
+    padding: 80px 0;
+
+    &__info {
+      grid-template-columns: 1fr; // 모바일/태블릿에선 1열로
+      grid-auto-flow: row;
+    }
+
+    &__image {
+      grid-column: 1;
+      grid-row: auto; // 자동 배치
+      margin: 0 auto;
+    }
+
+    &__desc,
+    &__notes,
+    &__btn {
+      grid-column: 1;
+    }
+
+    &__header {
+      .aegung__title-ko {
+        font-size: 56px;
+      }
+
+      .title-divider {
+        height: 50px;
+      }
+
+      .aegung__title-en-main {
+        font-size: 24px;
+      }
+
+      .aegung__title-en-sub {
+        font-size: 16px;
+      }
+    }
+
+    &__desc {
+      font-size: 20px;
+    }
+  }
+
+  @include mobile {
+    padding: 60px 15px;
+
+    &__header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+
+      .title-divider {
+        display: none; // 모바일에선 세로 선 제거
+      }
+    }
+
+    &__desc {
+      font-size: 16px;
+    }
+
+    &__notes {
+      .aegung__note-item {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    &__btn {
+      width: 100%; // 모바일에선 꽉 찬 버튼
+    }
+  }
+}
