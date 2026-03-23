@@ -152,23 +152,15 @@ const defaultShippingContent = {
     ],
 };
 
-const SHIPPING_IMAGE_BY_TITLE = {
-    Signature: '/images/product/detail/signature.jpg',
-};
-
-const DEFAULT_SHIPPING_IMAGE = '/images/product/detail/delivery.jpg';
-
-function getShippingSections(product) {
-    const shippingContent = shippingContentByCategory[product.category] || defaultShippingContent;
-
-    return shippingContent.sections.map((section) => ({
-        ...section,
-        image: SHIPPING_IMAGE_BY_TITLE[section.title] || DEFAULT_SHIPPING_IMAGE,
-    }));
-}
-
 function ProductShippingTab({ product }) {
-    const shippingSections = getShippingSections(product);
+    const shippingContent = shippingContentByCategory[product.category] || defaultShippingContent;
+    const shippingSections = shippingContent.sections.map((section) => ({
+        ...section,
+        image:
+            section.title === 'Signature'
+                ? '/images/product/detail/signature.jpg'
+                : '/images/product/detail/delivery.jpg',
+    }));
 
     return (
         <div className="product-shipping-tab">

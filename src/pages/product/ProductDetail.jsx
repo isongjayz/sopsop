@@ -1,81 +1,30 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import useStore from '../../store/useStore';
-import ProductDetailTab, { ProductDetailIntroVisual } from '../../components/product/ProductDetailTab';
+import ProductDetailTab from '../../components/product/ProductDetailTab';
 import ProductShippingTab from '../../components/product/ProductShippingTab';
 import ProductReviewTab from '../../components/product/ProductReviewTab';
 import ProductAccompaniedBy from '../../components/product/ProductAccompaniedBy';
 import './ProductDetail.scss';
 
-const PRODUCT_DETAIL_TABS = [
-    { id: 'details', label: '제품 상세' },
-    { id: 'shipping', label: '배송 안내' },
-    { id: 'reviews', label: '후기' },
-];
-
-function getInitialSelectedVolume(product) {
-    return product?.volumes?.[0]?.volume || 'default';
-}
-
-function getSelectedOption(volumes, selectedVolume) {
-    return volumes.find((volume) => volume.volume === selectedVolume);
-}
-
-function getStockLabel(stock) {
-    if (stock >= 5) {
-        return '재고 5개 이상';
-    }
-
-    if (stock > 0) {
-        return `재고 ${stock}개`;
-    }
-
-    return '일시품절';
-}
-
-function getShippingEstimateLabel() {
-    const dayLabels = ['일', '월', '화', '수', '목', '금', '토'];
-    const estimatedDate = new Date();
-    estimatedDate.setDate(estimatedDate.getDate() + 3);
-
-    const month = String(estimatedDate.getMonth() + 1).padStart(2, '0');
-    const date = String(estimatedDate.getDate()).padStart(2, '0');
-    const day = dayLabels[estimatedDate.getDay()];
-
-    return `${month}.${date} (${day}) 출고예정`;
-}
-
-function getRecommendedProducts(products, currentProduct) {
-    return products
-        .filter(
-            (product) =>
-                product.category === currentProduct.category && product.id !== currentProduct.id
-        )
-        .slice(0, 3);
-}
-
 function ProductDetail() {
     const { id } = useParams();
-    const { fetchProducts, products, addToCart } = useStore();
+    const { fetchProducts, fetchProductById, currentProduct, products, addToCart } = useStore();
 
     const [selectedVolume, setSelectedVolume] = useState('');
     const [activeTab, setActiveTab] = useState('details');
+    const [isSetProduct, setIsSetProduct] = useState(false);
 
     useEffect(() => {
         fetchProducts();
         window.scrollTo(0, 0);
-    }, [fetchProducts, id]);
 
-    const currentProduct = products.find((product) => product.id === id);
-
-    useEffect(() => {
-        if (!currentProduct) {
-            return;
+        const detailData = fetchProductById(id);
+        if (detailData) {
+            setIsSetProduct(Boolean(detailData.isSet));
+            setSelectedVolume(detailData.volumes?.[0]?.volume || 'default');
         }
-
-        setSelectedVolume(getInitialSelectedVolume(currentProduct));
-        setActiveTab('details');
-    }, [currentProduct?.id]);
+    }, [fetchProductById, fetchProducts, id]);
 
     if (!currentProduct) {
         return (
@@ -85,23 +34,39 @@ function ProductDetail() {
         );
     }
 
-    const volumes = currentProduct.volumes || [];
-    const currentOption = getSelectedOption(volumes, selectedVolume);
+    const { detail, volumes } = currentProduct;
+    const currentOption = volumes?.find((volume) => volume.volume === selectedVolume);
     const selectedImage = currentOption?.image || currentProduct.image;
-    const displayPrice = currentOption?.price || currentProduct.price;
-    const currentStock = currentOption?.stock ?? currentProduct.stock;
-    const isOutOfStock = currentStock === 0;
-    const isSetProduct = Boolean(currentProduct.isSet);
-    const stockLabel = getStockLabel(currentStock);
-    const shippingEstimateLabel = getShippingEstimateLabel();
-    const recommendedProducts = getRecommendedProducts(products, currentProduct);
+    const displayPrice = currentOption ? currentOption.price : currentProduct.price;
+    const isOutOfStock = currentOption ? currentOption.stock === 0 : currentProduct.stock === 0;
+    const currentStock = currentOption ? currentOption.stock : currentProduct.stock;
+    const stockLabel =
+        currentStock >= 5 ? '재고 5개 이상' : currentStock > 0 ? `재고 ${currentStock}개` : '품절';
+    const shippingEstimateLabel = (() => {
+        const dayLabels = ['일', '월', '화', '수', '목', '금', '토'];
+        const estimatedDate = new Date();
+        estimatedDate.setDate(estimatedDate.getDate() + 3);
+
+        const month = String(estimatedDate.getMonth() + 1).padStart(2, '0');
+        const date = String(estimatedDate.getDate()).padStart(2, '0');
+        const day = dayLabels[estimatedDate.getDay()];
+
+        return `${month}.${date} (${day}) 도착예정`;
+    })();
+
+    const recommendedProducts = products
+        .filter(
+            (product) =>
+                product.category === currentProduct.category && product.id !== currentProduct.id
+        )
+        .slice(0, 3);
 
     const handleAddToCart = () => {
         if (isOutOfStock) {
             return;
         }
 
-        addToCart({
+        const cartItem = {
             cartId: `${currentProduct.id}-${selectedVolume}`,
             productId: currentProduct.id,
             name: currentProduct.name,
@@ -110,12 +75,13 @@ function ProductDetail() {
             price: displayPrice,
             quantity: 1,
             giftWrap: false,
-        });
+        };
 
+        addToCart(cartItem);
         alert('장바구니에 담았습니다.');
     };
 
-    const renderSecondaryTabContent = () => {
+    const renderTabContent = () => {
         if (activeTab === 'shipping') {
             return <ProductShippingTab product={currentProduct} />;
         }
@@ -124,7 +90,13 @@ function ProductDetail() {
             return <ProductReviewTab productId={currentProduct.id} />;
         }
 
-        return null;
+        return (
+            <ProductDetailTab
+                product={currentProduct}
+                detail={detail}
+                selectedImage={selectedImage}
+            />
+        );
     };
 
     return (
@@ -159,7 +131,7 @@ function ProductDetail() {
                             </span>
                         </p>
 
-                        {volumes.length > 0 && (
+                        {volumes?.length > 0 && (
                             <div className="product-detail__options">
                                 <div
                                     className={`product-detail__options-list ${
@@ -168,7 +140,7 @@ function ProductDetail() {
                                 >
                                     {volumes.map((volume) => (
                                         <button
-                                            key={volume.volume || 'default'}
+                                            key={volume.volume}
                                             className={`product-detail__option-btn ${
                                                 selectedVolume === volume.volume ? 'is-active' : ''
                                             } ${volume.stock === 0 ? 'is-disabled' : ''}`}
@@ -198,52 +170,36 @@ function ProductDetail() {
             </div>
 
             <div className="product-detail__tabs-wrap">
-                <div className="product-detail__tabs-header-shell">
-                    <div className="inner">
-                        <div className="product-detail__tabs-header">
-                            {PRODUCT_DETAIL_TABS.map((tab) => (
-                                <button
-                                    key={tab.id}
-                                    className={`product-detail__tab-btn ${
-                                        activeTab === tab.id ? 'is-active' : ''
-                                    }`}
-                                    onClick={() => setActiveTab(tab.id)}
-                                >
-                                    {tab.label}
-                                </button>
-                            ))}
-                        </div>
+                <div className="inner">
+                    <div className="product-detail__tabs-header">
+                        <button
+                            className={`product-detail__tab-btn ${
+                                activeTab === 'details' ? 'is-active' : ''
+                            }`}
+                            onClick={() => setActiveTab('details')}
+                        >
+                            제품 상세
+                        </button>
+                        <button
+                            className={`product-detail__tab-btn ${
+                                activeTab === 'shipping' ? 'is-active' : ''
+                            }`}
+                            onClick={() => setActiveTab('shipping')}
+                        >
+                            배송 안내
+                        </button>
+                        <button
+                            className={`product-detail__tab-btn ${
+                                activeTab === 'reviews' ? 'is-active' : ''
+                            }`}
+                            onClick={() => setActiveTab('reviews')}
+                        >
+                            후기
+                        </button>
                     </div>
+
+                    <div className="product-detail__tabs-content">{renderTabContent()}</div>
                 </div>
-
-                {activeTab === 'details' && (
-                    <div className="product-detail__details-panel">
-                        <div className="product-detail__details-hero">
-                            <ProductDetailIntroVisual product={currentProduct} />
-                        </div>
-
-                        <div className="product-detail__details-content-shell">
-                            <div className="inner">
-                                <div className="product-detail__tabs-content product-detail__tabs-content--details">
-                                    <ProductDetailTab
-                                        product={currentProduct}
-                                        showIntroVisual={false}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {activeTab !== 'details' && (
-                    <div className="product-detail__tab-panel-shell">
-                        <div className="inner">
-                            <div className="product-detail__tabs-content">
-                                {renderSecondaryTabContent()}
-                            </div>
-                        </div>
-                    </div>
-                )}
             </div>
 
             <ProductAccompaniedBy products={recommendedProducts} />

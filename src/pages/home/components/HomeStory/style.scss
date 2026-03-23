@@ -9,10 +9,6 @@
 .home {
     // ===== 2. Brand Story (브랜드 스토리) =====
     &__brand-story {
-        --brand-story-block-height: 900px;
-        --brand-story-line-x: 552px;
-        --brand-story-icon-scale: 1;
-
         padding: 0;
         background: $color-yellow-500;
         position: relative;
@@ -59,14 +55,19 @@
     &__brand-story-block {
         position: relative;
         width: 100%;
-        height: var(--brand-story-block-height);
+        height: 900px;
         display: flex;
         align-items: center;
         padding: 0;
-        background-color: var(--main-bg, $color-yellow-500);
+        background-color: var(--main-bg, $color-yellow-500); // Blend with background
+
+        @include tablet {
+            height: clamp(500px, 80vh, 700px);
+            padding: 0 4%;
+        }
 
         @include mobile {
-            height: auto;
+            height: auto; // Content-driven height on mobile
             padding: 80px 20px 80px 40px;
             flex-direction: column;
             align-items: flex-start;
@@ -89,6 +90,7 @@
             z-index: 3;
 
             span {
+                cursor: pointer;
                 transition:
                     color 0.3s,
                     font-size 0.3s;
@@ -106,10 +108,9 @@
 
         .home__brand-story-icon {
             position: absolute;
-            left: var(--brand-story-line-x);
+            left: 552px;
             top: 50%;
-            transform: translate(-50%, -50%) scale(var(--brand-story-icon-scale));
-            transform-origin: center;
+            transform: translate(-50%, -50%);
             z-index: 3;
 
             .brand-story-path-align,
@@ -117,7 +118,7 @@
                 display: block;
             }
 
-            // 각 아이콘 path의 기준점을 공통 세로 라인(x=552)에 맞춥니다.
+            // Align each icon's path start/end x-coordinate to the shared vertical guide at x=552.
             .brand-story-path-align--genesis {
                 transform: translateX(-14px);
             }
@@ -145,6 +146,10 @@
                 .brand-story-path-align--heritage,
                 .brand-story-path-align--presence {
                     transform: none;
+                }
+
+                .brand-story-path-align--presence {
+                    width: 60px;
                     height: auto;
                 }
             }
@@ -225,20 +230,9 @@
 .home {
     // ===== 3. Values (핵심 가치 섹션) =====
     &__values {
-        --values-item-height: 1024px;
-        --values-image-size: 500px;
-        --values-stage-padding-inline-start: 302px;
-        --values-stage-padding-inline-end: 192px;
-        --values-content-gap: 150px;
-
-        height: var(--values-section-height);
         padding: 0;
         background: $color-yellow-500;
         position: relative;
-
-        @include mobile {
-            height: auto;
-        }
     }
 
     &__values-inner {
@@ -258,7 +252,7 @@
         top: 0;
         left: 0;
         width: 100%;
-        height: var(--values-item-height);
+        height: 1024px;
         pointer-events: none;
         z-index: 1;
 
@@ -282,34 +276,46 @@
     }
 
     &__values-viewport {
-        position: relative;
-        height: var(--values-item-height);
+        position: sticky;
+        top: 0;
+        height: 1024px;
         z-index: 5;
         overflow: hidden;
 
         @include mobile {
-            display: none;
+            position: relative;
+            top: auto;
+            height: auto;
         }
     }
 
     &__values-stage {
-        position: relative;
-        height: 100%;
-        z-index: 5;
+        display: none;
     }
 
     &__values-item {
         position: relative;
         width: 100%;
-        height: var(--values-item-height);
+        height: 1024px;
         display: flex;
         align-items: center;
-        padding-left: var(--values-stage-padding-inline-start);
-        padding-right: var(--values-stage-padding-inline-end);
+        padding-left: 302px;
+        padding-right: 192px;
         z-index: 5;
 
+        @include mobile {
+            position: relative;
+            inset: auto;
+            height: auto;
+            padding: 40px 20px;
+            flex-direction: column;
+            align-items: flex-start;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
         .home__values-image {
-            width: var(--values-image-size);
+            width: 500px;
             display: flex;
             justify-content: center;
             position: relative;
@@ -318,7 +324,7 @@
 
             img {
                 width: 100%;
-                height: var(--values-image-size);
+                height: 500px;
                 object-fit: cover;
                 background-color: $color-yellow-500;
             }
@@ -330,58 +336,7 @@
                 }
             }
 
-        }
-
-        .home__values-content {
-            margin-left: var(--values-content-gap);
-            flex: 1;
-
-            h3 {
-                font-size: 78px;
-                color: $color-brown-700;
-                margin-bottom: 15px;
-                font-family: 'Ogg', serif;
-                line-height: 0.95;
-            }
-
-            h4 {
-                font-size: 28px;
-                color: $color-brown-500;
-                line-height: 1.2;
-                margin-bottom: 20px;
-                letter-spacing: -0.36px;
-            }
-
-            p {
-                font-size: 18px;
-                color: $color-brown-200;
-                max-width: 600px;
-                letter-spacing: -0.36px;
-            }
-        }
-    }
-
-    &__values-mobile-list {
-        display: none;
-
-        @include mobile {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-            padding: 40px 0 80px;
-        }
-    }
-
-    &__values-item--stacked {
-        @include mobile {
-            height: auto;
-            padding: 0;
-            flex-direction: column;
-            align-items: flex-start;
-            opacity: 1 !important;
-            visibility: visible !important;
-
-            .home__values-image {
+            @include mobile {
                 width: 100%;
                 justify-content: flex-start;
                 margin-bottom: 20px;
@@ -392,20 +347,48 @@
                     aspect-ratio: 1;
                 }
             }
+        }
 
-            .home__values-content {
+        .home__values-content {
+            margin-left: 150px;
+            flex: 1;
+
+            @include mobile {
                 width: 100%;
                 margin-left: 0;
+            }
 
-                h3 {
+            h3 {
+                font-size: 78px;
+                color: $color-brown-700;
+                margin-bottom: 15px;
+                font-family: 'Ogg', serif;
+                line-height: 0.95;
+
+                @include mobile {
                     font-size: 26px;
                     margin-bottom: 10px;
                 }
+            }
 
-                h4 {
+            h4 {
+                font-size: 28px;
+                color: $color-brown-500;
+                line-height: 1.2;
+                margin-bottom: 20px;
+                letter-spacing: -0.36px;
+
+                @include mobile {
                     font-size: 14px;
                     margin-bottom: 15px;
                 }
+            }
+
+            p {
+                font-size: 18px;
+                color: $color-brown-200;
+                max-width: 600px;
+                letter-spacing: -0.36px;
             }
         }
     }
@@ -622,9 +605,7 @@
         width: 100%;
         min-height: 100svh;
         background: $color-yellow-500;
-        overflow: hidden;
-        z-index: 2;
-        isolation: isolate;
+        overflow: visible;
 
         &::before {
             content: '';
@@ -653,8 +634,6 @@
         position: relative;
         height: 100svh;
         overflow: hidden;
-        z-index: 1;
-        background: $color-yellow-500;
 
         .home__botanicals.is-preview & {
             position: relative;
@@ -667,26 +646,12 @@
         }
     }
 
-    &__botanicals-stage-clip {
-        position: absolute;
-        inset: 0;
-        overflow: hidden;
-        z-index: 1;
-
-        .home__botanicals.is-preview & {
-            position: relative;
-            inset: auto;
-            overflow: visible;
-        }
-    }
-
     &__botanicals-stage {
         position: absolute;
         left: 0;
         top: 0;
         transform-origin: left top;
         will-change: transform;
-        z-index: 1;
 
         .home__botanicals.is-preview & {
             position: relative;
@@ -698,7 +663,6 @@
         left: 0;
         top: 0;
         will-change: transform;
-        z-index: 1;
     }
 
 

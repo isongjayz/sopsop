@@ -21,9 +21,6 @@ const Aegung_Packaging = () => {
     ];
 
     useGSAP(() => {
-        // 태블릿/모바일에서는 네이티브 터치 스크롤 사용
-        if (window.innerWidth <= 1023) return;
-
         const track = trackRef.current;
 
         // 수직 스크롤 → 가로 슬라이드 변환

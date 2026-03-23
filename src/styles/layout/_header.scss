@@ -1,28 +1,18 @@
-@use './../utils' as *;
+@use "./../utils" as *;
 
 #header {
-  $header-drawer-breakpoint: 1180px;
-
+  height: 60px;
+  background: $main-bg;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
   width: 100%;
-  height: 60px;
-  background: $main-bg;
   border-bottom: 1px solid $border-color;
   transition:
     background-color 0.3s ease,
     border-color 0.3s ease,
     transform 0.3s ease;
-
-  @media (max-width: $header-drawer-breakpoint) {
-    height: 70px;
-  }
-
-  @include mobile {
-    height: 60px;
-  }
 
   &.is-transparent {
     background-color: transparent;
@@ -34,39 +24,27 @@
   }
 
   .header_inner {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     width: 100%;
     max-width: 1920px;
     height: 100%;
     margin: 0 auto;
-    padding: 0 clamp(20px, 5vw, 200px);
-
-    @include mobile {
-      padding: 0 15px;
-    }
+    padding: 0 200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    position: relative;
   }
 
   .header_logo {
+    img {
+      height: 38px;
+    }
+
     a {
       display: flex;
       align-items: center;
       text-decoration: none;
-    }
-
-    img {
-      height: 38px;
-
-      @media (max-width: 1480px) {
-        height: 34px;
-      }
-    }
-
-    @media (max-width: $header-drawer-breakpoint) {
-      position: relative;
-      z-index: 2001;
     }
   }
 
@@ -78,29 +56,24 @@
     &__list {
       display: flex;
       align-items: center;
-      gap: clamp(20px, 2vw, 40px);
+      gap: 40px;
+      list-style: none;
       margin: 0;
       padding: 0;
-      list-style: none;
     }
 
     &__link {
-      position: relative;
-      padding: 5px 0;
       color: $color-brown-900;
       font-size: 16px;
       font-weight: 400;
       line-height: 150%;
-      letter-spacing: 1.5px;
       text-decoration: none;
-
-      @media (max-width: 1480px) {
-        font-size: 15px;
-        letter-spacing: 1.2px;
-      }
+      position: relative;
+      padding: 5px 0;
+      letter-spacing: 1.5px;
 
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: 0;
         left: 0;
@@ -126,91 +99,6 @@
     &__mobile-util {
       display: none;
     }
-
-    @media (max-width: $header-drawer-breakpoint) {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: auto;
-      z-index: 2000;
-      display: none;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: stretch;
-      width: min(420px, calc(100vw - 32px));
-      min-height: 100dvh;
-      height: 100dvh;
-      padding: 110px 32px 40px;
-      background-color: $color-yellow-500;
-      border-left: 1px solid rgba($color-brown-900, 0.12);
-      box-shadow: -18px 0 44px rgba(47, 34, 24, 0.14);
-      overflow-y: auto;
-      overscroll-behavior: contain;
-      transform: none;
-
-      &.is-open {
-        display: flex;
-        animation: header-drawer-in 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-      }
-
-      &__list {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 35px;
-        width: 100%;
-        margin: 0;
-      }
-
-      &__link {
-        display: block;
-        width: 100%;
-        font-size: 22px;
-        font-weight: 400;
-        letter-spacing: 3px;
-      }
-
-      &__mobile-util {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-        width: 100%;
-        margin: 48px 0 0;
-        padding-top: 30px;
-        border-top: 1px solid rgba($color-brown-900, 0.1);
-
-        .util-link {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          color: $color-brown-900;
-          font-size: 15px;
-          font-weight: 500;
-          text-decoration: none;
-        }
-      }
-    }
-
-    @include mobile {
-      width: min(360px, calc(100vw - 16px));
-      padding: 88px 20px 32px;
-
-      &__list {
-        gap: 28px;
-        width: 100%;
-      }
-
-      &__link {
-        font-size: 18px;
-        letter-spacing: 2px;
-      }
-
-      &__mobile-util {
-        width: 100%;
-        margin-top: 40px;
-      }
-    }
   }
 
   .header_icons {
@@ -218,39 +106,21 @@
     align-items: center;
     gap: 20px;
 
-    @media (max-width: 1480px) {
-      gap: 16px;
-    }
-
-    @media (max-width: $header-drawer-breakpoint) {
-      position: relative;
-      z-index: 2001;
-    }
-
-    @include mobile {
-      gap: 12px;
-    }
-
     button,
     .util-btn {
-      display: flex;
-      align-items: center;
-      padding: 0;
-      color: $color-brown-700;
       background: none;
       border: none;
       cursor: pointer;
+      padding: 0;
+      color: $color-brown-700;
+      display: flex;
+      align-items: center;
       text-decoration: none;
       transition: color 0.2s ease;
 
       svg {
         width: 24px;
         height: 24px;
-
-        @include mobile {
-          width: 20px;
-          height: 20px;
-        }
       }
 
       &:hover {
@@ -266,15 +136,15 @@
         position: absolute;
         top: -6px;
         right: -8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
         background-color: $color-brown-700;
         color: $white;
         font-size: 10px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-weight: bold;
       }
     }
@@ -282,68 +152,155 @@
     .hamburger-btn {
       display: none;
       z-index: 1001;
-
-      @media (max-width: $header-drawer-breakpoint) {
-        display: flex;
-      }
     }
 
     .login-link {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: $color-brown-700;
       font-size: 14px;
       font-weight: 500;
+      color: $color-brown-700;
       letter-spacing: 1px;
       text-decoration: none;
       text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
       background: none;
       border: none;
       cursor: pointer;
-      transition: color 0.2s;
 
       &:hover {
         color: $color-brown-500;
       }
 
-      @media (max-width: 1480px) {
-        font-size: 13px;
-        letter-spacing: 0.8px;
-      }
-
-      @media (max-width: $header-drawer-breakpoint) {
-        display: none;
-      }
-
       @include mobile {
         display: none;
       }
     }
 
-    a[href='/mypage'] {
+    a[href="/mypage"] {
       @include mobile {
         display: none;
       }
     }
   }
-}
 
-.header__overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 900;
-  background-color: transparent;
-}
+  // 태블릿 반응형
+  @include tablet {
+    .header_inner {
+      height: 70px;
+      padding: 0 20px;
+    }
 
-@keyframes header-drawer-in {
-  from {
-    opacity: 0;
-    transform: translateX(24px);
+    .header_logo {
+      z-index: 2001;
+      position: relative;
+    }
+
+    .header_icons {
+      z-index: 2001;
+      position: relative;
+
+      .hamburger-btn {
+        display: flex;
+      }
+    }
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100vh;
+      background-color: $color-yellow-500;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: left 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+
+      &.is-open {
+        left: 0;
+      }
+
+      &__list {
+        flex-direction: column;
+        gap: 35px;
+      }
+
+      &__link {
+        font-size: 22px;
+        font-weight: 400;
+        letter-spacing: 3px;
+      }
+    }
   }
 
-  to {
-    opacity: 1;
-    transform: translateX(0);
+  // 모바일 반응형
+  @include mobile {
+    .header_inner {
+      height: 60px;
+      padding: 0 15px;
+    }
+
+    .header_logo {
+      z-index: 2001;
+    }
+
+    .header_icons {
+      z-index: 2001;
+      gap: 12px;
+
+      .util-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .nav {
+      z-index: 2000;
+
+      &__list {
+        gap: 28px;
+      }
+
+      &__link {
+        font-size: 18px;
+      }
+
+      &__mobile-util {
+        display: flex;
+        margin-top: 50px;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+        padding-top: 30px;
+        border-top: 1px solid rgba($color-brown-900, 0.1);
+
+        .util-link {
+          font-size: 15px;
+          color: $color-brown-900;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          text-decoration: none;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
+  // 오버레이
+  &__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1500;
+    backdrop-filter: blur(2px);
   }
 }

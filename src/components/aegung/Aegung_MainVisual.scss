@@ -17,8 +17,8 @@
     .aegung__inner {
         position: relative;
         height: 100%;
-        width: 95%;
-        max-width: 1420px;
+        width: 1420px;
+        max-width: 100%;
         margin: 50px auto;
     }
 
@@ -158,9 +158,9 @@
     // ----------------------------------
     @include tablet {
         height: auto;
-        margin-top: 6.8vw;
-        padding: 8vw 0;
-        padding-bottom: 5vw;
+        margin-top: 70px;
+        padding: 80px 0 80px;
+        padding-bottom: 50px;
 
         .aegung__inner {
             width: 95%;
@@ -168,24 +168,23 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5vw;
-            padding: 0 1.5vw;
+            gap: 50px;
         }
 
         // 배경 문양
         &__bg {
             img {
-                width: 31vw;
+                width: 320px;
             }
 
             &--left {
-                left: -2vw;
-                bottom: -2vw;
+                left: -20px;
+                bottom: -20px;
             }
 
             &--right {
-                right: -2vw;
-                top: 2vw;
+                right: -20px;
+                top: 20px;
             }
         }
 
@@ -200,11 +199,11 @@
         }
 
         &__title {
-            font-size: 4.3vw;
+            font-size: 44px;
         }
 
         &__subtitle {
-            font-size: 1.4vw;
+            font-size: 14px;
         }
 
         // 제품 이미지 영역 (2번째)
@@ -216,7 +215,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 2vw;
+            gap: 20px;
             order: 3;
         }
 
@@ -229,15 +228,15 @@
             transform: none !important;
 
             &--1 {
-                width: 19.5vw !important;
+                width: 200px !important;
             }
 
             &--2 {
-                width: 15.6vw !important;
+                width: 160px !important;
             }
 
             &--3 {
-                width: 19.5vw !important;
+                width: 200px !important;
             }
         }
 
@@ -252,7 +251,7 @@
         }
 
         &__brand-name {
-            font-size: 7.8vw;
+            font-size: 80px;
         }
     }
 
@@ -260,48 +259,48 @@
     // 반응형 - 모바일 (더 작은 사이즈 조정)
     // ----------------------------------
     @include mobile {
-        margin-top: 10vw;
-        padding: 8vw 0 7vw;
+        margin-top: 60px;
+        padding: 50px 0 40px;
 
         .aegung__inner {
-            gap: 6vw;
-            padding: 0 2.5vw;
+            gap: 36px;
+            padding: 0 15px;
         }
 
         &__bg {
             img {
-                width: 33vw;
+                width: 200px;
             }
         }
 
         &__title {
-            font-size: 5.3vw;
+            font-size: 32px;
         }
 
         &__subtitle {
-            font-size: 2vw;
+            font-size: 12px;
         }
 
         &__products {
-            gap: 1.7vw;
+            gap: 12px;
         }
 
         &__product {
             &--1 {
-                width: 18vw !important;
+                width: 140px !important;
             }
 
             &--2 {
-                width: 15vw !important;
+                width: 110px !important;
             }
 
             &--3 {
-                width: 18vw !important;
+                width: 140px !important;
             }
         }
 
         &__brand-name {
-            font-size: 8.7vw;
+            font-size: 52px;
         }
     }
 }

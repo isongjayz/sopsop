@@ -10,8 +10,6 @@ import useStore from '../../store/useStore';
 import NavBar from './NavBar';
 import SearchModal from './SearchModal';
 
-const HEADER_DRAWER_BREAKPOINT = 1180;
-
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
@@ -57,26 +55,6 @@ const Header = () => {
 
         return () => window.removeEventListener('scroll', handleScroll);
     }, [menuOpen, searchOpen]);
-
-    useEffect(() => {
-        const mediaQuery = window.matchMedia(`(max-width: ${HEADER_DRAWER_BREAKPOINT}px)`);
-
-        const handleViewportChange = (event) => {
-            if (!event.matches) {
-                setMenuOpen(false);
-            }
-        };
-
-        handleViewportChange(mediaQuery);
-
-        if (typeof mediaQuery.addEventListener === 'function') {
-            mediaQuery.addEventListener('change', handleViewportChange);
-            return () => mediaQuery.removeEventListener('change', handleViewportChange);
-        }
-
-        mediaQuery.addListener(handleViewportChange);
-        return () => mediaQuery.removeListener(handleViewportChange);
-    }, []);
 
     const closeMenu = () => setMenuOpen(false);
 

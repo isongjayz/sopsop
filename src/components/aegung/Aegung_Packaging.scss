@@ -27,9 +27,7 @@ border-bottom: 1px solid var(--brown-brown-500-k, #603B2D);
         
 
         &__inner {
-            width: 95%;
-            max-width: 1420px;
-            margin: 0 auto;
+            width: 1420px;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -42,8 +40,7 @@ border-bottom: 1px solid var(--brown-brown-500-k, #603B2D);
             display: flex;
             // flex-direction: column;
             gap: 80px;
-            width: 100%;
-            max-width: 800px;
+            width: 800px;
             padding: 50px 0;
         }
 
@@ -58,8 +55,7 @@ border-bottom: 1px solid var(--brown-brown-500-k, #603B2D);
             display: flex;
             flex-direction: column;
             gap: 32px;
-            width: 100%;
-            max-width: 510px;
+            width: 510px;
         }
 
         &__text-block {
@@ -69,8 +65,7 @@ border-bottom: 1px solid var(--brown-brown-500-k, #603B2D);
         }
 
         &__text-title {
-            width: 100%;
-            max-width: 510px;
+            width: 510px;
             font-family: 'Pretendard', sans-serif;
             font-size: 20px;
             font-weight: 700;
@@ -93,8 +88,7 @@ border-bottom: 1px solid var(--brown-brown-500-k, #603B2D);
             display: flex;
             flex-direction: column;
             gap: 15px;
-            width: 100%;
-            max-width: 560px;
+            width: 560px;
         }
 
         &__right-img {
@@ -162,6 +156,11 @@ border-bottom: 1px solid var(--brown-brown-500-k, #603B2D);
                 width: auto;
                 object-fit: cover;
                 display: block;
+                transition: filter 0.4s ease;
+            }
+
+            &:hover img {
+                filter: brightness(0.3);
             }
         }
 
@@ -178,14 +177,12 @@ border-bottom: 1px solid var(--brown-brown-500-k, #603B2D);
             align-items: center;
             gap: 8px;
             opacity: 0;
-            background: transparent;
-            transition: opacity 0.4s ease, background 0.4s ease;
+            transition: opacity 0.4s ease;
             pointer-events: none;
             z-index: 2;
 
             .Aegung_packaging__slider__item:hover & {
                 opacity: 1;
-                background: rgba(0, 0, 0, 0.7);
             }
 
             &-name {
@@ -210,128 +207,6 @@ border-bottom: 1px solid var(--brown-brown-500-k, #603B2D);
                 font-weight: 400;
                 color: rgba($white, 0.8);
                 letter-spacing: -0.48px;
-            }
-        }
-    }
-
-    // ----------------------------------
-    // 반응형 - 태블릿
-    // ----------------------------------
-    @include tablet {
-
-        &__Top__inner {
-            flex-direction: column;
-            width: 90%;
-            margin: 0 auto;
-        }
-
-        &__Top__left {
-            flex-direction: row;
-            max-width: 100%;
-            gap: 4vw;
-        }
-
-        &__Top__right {
-            max-width: 100%;
-            width: 100%;
-        }
-        &__MiddleImg
-        {
-            img {
-                width: 100%;
-                height: auto;
-                object-fit: cover;
-                display: block;
-                margin-top: 3vw;
-            }
-        }
-
-        // 태블릿: 네이티브 터치 스크롤
-        &__slider {
-            height: auto;
-            overflow-x: auto;
-            overflow-y: hidden;
-            -webkit-overflow-scrolling: touch;
-            scroll-snap-type: x mandatory;
-
-            // 스크롤바 숨김
-            scrollbar-width: none;
-            &::-webkit-scrollbar { display: none; }
-
-            &__track {
-                padding-left: 4vw;
-                padding-right: 4vw;
-            }
-
-            &__item {
-                height: 35vw;
-                scroll-snap-align: start;
-            }
-
-            &__overlay {
-                &-name {
-                    font-size: 2vw;
-                }
-
-                &-price {
-                    font-size: 1.6vw;
-                }
-            }
-        }
-    }
-
-    // ----------------------------------
-    // 반응형 - 모바일
-    // ----------------------------------
-    @include mobile {
-        &__Top__inner {
-            flex-direction: column;
-            width: 90%;
-            margin: 0 auto;
-        }
-
-        &__Top__left {
-            flex-direction: column;
-            max-width: 100%;
-            gap: 4vw;
-            padding: 5vw 0;
-        }
-
-        &__Top__right {
-            max-width: 100%;
-            width: 100%;
-        }
-
-        // 모바일: 네이티브 터치 스크롤
-        &__slider {
-            height: auto;
-            overflow-x: auto;
-            overflow-y: hidden;
-            -webkit-overflow-scrolling: touch;
-            scroll-snap-type: x mandatory;
-
-            // 스크롤바 숨김
-            scrollbar-width: none;
-            &::-webkit-scrollbar { display: none; }
-
-            &__track {
-                padding-left: 3vw;
-                padding-right: 3vw;
-            }
-
-            &__item {
-                height: 43vw;
-                scroll-snap-align: start;
-            }
-
-            &__overlay {
-                &-name {
-                    font-size: 2.7vw;
-                }
-
-                &-price {
-                    font-size: 2.2vw;
-                }
             }
         }
     }

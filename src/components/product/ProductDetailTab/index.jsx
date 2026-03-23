@@ -202,81 +202,43 @@ const defaultContent = {
         '정제된 패키지 구성은 제품의 경험을 사용 전후까지 자연스럽게 이어가도록 돕습니다.',
 };
 
-const DETAIL_IMAGE_FOLDER_MAP = {
-    handwash: 'handwash',
-    handbalm: 'handbalm',
-    fragrance: 'fragrance',
-};
-
-const DETAIL_SECTION_IMAGE_KEYS = ['texture', 'scent', 'ingredient'];
-
-function getDetailImageFolder(product) {
-    return (
-        DETAIL_IMAGE_FOLDER_MAP[product.subcategory] ||
-        DETAIL_IMAGE_FOLDER_MAP[product.category] ||
-        null
-    );
-}
-
-function getDetailIntroImage(detailImageFolder, fallbackImage) {
-    return detailImageFolder
+function ProductDetailTab({ product }) {
+    const detailContent = detailContentByCategory[product.category] || defaultContent;
+    const detailImageFolderMap = {
+        handwash: 'handwash',
+        handbalm: 'handbalm',
+        fragrance: 'fragrance',
+    };
+    const detailImageFolder =
+        detailImageFolderMap[product.subcategory] ||
+        detailImageFolderMap[product.category] ||
+        null;
+    const introImage = detailImageFolder
         ? `/images/product/detail/${detailImageFolder}/intro.jpg`
-        : fallbackImage;
-}
-
-function getDetailSections(detailImageFolder, sections) {
-    return sections.map((section, index) => ({
+        : detailContent.introImage;
+    const sectionImageKeys = ['texture', 'scent', 'ingredient'];
+    const sections = detailContent.sections.map((section, index) => ({
         ...section,
         image:
-            detailImageFolder && DETAIL_SECTION_IMAGE_KEYS[index]
-                ? `/images/product/detail/${detailImageFolder}/${DETAIL_SECTION_IMAGE_KEYS[index]}.jpg`
+            detailImageFolder && sectionImageKeys[index]
+                ? `/images/product/detail/${detailImageFolder}/${sectionImageKeys[index]}.jpg`
                 : section.image,
     }));
-}
-
-function getPackagingImage(detailImageFolder, fallbackImage) {
-    return detailImageFolder
+    const packagingImage = detailImageFolder
         ? `/images/product/detail/${detailImageFolder}/packaging.jpg`
-        : fallbackImage;
-}
-
-function getDetailPresentation(product) {
-    const detailContent = detailContentByCategory[product.category] || defaultContent;
-    const detailImageFolder = getDetailImageFolder(product);
-    const introImage = getDetailIntroImage(detailImageFolder, detailContent.introImage);
-    const sections = getDetailSections(detailImageFolder, detailContent.sections);
-    const packagingImage = getPackagingImage(detailImageFolder, detailContent.packagingImage);
-
-    return {
-        detailContent,
-        introImage,
-        sections,
-        packagingImage,
-    };
-}
-
-export function ProductDetailIntroVisual({ product }) {
-    const { detailContent, introImage } = getDetailPresentation(product);
-
-    return (
-        <section className="product-detail-tab__intro-visual">
-            <div className="product-detail-tab__intro-image">
-                <img src={introImage} alt={`${product.name} visual`} />
-            </div>
-            <div className="product-detail-tab__intro-copy">
-                <h3>{detailContent.introTitle}</h3>
-                <p>{detailContent.introDescription}</p>
-            </div>
-        </section>
-    );
-}
-
-function ProductDetailTab({ product, showIntroVisual = true }) {
-    const { detailContent, sections, packagingImage } = getDetailPresentation(product);
+        : detailContent.packagingImage;
 
     return (
         <div className="product-detail-tab">
-            {showIntroVisual && <ProductDetailIntroVisual product={product} />}
+            <section className="product-detail-tab__intro-visual">
+                <div className="product-detail-tab__intro-image">
+                    <img src={introImage} alt={`${product.name} visual`} />
+                </div>
+                <div className="product-detail-tab__intro-copy">
+                    <h3>{detailContent.introTitle}</h3>
+                    <p>{detailContent.introDescription}</p>
+                </div>
+            </section>
 
             <div className="product-detail-tab__sections">
                 {sections.map((section) => (

@@ -2,27 +2,44 @@ import { useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { VALUES_LAYOUT, VALUE_ITEMS } from './homeValuesData';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const VALUES_SECTION_HEIGHT = VALUES_LAYOUT.itemHeight * VALUE_ITEMS.length;
-const VALUES_LINE_D = `M${VALUES_LAYOUT.lineX} 0 L${VALUES_LAYOUT.lineX} ${VALUES_LAYOUT.itemHeight}`;
+const VALUES_LINE_X = 552;
+const VALUES_FRAME_WIDTH = 1905;
+const VALUES_ITEM_HEIGHT = 1024;
+const VALUES_LINE_BLEND = 0.35;
 
-function ValuesCard({ item, className = '', cardRef = null }) {
-    return (
-        <div ref={cardRef} className={`home__values-item ${className}`.trim()}>
-            <div className="home__values-image">
-                <img src={item.image} alt={item.alt} />
-            </div>
-            <div className="home__values-content">
-                <h3 className="font-serif">{item.title}</h3>
-                <h4>{item.subtitle}</h4>
-                <p>{item.body}</p>
-            </div>
-        </div>
-    );
-}
+const VALUE_ITEMS = [
+    {
+        image: 'images/value_item1.jpg',
+        alt: 'Nature Refined',
+        title: 'Nature Refined',
+        subtitle: '자연과 과학이 빚어낸 정교한 균형',
+        body: 'Experience the perfect blend of botanical purity and scientific precision, meticulously formulated for your skin, hair, and body care needs.',
+    },
+    {
+        image: 'images/value_item2.jpg',
+        alt: 'Essential Aesthetics',
+        title: 'Essential Aesthetics',
+        subtitle: '본질만을 지향하는 절제의 미학',
+        body: 'A refined pursuit of purity that strips away the unnecessary, revealing the profound elegance of a skin care essence through mindful simplicity.',
+    },
+    {
+        image: 'images/value_item3.jpg',
+        alt: 'Inspiring Rituals',
+        title: 'Inspiring Rituals',
+        subtitle: '영감을 채우는 지적이고 감각적인 여정',
+        body: 'A sophisticated journey of intellect and sense, curated to awaken your inspirations in the beauty of every moment.',
+    },
+    {
+        image: 'images/value_item4.jpg',
+        alt: 'Ethical Commitments',
+        title: 'Ethical Commitments',
+        subtitle: '지구와 생명을 존중하는 확고한 원칙',
+        body: 'A steadfast journey dedicated to honoring our planet and all living beings through conscious choices and unwavering integrity.',
+    },
+];
 
 function HomeValues() {
     const sectionRef = useRef(null);
@@ -40,123 +57,105 @@ function HomeValues() {
                 !linePathRef.current ||
                 !contentRef.current
             ) {
-                return undefined;
+                return;
             }
 
             const path = linePathRef.current;
-            const pathLength = path.getTotalLength();
+            const length = path.getTotalLength();
             const lineEase = gsap.parseEase('power1.inOut');
-            const mm = gsap.matchMedia();
+            gsap.set(path, {
+                strokeDasharray: length,
+                strokeDashoffset: length,
+            });
 
-            const setLineProgress = (progress) => {
-                gsap.set(path, {
-                    strokeDashoffset: pathLength * (1 - progress),
-                });
-            };
+            gsap.set(contentRef.current, {
+                opacity: 1,
+                y: 0,
+            });
 
-            mm.add(`(min-width: ${VALUES_LAYOUT.mobileBreakpoint + 1}px)`, () => {
-                lastIndexRef.current = 0;
-                setActiveIndex(0);
+            const entryTrigger = ScrollTrigger.create({
+                trigger: sectionRef.current,
+                start: 'top 40%',
+                end: 'top top',
+                scrub: true,
+                onUpdate: (self) => {
+                    if (lastIndexRef.current !== 0) {
+                        lastIndexRef.current = 0;
+                        setActiveIndex(0);
+                    }
 
-                gsap.set(path, {
-                    strokeDasharray: pathLength,
-                    strokeDashoffset: pathLength,
-                });
+                    gsap.set(path, {
+                        strokeDashoffset: length * (1 - self.progress),
+                    });
+                },
+            });
 
-                gsap.set(contentRef.current, {
-                    opacity: 1,
-                    y: 0,
-                });
-
-                const entryTrigger = ScrollTrigger.create({
-                    trigger: sectionRef.current,
-                    start: 'top 40%',
-                    end: 'top top',
-                    scrub: true,
-                    onUpdate: (self) => {
+            const trigger = ScrollTrigger.create({
+                trigger: sectionRef.current,
+                start: 'top top',
+                end: `+=${VALUES_ITEM_HEIGHT * (VALUE_ITEMS.length - 1)}`,
+                pin: viewportRef.current,
+                pinSpacing: true,
+                scrub: true,
+                onUpdate: (self) => {
+                    if (self.progress <= 0) {
                         if (lastIndexRef.current !== 0) {
                             lastIndexRef.current = 0;
                             setActiveIndex(0);
                         }
 
-                        setLineProgress(self.progress);
-                    },
-                });
+                        gsap.set(path, {
+                            strokeDashoffset: length,
+                        });
 
-                const valuesTrigger = ScrollTrigger.create({
-                    trigger: sectionRef.current,
-                    start: 'top top',
-                    end: `+=${VALUES_LAYOUT.itemHeight * (VALUE_ITEMS.length - 1)}`,
-                    pin: viewportRef.current,
-                    // 섹션 높이에서 이미 스크롤 길이를 확보해 둔 상태라 추가 spacer는 필요 없습니다.
-                    pinSpacing: false,
-                    scrub: true,
-                    onUpdate: (self) => {
-                        if (self.progress <= 0) {
-                            if (lastIndexRef.current !== 0) {
-                                lastIndexRef.current = 0;
-                                setActiveIndex(0);
+                        return;
+                    }
+
+                    const totalProgress = Math.min(
+                        VALUE_ITEMS.length - 1.0001,
+                        self.progress * (VALUE_ITEMS.length - 1)
+                    );
+                    const nextIndex = Math.min(
+                        VALUE_ITEMS.length - 1,
+                        Math.floor(totalProgress) + 1
+                    );
+                    const stageProgress = totalProgress - Math.floor(totalProgress);
+                    const blendedProgress =
+                        stageProgress * (1 - VALUES_LINE_BLEND) +
+                        lineEase(stageProgress) * VALUES_LINE_BLEND;
+
+                    gsap.set(path, {
+                        strokeDashoffset: length * (1 - blendedProgress),
+                    });
+
+                    if (nextIndex !== lastIndexRef.current) {
+                        lastIndexRef.current = nextIndex;
+
+                        gsap.fromTo(
+                            contentRef.current,
+                            { opacity: 0, y: 20 },
+                            {
+                                opacity: 1,
+                                y: 0,
+                                duration: 0.3,
+                                ease: 'power2.out',
+                                overwrite: 'auto',
                             }
-
-                            setLineProgress(0);
-                            return;
-                        }
-
-                        const totalProgress = Math.min(
-                            VALUE_ITEMS.length - 1.0001,
-                            self.progress * (VALUE_ITEMS.length - 1)
                         );
-                        const nextIndex = Math.min(
-                            VALUE_ITEMS.length - 1,
-                            Math.floor(totalProgress) + 1
-                        );
-                        const stageProgress = totalProgress - Math.floor(totalProgress);
-                        const blendedProgress =
-                            stageProgress * (1 - VALUES_LAYOUT.lineBlend) +
-                            lineEase(stageProgress) * VALUES_LAYOUT.lineBlend;
 
-                        setLineProgress(blendedProgress);
-
-                        if (nextIndex !== lastIndexRef.current) {
-                            lastIndexRef.current = nextIndex;
-
-                            gsap.fromTo(
-                                contentRef.current,
-                                { opacity: 0, y: 20 },
-                                {
-                                    opacity: 1,
-                                    y: 0,
-                                    duration: 0.3,
-                                    ease: 'power2.out',
-                                    overwrite: 'auto',
-                                }
-                            );
-
-                            setActiveIndex(nextIndex);
-                        }
-                    },
-                });
-
-                ScrollTrigger.refresh();
-
-                return () => {
-                    entryTrigger.kill();
-                    valuesTrigger.kill();
-                };
+                        setActiveIndex(nextIndex);
+                    }
+                },
             });
 
-            mm.add(`(max-width: ${VALUES_LAYOUT.mobileBreakpoint}px)`, () => {
-                lastIndexRef.current = 0;
-                setActiveIndex(0);
-
-                return undefined;
-            });
+            ScrollTrigger.refresh();
 
             return () => {
-                mm.revert();
+                entryTrigger.kill();
+                trigger.kill();
             };
         },
-        { scope: sectionRef }
+        { scope: sectionRef, dependencies: [] }
     );
 
     const activeItem = VALUE_ITEMS[activeIndex];
@@ -165,19 +164,19 @@ function HomeValues() {
         <section
             className="home__values"
             ref={sectionRef}
-            style={{ '--values-section-height': `${VALUES_SECTION_HEIGHT}px` }}
+            style={{ height: `${VALUES_ITEM_HEIGHT * VALUE_ITEMS.length}px` }}
         >
             <div className="home__values-inner">
                 <div ref={viewportRef} className="home__values-viewport">
                     <div className="home__values-svg-wrap" aria-hidden="true">
                         <svg
-                            viewBox={`0 0 ${VALUES_LAYOUT.frameWidth} ${VALUES_LAYOUT.itemHeight}`}
+                            viewBox={`0 0 ${VALUES_FRAME_WIDTH} ${VALUES_ITEM_HEIGHT}`}
                             preserveAspectRatio="none"
                             className="home__values-svg"
                         >
                             <path
                                 className="home__values-line-base"
-                                d={VALUES_LINE_D}
+                                d={`M${VALUES_LINE_X} 0 L${VALUES_LINE_X} ${VALUES_ITEM_HEIGHT}`}
                                 strokeWidth="2"
                                 fill="none"
                                 vectorEffect="non-scaling-stroke"
@@ -185,7 +184,7 @@ function HomeValues() {
                             <path
                                 ref={linePathRef}
                                 className="home__values-line-path"
-                                d={VALUES_LINE_D}
+                                d={`M${VALUES_LINE_X} 0 L${VALUES_LINE_X} ${VALUES_ITEM_HEIGHT}`}
                                 strokeWidth="2"
                                 fill="none"
                                 vectorEffect="non-scaling-stroke"
@@ -193,19 +192,16 @@ function HomeValues() {
                         </svg>
                     </div>
 
-                    <div className="home__values-stage">
-                        <ValuesCard item={activeItem} cardRef={contentRef} />
+                    <div ref={contentRef} className="home__values-item">
+                        <div className="home__values-image">
+                            <img src={activeItem.image} alt={activeItem.alt} />
+                        </div>
+                        <div className="home__values-content">
+                            <h3 className="font-serif">{activeItem.title}</h3>
+                            <h4>{activeItem.subtitle}</h4>
+                            <p>{activeItem.body}</p>
+                        </div>
                     </div>
-                </div>
-
-                <div className="home__values-mobile-list">
-                    {VALUE_ITEMS.map((item) => (
-                        <ValuesCard
-                            key={item.title}
-                            item={item}
-                            className="home__values-item--stacked"
-                        />
-                    ))}
                 </div>
             </div>
         </section>

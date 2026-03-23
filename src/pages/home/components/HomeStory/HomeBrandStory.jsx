@@ -1,15 +1,11 @@
-import { Fragment, useRef } from 'react';
+import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import {
-    BRAND_STORY_ITEMS,
-    BRAND_STORY_LINE_SEGMENTS,
-    BRAND_STORY_NAV_ITEMS,
-} from './homeBrandStoryData';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const BRAND_STORY_LINE_X = 552;
 const TIMING = {
     line: {
         baseDuration: 0.62,
@@ -21,142 +17,111 @@ const TIMING = {
     },
 };
 
-const MOBILE_BREAKPOINT = 600;
-
-const getAverage = (values) => {
-    if (!values.length) {
-        return 1;
-    }
-
-    return values.reduce((sum, value) => sum + value, 0) / values.length;
-};
-
-const getBlendedDuration = (baseDuration, ratio, blend) =>
-    baseDuration * (1 + (ratio - 1) * blend);
-
-const getTotalPathLength = (paths) =>
-    paths.reduce((sum, path) => (path ? sum + path.getTotalLength() : sum), 0);
-
-const setIndexedRef =
-    (collectionRef, index) =>
-    (element) => {
-        collectionRef.current[index] = element;
-    };
-
-const setNestedRef =
-    (collectionRef, index, nestedIndex) =>
-    (element) => {
-        if (!collectionRef.current[index]) {
-            collectionRef.current[index] = [];
-        }
-
-        collectionRef.current[index][nestedIndex] = element;
-    };
-
-function BrandStoryTitle({ segments }) {
-    return segments.map((segment, index) => (
-        <Fragment key={`${segment.text}-${index}`}>
-            {segment.strong ? <strong>{segment.text}</strong> : segment.text}
-        </Fragment>
-    ));
-}
+const LINE_SEGMENTS = [
+    { top: 0, height: 305 },
+    { top: 595, height: 716.324 },
+    { top: 1422.945, height: 762.043 },
+    { top: 2351.711, height: 348.289 },
+];
 
 function HomeBrandStory() {
     const containerRef = useRef(null);
     const lineSegmentRefs = useRef([]);
     const navRefs = useRef([]);
     const contentRefs = useRef([]);
-    const iconPathRefs = useRef(BRAND_STORY_ITEMS.map(() => []));
+    const iconPathRefs = useRef([[], [], []]);
 
     useGSAP(
         () => {
-            const mm = gsap.matchMedia();
+            const getBlendedDuration = (baseDuration, ratio, blend) =>
+                baseDuration * (1 + (ratio - 1) * blend);
 
-            mm.add(`(min-width: ${MOBILE_BREAKPOINT + 1}px)`, () => {
-                const averageSegmentHeight = getAverage(
-                    BRAND_STORY_LINE_SEGMENTS.map((segment) => segment.height)
-                );
-                const iconPathGroups = BRAND_STORY_ITEMS.map(
-                    (_, index) => iconPathRefs.current[index]?.filter(Boolean) ?? []
-                );
-                const iconPathLengths = iconPathGroups.map(getTotalPathLength);
-                const averageIconPathLength = getAverage(iconPathLengths.filter(Boolean));
-                const genesisPrimaryPath = iconPathGroups[0]?.[0];
+            const averageSegmentHeight =
+                LINE_SEGMENTS.reduce((sum, segment) => sum + segment.height, 0) / LINE_SEGMENTS.length;
+            const iconPathLengths = iconPathRefs.current.map((paths) =>
+                paths.reduce((sum, path) => (path ? sum + path.getTotalLength() : sum), 0)
+            );
+            const averageIconPathLength =
+                iconPathLengths.reduce((sum, length) => sum + length, 0) / iconPathLengths.length;
 
-                gsap.set(lineSegmentRefs.current.filter(Boolean), {
+            const timeline = gsap.timeline({
+                defaults: { ease: 'none' },
+                scrollTrigger: {
+                    trigger: containerRef.current,
+                    start: 'top bottom',
+                    end: 'bottom 40%',
+                    scrub: true,
+                },
+            });
+
+            lineSegmentRefs.current.forEach((segment) => {
+                gsap.set(segment, {
                     scaleY: 0,
                     transformOrigin: 'top center',
                 });
+            });
 
-                gsap.set(navRefs.current.filter(Boolean), {
+            navRefs.current.forEach((nav) => {
+                gsap.set(nav, {
                     opacity: 0,
+                    y: 50,
                 });
+            });
 
-                gsap.set(contentRefs.current.filter(Boolean), {
+            contentRefs.current.forEach((content) => {
+                gsap.set(content, {
                     opacity: 0,
+                    y: 50,
                 });
+            });
 
-                iconPathGroups.forEach((paths, iconIndex) => {
-                    paths.forEach((path, pathIndex) => {
-                        const pathLength = path.getTotalLength();
-                        const isGenesisPrimaryPath = iconIndex === 0 && pathIndex === 0;
+            iconPathRefs.current.forEach((paths, iconIndex) => {
+                paths.forEach((path, pathIndex) => {
+                    const pathLength = path.getTotalLength();
+                    const isGenesisPrimaryPath = iconIndex === 0 && pathIndex === 0;
 
-                        gsap.set(path, {
-                            strokeDasharray: pathLength,
-                            strokeDashoffset: pathLength,
-                        });
-
-                        path.setAttribute(
-                            'stroke-linecap',
-                            isGenesisPrimaryPath ? 'butt' : 'round'
-                        );
+                    gsap.set(path, {
+                        strokeDasharray: pathLength,
+                        strokeDashoffset: pathLength,
                     });
-                });
 
-                const timeline = gsap.timeline({
-                    defaults: { ease: 'none' },
-                    scrollTrigger: {
-                        trigger: containerRef.current,
-                        start: 'top bottom',
-                        end: 'bottom 40%',
-                        scrub: true,
-                    },
-                });
-
-                BRAND_STORY_LINE_SEGMENTS.forEach((segmentData, index) => {
-                    const segment = lineSegmentRefs.current[index];
-                    const segmentDuration = getBlendedDuration(
-                        TIMING.line.baseDuration,
-                        segmentData.height / averageSegmentHeight,
-                        TIMING.line.blend
+                    path.setAttribute(
+                        'stroke-linecap',
+                        isGenesisPrimaryPath ? 'butt' : 'round'
                     );
+                });
+            });
 
-                    if (segment) {
-                        timeline.to(segment, {
-                            scaleY: 1,
-                            duration: segmentDuration,
-                        });
-                    }
+            LINE_SEGMENTS.forEach((_, index) => {
+                const segment = lineSegmentRefs.current[index];
+                const segmentDuration = getBlendedDuration(
+                    TIMING.line.baseDuration,
+                    LINE_SEGMENTS[index].height / averageSegmentHeight,
+                    TIMING.line.blend
+                );
 
+                if (segment) {
+                    timeline.to(segment, {
+                        scaleY: 1,
+                        duration: segmentDuration,
+                    });
+                }
+
+                if (index < iconPathRefs.current.length) {
                     const nav = navRefs.current[index];
                     const content = contentRefs.current[index];
-                    const paths = iconPathGroups[index];
-                    const iconPathLength = iconPathLengths[index];
-
-                    if (!paths?.length || !iconPathLength) {
-                        return;
-                    }
-
+                    const paths = iconPathRefs.current[index];
                     const iconDuration = getBlendedDuration(
                         TIMING.icon.baseDuration,
-                        iconPathLength / averageIconPathLength,
+                        iconPathLengths[index] / averageIconPathLength,
                         TIMING.icon.blend
                     );
 
                     paths.forEach((path, pathIndex) => {
                         const isGenesisPrimaryPath = index === 0 && pathIndex === 0;
                         const pathLength = path.getTotalLength();
-                        const pathDuration = iconDuration * (pathLength / iconPathLength);
+                        const pathDuration =
+                            iconDuration * (pathLength / iconPathLengths[index]);
 
                         timeline.to(
                             path,
@@ -190,27 +155,18 @@ function HomeBrandStory() {
                     });
 
                     timeline.to(
-                        [nav, content].filter(Boolean),
+                        [nav, content],
                         {
                             opacity: 1,
+                            y: 0,
                             duration: 0.42,
                             stagger: 0.08,
                             ease: 'power2.out',
                         },
                         '<0.1'
                     );
-                });
-
-                return () => {
-                    if (genesisPrimaryPath) {
-                        genesisPrimaryPath.setAttribute('stroke-linecap', 'round');
-                    }
-                };
+                }
             });
-
-            return () => {
-                mm.revert();
-            };
         },
         { scope: containerRef }
     );
@@ -219,78 +175,189 @@ function HomeBrandStory() {
         <section className="home__brand-story" ref={containerRef}>
             <div className="home__brand-story-inner">
                 <div className="home__brand-story-line" aria-hidden="true">
-                    {BRAND_STORY_LINE_SEGMENTS.map((segment, index) => {
-                        const lineStyle = {
-                            left: 'var(--brand-story-line-x)',
-                            top: `${segment.top}px`,
-                            height: `${segment.height}px`,
-                        };
-
-                        return (
-                            <div key={`${segment.top}-${segment.height}`}>
-                                <span className="home__brand-story-line-base" style={lineStyle} />
-                                <span
-                                    ref={setIndexedRef(lineSegmentRefs, index)}
-                                    className="home__brand-story-line-path"
-                                    style={lineStyle}
-                                />
-                            </div>
-                        );
-                    })}
+                    {LINE_SEGMENTS.map((segment, index) => (
+                        <div key={index}>
+                            <span
+                                className="home__brand-story-line-base"
+                                style={{
+                                    left: `${BRAND_STORY_LINE_X}px`,
+                                    top: `${segment.top}px`,
+                                    height: `${segment.height}px`,
+                                }}
+                            />
+                            <span
+                                ref={(element) => {
+                                    lineSegmentRefs.current[index] = element;
+                                }}
+                                className="home__brand-story-line-path"
+                                style={{
+                                    left: `${BRAND_STORY_LINE_X}px`,
+                                    top: `${segment.top}px`,
+                                    height: `${segment.height}px`,
+                                }}
+                            />
+                        </div>
+                    ))}
                 </div>
 
-                {BRAND_STORY_ITEMS.map((item, index) => (
+                <div className="home__brand-story-block home__brand-story-block--genesis">
                     <div
-                        key={item.id}
-                        className={`home__brand-story-block home__brand-story-block--${item.id}`}
+                        ref={(element) => {
+                            navRefs.current[0] = element;
+                        }}
+                        className="home__brand-story-nav"
                     >
-                        <div
-                            ref={setIndexedRef(navRefs, index)}
-                            className="home__brand-story-nav"
-                        >
-                            {BRAND_STORY_NAV_ITEMS.map((navItem) => (
-                                <span key={navItem} className={navItem === item.label ? 'active' : ''}>
-                                    {navItem}
-                                </span>
-                            ))}
-                        </div>
-
-                        <div className={`home__brand-story-icon home__brand-story-icon--${item.id}`}>
-                            <svg
-                                className={item.svg.className}
-                                width={item.svg.width}
-                                height={item.svg.height}
-                                viewBox={item.svg.viewBox}
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                {item.svg.paths.map((path, pathIndex) => (
-                                    <path
-                                        key={`${item.id}-${pathIndex}`}
-                                        ref={setNestedRef(iconPathRefs, index, pathIndex)}
-                                        d={path.d}
-                                        stroke="#603B2D"
-                                        strokeWidth="2"
-                                        strokeLinecap={path.strokeLinecap}
-                                        strokeLinejoin="round"
-                                        fill="none"
-                                    />
-                                ))}
-                            </svg>
-                        </div>
-
-                        <div
-                            ref={setIndexedRef(contentRefs, index)}
-                            className={`home__brand-story-content home__brand-story-content--${item.id}`}
-                        >
-                            <h3 className="font-serif brand-story-year">{item.heading}</h3>
-                            <h4 className="brand-story-title">
-                                <BrandStoryTitle segments={item.titleSegments} />
-                            </h4>
-                            <p>{item.description}</p>
-                        </div>
+                        <span className="active">Genesis</span>
+                        <span>Heritage</span>
+                        <span>Presence</span>
                     </div>
-                ))}
+                    <div
+                        className="home__brand-story-icon home__brand-story-icon--genesis"
+                    >
+                        <svg
+                            className="brand-story-path-align brand-story-path-align--genesis"
+                            width="184"
+                            height="292"
+                            viewBox="0 0 184 292"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                ref={(element) => {
+                                    iconPathRefs.current[0][0] = element;
+                                }}
+                                d="M106 1 C90 18 68 24 55 26 C60 38 65 49 69 60 C78 82 88 104 97 127 C103 142 108 157 111 170 C114 182 123 192 138 198 C153 203 167 192 176 176 C181 167 183 156 181 152 C176 156 169 164 158 166 C154 167 151 164 153 161 C156 158 162 157 168 155 C176 152 182 148 183 140 C183 126 180 111 172 100 C166 109 159 123 146 131 C141 134 136 136 133 135 C134 131 137 128 142 124 C152 116 162 107 167 96  C170 90 169 84 164 78 C157 67 149 56 139 49 C136 47 134 46 134 46 C133 53 134 61 131 70 C127 83 123 95 117 105 C115 107 112 109 110 107 C108 105 109 102 110 99 C113 89 119 78 123 64 C126 53 126 42 117 37 C112 34 107 31 100 31 C91 30 81 30 72 29 C65 29 60 27 55 24 C53 25 53 28 52 31 C50 36 45 40 40 45 C35 50 35 56 40 61 C47 70 58 76 64 85 C66 88 65 90 62 90 C55 90 49 83 44 77 C39 71 34 65 32 57 C31 54 30 53 29 55 C22 67 15 83 15 98 C19 106 28 116 38 121 C48 127 58 131 65 136 C69 139 70 143 64 145 C56 146 48 141 41 137 C32 131 23 123 15 115 C7 107 2 97 2 126 C1 141 2 154 5 166 C8 176 15 184 24 189 C30 190 36 189 43 185 C51 180 59 175 66 175 C69 176 69 179 67 182 C61 190 49 192 40 193 C34 194 30 195 30 196 C35 204 44 214 50 220 C59 228 70 229 83 225 C93 221 99 213 101 202 C102 194 102 186 106 180 C109 179 110 182 111 185 C115 198 119 211 123 224 C126 235 128 244 132 252 C135 258 141 261 147 258 C150 256 151 252 149 247 C145 239 137 239 131 240 C112 241 106 268 106 291"
+                                stroke="#603B2D"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                fill="none"
+                            />
+                        </svg>
+                    </div>
+                    <div
+                        ref={(element) => {
+                            contentRefs.current[0] = element;
+                        }}
+                        className="home__brand-story-content home__brand-story-content--genesis"
+                    >
+                        <h3 className="font-serif brand-story-year">1987</h3>
+                        <h4 className="brand-story-title">
+                            호주의 미용사 데니스 파파티스 <strong>식물성 추출물</strong>에 주목
+                        </h4>
+                        <p>
+                            Founded in Melbourne, Aesop evolved from a hair salon into a botanical
+                            skincare icon, driven by a desire to trade harsh chemicals for natural
+                            purity.
+                        </p>
+                    </div>
+                </div>
+
+                <div className="home__brand-story-block home__brand-story-block--heritage">
+                    <div
+                        ref={(element) => {
+                            navRefs.current[1] = element;
+                        }}
+                        className="home__brand-story-nav"
+                    >
+                        <span>Genesis</span>
+                        <span className="active">Heritage</span>
+                        <span>Presence</span>
+                    </div>
+                    <div
+                        className="home__brand-story-icon home__brand-story-icon--heritage"
+                    >
+                        <svg
+                            className="brand-story-path-align brand-story-path-align--heritage"
+                            width="329"
+                            height="169"
+                            viewBox="0 0 329 169"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                ref={(element) => {
+                                    iconPathRefs.current[1][0] = element;
+                                }}
+                                d="M139 45.824C149.375 53.0726 163.548 62.8324 174.449 69.1942C184.515 75.0684 194.542 81.0121 204.621 86.8626C209.118 89.4731 213.669 91.759 218.242 94.2273C219.583 94.9509 220.984 96.4674 221.79 98.104C222.597 99.7405 222.89 103.396 222.89 103.396C222.89 103.396 219.2 101.193 216.624 99.8947C207.767 95.4326 198.506 94.014 188.711 95.0693C177.46 96.2815 167.127 100.355 157.046 105.227C144.511 111.285 132.703 118.761 120.463 125.401C118.658 126.38 117.377 126.371 115.728 125.159C111.638 122.15 107.416 119.331 103.259 116.418C92.9165 109.171 82.5864 101.905 72.2408 94.6626C61.5376 87.1698 50.8442 79.6619 40.1004 72.2307C35.938 69.3516 31.6718 66.6325 27.5781 63.2641C29.2682 61.8541 31.2152 61.788 32.9711 61.2183C42.2032 58.223 51.1619 54.4621 60.1855 50.8913C74.4993 45.227 88.9626 40.1436 104.377 38.8172C109.315 38.3923 114.271 38.8348 119.098 40.1551C123.782 41.4364 127.96 43.9249 132.262 46.1073C135.036 47.5144 135.073 47.4995 136.285 44.5006C140.685 33.6129 147.968 25.3323 157.93 19.5435C166.464 14.5853 175.764 11.6749 185.145 8.98975C194.495 6.31321 204.032 4.34683 213.26 1.20535C214.122 0.911887 214.915 0.887639 215.72 1.43028C218.557 3.3434 221.793 4.412 224.883 5.74318C240.535 12.487 256.296 18.9646 271.927 25.7572C281.723 30.0139 291.537 34.2182 301.382 38.3531C304.023 39.4625 306.872 40.1545 309.282 41.8705C308.708 42.7004 307.951 43.0968 307.192 43.3319C302.37 44.8253 297.539 46.2889 292.693 47.6986C281.926 50.8308 271.211 54.0994 261.005 58.9159C251.325 63.4839 242.318 69.0045 235.589 77.7234C230.409 84.4355 226.622 91.8629 225.051 100.379C224.827 101.592 224.943 102.589 225.533 103.593C226.009 103.741 226.296 103.813 226.843 103.822C230.025 103.369 232.152 101.764 234.971 102.58C236.022 97.2063 242.47 90.655 245.606 86.5285C253.259 76.4599 265.407 72.5685 277.014 68.2268C286.449 64.6976 296.275 62.8674 306.029 60.6862C309.465 59.9178 312.883 59.054 316.29 58.155L317.625 57.9689C319.571 56.9739 323.23 56.8052 325.292 55.2613C321.796 52.9304 318.192 51.401 314.548 49.9522C313.696 51.8192 313.925 53.4786 315.409 55.5436C315.972 56.3265 316.783 56.919 317.176 57.8479C317.487 57.9321 318.441 58.3152 318.777 58.6021C321.004 60.5027 323.906 61.1846 326.356 62.7241C326.92 63.0781 327.625 63.1663 328 64.0487C326.071 65.653 323.622 65.7335 321.415 66.1271C313.188 67.5945 302.877 69.7805 294.652 71.2573C283.689 73.2256 272.725 77.5186 262.759 82.9036C253.525 87.8925 241.716 97.8817 235.777 106.659C235.777 111.147 219.538 125.065 206.965 115.739C206.518 115.281 204.698 114.276 204.312 114.084C199.931 111.896 195.209 111.259 190.462 111.189C182.726 111.074 175.204 112.744 167.943 115.31C155.232 119.803 143.473 126.418 131.785 133.136C124.17 137.513 116.634 142.033 109.01 146.393C104.343 149.061 104.009 148.94 99.4231 145.728C85.8928 136.251 72.3559 126.784 58.8146 117.324C45.5804 108.078 32.3375 98.8459 19.0984 89.6077L17.7598 88.9205C16.4473 87.4111 14.4084 86.7791 13.0824 84.8803C16.0833 83.8039 18.9457 82.9526 21.9951 83.6711C24.1759 84.1849 24.405 84.9132 22.8787 86.3867L12.6797 94.4204C10.5181 96.5073 7.2895 97.9605 4.64581 99.2033C3.40268 99.7877 1.9275 99.9593 1 101.375C2.74372 104.119 5.43608 105.845 8.00317 107.653C21.0657 116.857 34.1961 125.959 47.2544 135.169C60.755 144.69 75.9265 155.32 89.5938 164.59C94.18 167.803 94.5131 167.924 99.1805 165.256L99.2598 164.647C100.271 161.905 102.999 159.505 102.999 159.505C110.302 155.625 123.538 149.054 130.669 144.849C142.361 137.956 153.877 130.726 166.151 124.931C176.143 120.214 186.488 116.786 197.607 116.452C201.119 116.347 207.371 120.938 208.393 122.162C210.809 126.65 204.366 129.098 204.366 129.098C199.106 131.005 198.501 131.779 193.348 133.937C182.111 138.644 170.968 143.58 159.732 148.288C148.226 153.109 139 157.445 139 157.445"
+                                stroke="#603B2D"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                fill="none"
+                            />
+                        </svg>
+                    </div>
+                    <div
+                        ref={(element) => {
+                            contentRefs.current[1] = element;
+                        }}
+                        className="home__brand-story-content home__brand-story-content--heritage"
+                    >
+                        <h3 className="font-serif brand-story-year">Fables</h3>
+                        <h4 className="brand-story-title">
+                            우화 작가 이솝(Aesop)의 이름에서 비롯된 <strong>깊은 철학</strong>
+                        </h4>
+                        <p>
+                            Named after the Greek fabulist Aesop, we embody the wisdom of a fable.
+                            Our philosophy seeks to deliver profound resonance through minimalist
+                            simplicity.
+                        </p>
+                    </div>
+                </div>
+
+                <div className="home__brand-story-block home__brand-story-block--presence">
+                    <div
+                        ref={(element) => {
+                            navRefs.current[2] = element;
+                        }}
+                        className="home__brand-story-nav"
+                    >
+                        <span>Genesis</span>
+                        <span>Heritage</span>
+                        <span className="active">Presence</span>
+                    </div>
+                    <div
+                        className="home__brand-story-icon home__brand-story-icon--presence"
+                    >
+                        <svg
+                            width="218"
+                            height="205"
+                            viewBox="0 0 218 205"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="brand-story-path-align brand-story-path-align--presence"
+                        >
+                            <path
+                                ref={(element) => {
+                                    iconPathRefs.current[2][0] = element;
+                                }}
+                                d="M92 37.488L2.5 109.988C2 110.488 1 111.788 1 112.988C1 114.188 1 150.488 1 168.488C1 168.821 1.1 169.588 1.5 169.988C1.9 170.388 53 186.155 78.5 193.988C79.1667 194.321 80.5 194.388 80.5 191.988C80.5 189.588 80.5 104.655 80.5 62.488C80.5 61.988 80.8 60.788 82 59.988C83.2 59.188 131.5 20.6546 155.5 1.48798L216.5 100.988C217 101.988 217 102.188 217 102.988C217 103.788 217 144.655 217 164.988L105.5 203.488L105 174.488C105 173.333 104.6 171.024 103 171.024C101.4 171.024 74.6667 173.667 61.5 174.988C61.5 174.988 61.5 87.5615 61.5 87.2747C61.5 86.988 61.7 86.288 62.5 85.488C63.3 84.688 95.3333 58.3213 111 45.488L143 90.488C143 90.488 144.5 92.788 144.5 93.988C144.5 95.188 144.5 128.155 144.5 144.488C144.5 144.821 144.8 145.588 146 145.988C147.2 146.388 173.167 154.488 186 158.488C186 158.488 188 158.988 188 157.488C188 156.988 188 119.766 188 101.905C188 101.599 187.9 100.788 187.5 99.988C187.1 99.188 152.333 38.988 135 8.98798L15 105.488C14.6667 105.821 14 106.088 14 104.488C14 102.888 14 77.6153 14 65.179C14 64.782 14.2 63.788 15 62.988C15.8 62.188 24.3333 56.6546 28.5 53.988C29.1667 53.6546 30.5 53.388 30.5 54.988C30.5 56.588 31.1667 130.988 31.5 167.988C31.5 168.655 31.2 169.888 30 169.488C28.8 169.088 19.5 166.988 15 165.988C14.5 165.655 13.5 164.588 13.5 162.988C13.5 161.388 13.5 128.373 13.5 112.065L92 118.488V204.211"
+                                fill="none"
+                                stroke="#603B2D"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        </svg>
+                    </div>
+                    <div
+                        ref={(element) => {
+                            contentRefs.current[2] = element;
+                        }}
+                        className="home__brand-story-content home__brand-story-content--presence"
+                    >
+                        <h3 className="font-serif brand-story-year">Aesop</h3>
+                        <h4 className="brand-story-title">
+                            지역의 <strong>고유함</strong>을 존중하는 전 세계{' '}
+                            <strong>단 하나뿐</strong>인 이솝의 공간들
+                        </h4>
+                        <p>
+                            For 30 years, Aesop has curated unique spaces that honor local heritage.
+                            As a result, no two Aesop stores are alike anywhere in the world.
+                        </p>
+                    </div>
+                </div>
             </div>
         </section>
     );

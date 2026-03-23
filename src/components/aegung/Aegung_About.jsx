@@ -11,25 +11,16 @@ const Aegung_About = () => {
 
     useGSAP(() => {
         const section = sectionRef.current;
-        const mm = gsap.matchMedia();
 
-        // 데스크톱에서만 핀 고정 (반응형에서는 비활성화)
-        mm.add('(min-width: 1024px)', () => {
-            ScrollTrigger.create({
-                trigger: section,
-                start: 'top top+=60',
-                endTrigger: section,
-                end: 'bottom bottom',
-                pin: section.querySelector('.aegung__about__text'),
-                pinSpacing: false,
-            });
-
-            return () => {
-                ScrollTrigger.getAll().forEach(st => st.kill());
-            };
+        // 왼쪽 텍스트 핀 고정 — 섹션이 끝날 때까지 텍스트는 제자리
+        ScrollTrigger.create({
+            trigger: section,
+            start: 'top top+=60',   // 헤더 높이 고려
+            endTrigger: section,
+            end: 'bottom bottom',
+            pin: section.querySelector('.aegung__about__text'),
+            pinSpacing: false,
         });
-
-        return () => mm.revert();
     }, { scope: sectionRef });
 
     return (
