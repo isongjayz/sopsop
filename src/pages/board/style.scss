@@ -65,17 +65,22 @@
     &__inner_title {
       font-size: 5vw;
     }
+    &__inner {
+      left: 10vw;
+      margin: 5vw;
+    }
 
     p {
       font-size: 2vw;
     }
+   
   }
 
   @include mobile {
     min-height: 70vw;
 
     &__inner {
-      padding: 40px 20px;
+      padding: 6.7vw 3.3vw;
     }
 
     &__inner_title {
@@ -90,7 +95,17 @@
 
 .board__inner {
   max-width: 1420px;
+  width: 95%;
   margin: 0 auto;
+
+  @include tablet {
+    width: 90%;
+  }
+
+  @include mobile {
+    width: 90%;
+    padding: 0 3.3vw;
+  }
 }
 
 .aroma_guide {
@@ -114,10 +129,11 @@
   }
 
   &__top {
+    width: 100%;
     display: flex;
     flex-direction: row;
-    gap: auto;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap:10px;
     align-items: center;
 
     .aroma_guide__text {
@@ -181,6 +197,105 @@
 .aroma_guide__img {
   width: 700px;
   height: auto;
+}
+
+// ------------------------------
+// aroma_guide 반응형
+// ------------------------------
+@include tablet {
+  .aroma_guide {
+    margin: 19.6vw 0;
+
+    &__title {
+      font-size: 5.1vw;
+      margin-bottom: 4.9vw;
+    }
+
+    // 이미지(1st)→텍스트(2nd): column 그대로
+    &__top {
+      flex-direction: column;
+      gap: 9.8vw;
+      margin-bottom: 9.8vw;
+
+      .aroma_guide__text {
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        padding: 2vw 0;
+
+      }
+    }
+
+    // 텍스트(1st)→이미지(2nd): column-reverse로 이미지 위로
+    &__bottom {
+      flex-direction: column-reverse;
+
+      .aroma_guide__text {
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        padding: 2vw 0;
+        margin-top: 9.8vw;
+      }
+    }
+  }
+
+  .aroma_guide__img {
+    width: 100%;
+  }
+
+  .aroma_guide__text__ko,
+  .aroma_guide__text__en {
+    font-size: 1.8vw;
+    text-align: center;
+  }
+}
+
+@include mobile {
+  .aroma_guide {
+    margin: 10vw 0;
+
+    &__title {
+      font-size: 6vw;
+      margin-bottom: 4.7vw;
+    }
+
+    &__top {
+      flex-direction: column;
+
+      .aroma_guide__text {
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        padding: 2.7vw 0;
+      }
+    }
+
+    &__bottom {
+      flex-direction: column-reverse;
+
+      .aroma_guide__text {
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        padding: 2.7vw 0;
+      }
+    }
+  }
+
+  .aroma_guide__img {
+    width: 100%;
+  }
+
+  .aroma_guide__text__ko,
+  .aroma_guide__text__en {
+    font-size: 2.5vw;
+    text-align: center;
+  }
+
+  .consultation_button {
+    width: 100%;
+  }
 }
 
 .consultation_btm {
@@ -412,7 +527,7 @@
     }
 
     @include mobile {
-      padding: 40px 20px;
+      padding: 6.7vw 3.3vw;
     }
   }
 }
@@ -481,6 +596,20 @@
   font-size: 18px;
   line-height: 150%;
   letter-spacing: -0.36px;
+
+  &_left,
+  &_center {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: -90px; // gap(180px)의 절반
+      top: 0;
+      bottom: 0;
+      border-right: 1px dashed $color-brown-200;
+    }
+  }
 
   &_left {
     display: flex;
@@ -589,4 +718,84 @@
   font-size: 16px;
   line-height: 150%;
   letter-spacing: -0.36px;
+}
+
+// ------------------------------
+// 카드 안내사항 반응형
+// ------------------------------
+@include tablet {
+  .board-card_bottom01 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .board-card_bottom01__card {
+    width: 100%;
+  }
+
+  .board-card_bottom02 {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 4.7vw 3.9vw;
+
+    &_left::after,
+    &_center::after {
+      display: block;
+      left: 0;
+      right: 0;
+      top: auto;
+      bottom: 0;
+      border-right: none;
+      border-bottom: 1px dashed $color-brown-200;
+    }
+
+    &_left,
+    &_center {
+      padding-bottom: 3.9vw;
+    }
+
+    &_center,
+    &_right {
+      padding-top: 3.9vw;
+    }
+  }
+}
+
+@include mobile {
+  .board-card_bottom01 {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .board-card_bottom01__card {
+    width: 100%;
+    padding: 5.3vw 4vw;
+  }
+
+  .board-card_bottom02 {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 5.3vw 3.3vw;
+
+    &_left::after,
+    &_center::after {
+      display: block;
+      left: 0;
+      right: 0;
+      top: auto;
+      bottom: 0;
+      border-right: none;
+      border-bottom: 1px dashed $color-brown-200;
+    }
+
+    &_left,
+    &_center {
+      padding-bottom: 1.7vw;
+    }
+
+    &_center,
+    &_right {
+      padding-top: 1.7vw;
+    }
+  }
 }

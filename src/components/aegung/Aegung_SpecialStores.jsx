@@ -203,21 +203,23 @@ const Aegung_SpecialStores = () => {
       {/* Card 7 - 파르나스: 타이틀+커넥터 행 → 이미지, 설명은 아래 */}
       {card7 && (
         <div className="Aegung_specialStores__card7">
-          <div className="Aegung_specialStores__card7__left">
-            <div className="Aegung_specialStores__card7__title-row">
-              <h3 className="Aegung_specialStores__card7__title">
-                {card7.title}
-              </h3>
+          <div className="Aegung_specialStores__card7_text">
+            <div className="Aegung_specialStores__card7__left">
+              <div className="Aegung_specialStores__card7__title-row">
+                <h3 className="Aegung_specialStores__card7__title">
+                  {card7.title}
+                </h3>
+              </div>
+              <p className="Aegung_specialStores__card7__desc">
+                {card7.description}
+              </p>
             </div>
-            <p className="Aegung_specialStores__card7__desc">
-              {card7.description}
-            </p>
+            <Aegung_SpecialStore_Connector length="110px" />
           </div>
-          <Aegung_SpecialStore_Connector length="110px" />
-
           <div className="Aegung_specialStores__card-image__card7">
             <img src={card7.image} alt={card7.title} />
           </div>
+
         </div>
       )}
     </section>

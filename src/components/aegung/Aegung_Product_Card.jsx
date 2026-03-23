@@ -12,6 +12,7 @@ const Aegung_Product_Card = ({ id, titleKo, titleEnSub, titleEnMain, image, imag
     const addToCart = useStore((state) => state.addToCart);
     const [showModal, setShowModal] = useState(false);
     const cardRef = useRef(null);
+    const btnRef = useRef(null);
 
     const handleAddToCart = () => {
         addToCart({
@@ -27,6 +28,9 @@ const Aegung_Product_Card = ({ id, titleKo, titleEnSub, titleEnMain, image, imag
     };
 
     useGSAP(() => {
+        // 버튼 초기 상태: 숨김
+        gsap.set(btnRef.current, { opacity: 0 });
+
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: cardRef.current,
@@ -50,6 +54,12 @@ const Aegung_Product_Card = ({ id, titleKo, titleEnSub, titleEnMain, image, imag
         .from('.aegung__product-card__rightDesc__wrap', {
             y: 30,
             opacity: 0,
+        }, '<')
+        // 4. 장바구니 버튼: 상품·정보 등장 후 opacity로 등장
+        .to(btnRef.current, {
+            opacity: 1,
+            duration: 0.8,
+            ease: 'power1.out',
         }, '<');
 
     }, { scope: cardRef });
@@ -95,7 +105,7 @@ const Aegung_Product_Card = ({ id, titleKo, titleEnSub, titleEnMain, image, imag
                 </div>
             </div>
             {/* 장바구니 버튼 */}
-            <button className="aegung__product-card__btn" onClick={handleAddToCart}>
+            <button ref={btnRef} className="aegung__product-card__btn" onClick={handleAddToCart}>
                 장바구니 담기
             </button>
             {showModal && <CartModal onClose={() => setShowModal(false)} />}
