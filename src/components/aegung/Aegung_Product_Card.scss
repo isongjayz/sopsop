@@ -1,12 +1,13 @@
 @use "../../styles/utils" as *;
 
 .aegung__product-card {
-  width: 1420px;
+  width: 100%;
+  max-width: 1420px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 32px;
-  margin-bottom: 500px;
+  margin-bottom: 300px;
 
   // 좌우 반전 레이아웃 (두 번째 카드)
   &--reversed {
@@ -60,22 +61,26 @@
   // 오른쪽 정보 및 왼쪽 이미지 랩퍼
   &__info {
     display: flex;
-    width: 1420px;
-    justify-content: space-between;
+    width: 100%;
+    max-width: 1420px;
+    gap: 48px;
     align-items: flex-start;
   }
 
   // 왼쪽 이미지 영역
   &__image {
+    width: 100%;
+    max-width: 600px;
     img {
-      width: 600px;
+      width: 100%;
       height: auto;
       object-fit: contain;
     }
   }
 
   &__rightDesc__wrap {
-    width: 712px;
+    width: 100%;
+    max-width: 712px;
     display: flex;
     padding: 16px 0;
     flex-direction: column;
@@ -167,74 +172,101 @@
   // 반응형
   // ----------------------------------
   @include tablet {
-    padding: 80px 0;
+    padding: 4vw 0;
+    .aegung__product-card {
+      margin-bottom: 7.3vw;
+    }
+
+    &--reversed .aegung__product-card__info {
+      flex-direction: column;
+    }
 
     &__info {
-      grid-template-columns: 1fr; // 모바일/태블릿에선 1열로
-      grid-auto-flow: row;
+      flex-direction: column;
     }
 
     &__image {
-      grid-column: 1;
-      grid-row: auto; // 자동 배치
+      max-width: 100%;
       margin: 0 auto;
     }
 
-    &__desc,
-    &__notes,
-    &__btn {
-      grid-column: 1;
+    &__rightDesc__wrap {
+      max-width: 100%;
+      align-items: flex-start;
     }
 
     &__header {
       .aegung__title-ko {
-        font-size: 56px;
-      }
-
-      .title-divider {
-        height: 50px;
+        font-size: 5.5vw;
+        width: fit-content;
+        padding-right: 1vw;
       }
 
       .aegung__title-en-main {
-        font-size: 24px;
+        font-size: 2.3vw;
       }
 
       .aegung__title-en-sub {
-        font-size: 16px;
+        font-size: 1.6vw;
       }
     }
 
     &__desc {
-      font-size: 20px;
+      font-size: 2vw;
+    }
+    &__price {
+      padding-right: 0;
+      align-self: flex-end;
     }
   }
 
   @include mobile {
-    padding: 60px 15px;
+    &--reversed .aegung__product-card__info {
+      flex-direction: column;
+    }
+
+    &__info {
+      flex-direction: column;
+    }
+
+    &__image {
+      max-width: 100%;
+    }
+
+    &__rightDesc__wrap {
+      max-width: 100%;
+      align-items: flex-start;
+    }
 
     &__header {
       flex-direction: column;
       align-items: flex-start;
-      gap: 12px;
+      gap: 1vw;
 
-      .title-divider {
-        display: none; // 모바일에선 세로 선 제거
+      .aegung__title-ko {
+        width: fit-content;
+        padding-right: 1.7vw;
       }
     }
 
     &__desc {
-      font-size: 16px;
+      font-size: 2.7vw;
     }
 
     &__notes {
       .aegung__note-item {
         flex-direction: column;
-        gap: 8px;
+        gap: 0.7vw;
       }
     }
 
+    &__price {
+      padding-right: 0;
+      align-self: flex-end;
+    }
+
     &__btn {
-      width: 100%; // 모바일에선 꽉 찬 버튼
+      width: 100%;
     }
   }
 }

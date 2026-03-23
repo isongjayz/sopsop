@@ -10,6 +10,8 @@
 // ===== 5. Best Selection (베스트 상품) =====
 .home {
     &__best {
+        position: relative;
+        z-index: 0;
         padding: 100px 0 150px;
         background: $color-yellow-500;
 

@@ -1,18 +1,12 @@
 @use '../../../../styles/utils' as *;
 
-// 수정사항:
-// - hero 레이아웃과 모션 스타일을 한 파일로 합침
-// - 홈에서 가장 복잡한 섹션만 별도 파일로 유지
-
-// 수정사항: hero 전용 스타일 분리
-
 .home {
-
-    // ===== Hero 섹션 =====
-    // 수정사항:
-    // - bottle_sequence_fix_outline 애니메이션 hero를 홈 스타일 체계로 이식
-    // - 배경/오버레이/svg/카피를 분리해 유지보수하기 쉬운 구조로 정리
     &__hero {
+        --hero-text-travel: clamp(48px, 12.76vw, 245px);
+        --hero-title-height: clamp(108px, 12vw, 240px);
+        --hero-text-size: clamp(2rem, 9.375vw, 11.25rem);
+        --hero-subtext-width: min(507px, max(180px, calc(50vw - 48px)));
+
         position: relative;
         width: 100%;
         min-height: 100vh;
@@ -33,15 +27,10 @@
                 animation-delay: 1.6s;
             }
 
-            .home__hero-text {
-                opacity: 1;
-                visibility: visible;
-            }
-
             .home__hero-outline--base {
                 opacity: 1;
                 visibility: visible;
-                transition: stroke-dashoffset 1.0s cubic-bezier(0.62, 0.05, 0.26, 1);
+                transition: stroke-dashoffset 1s cubic-bezier(0.62, 0.05, 0.26, 1);
                 stroke-dashoffset: 0 !important;
                 animation: homeHeroOutlineFadeAway 0.3s linear forwards;
                 animation-delay: 1.25s;
@@ -50,7 +39,7 @@
             .home__hero-outline--glow {
                 visibility: visible;
                 animation:
-                    homeHeroDrawPath 1.0s cubic-bezier(0.62, 0.05, 0.26, 1) forwards,
+                    homeHeroDrawPath 1s cubic-bezier(0.62, 0.05, 0.26, 1) forwards,
                     homeHeroOutlineFlash 0.4s ease-out 1 forwards;
                 animation-delay: 0s, 1.05s;
             }
@@ -60,10 +49,19 @@
                 animation-delay: 1.2s;
             }
 
-            // .home__hero-title-container {
-            //     // GSAP에서 제어
-            // }
+            .home__hero-text {
+                visibility: visible;
+            }
 
+            .home__hero-text--left {
+                animation: homeHeroTextLeftIn 0.8s ease forwards;
+                animation-delay: 1.35s;
+            }
+
+            .home__hero-text--right {
+                animation: homeHeroTextRightIn 0.8s ease forwards;
+                animation-delay: 1.35s;
+            }
         }
     }
 
@@ -79,11 +77,10 @@
     }
 
     &__hero-background-image {
+        display: block;
         width: 100%;
         height: 100%;
         object-fit: cover;
-        display: block;
-        transform: none;
     }
 
     &__hero-overlay {
@@ -120,15 +117,14 @@
         &--base {
             stroke: rgba(255, 250, 244, 0.98);
             stroke-width: 2.2;
-            filter: none;
         }
 
         &--glow {
             stroke: rgba(255, 244, 226, 1);
             stroke-width: 3.2;
             opacity: 0;
-            filter:
-                drop-shadow(0 0 5px rgba(255, 244, 226, 0.9)) drop-shadow(0 0 12px rgba(255, 231, 197, 0.45));
+            filter: drop-shadow(0 0 5px rgba(255, 244, 226, 0.9))
+                drop-shadow(0 0 12px rgba(255, 231, 197, 0.45));
         }
     }
 
@@ -136,45 +132,47 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);
         z-index: 3;
         width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        height: var(--hero-title-height);
+        transform: translate(-50%, -50%);
         pointer-events: none;
     }
 
     &__hero-heading {
-        display: flex;
-        align-items: center;
-        gap: 0; // GSAP x translation으로 간격 조절
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 0;
         color: #f5ede5;
         text-shadow: 0 2px 18px rgba(10, 8, 7, 0.22);
-        margin: 0;
-        font-size: clamp(2rem, 3.2vw, 4rem);
-        font-weight: 400;
-        line-height: 1.08;
-        letter-spacing: -0.03em;
     }
 
     &__hero-text {
+        position: absolute;
+        top: 50%;
         font-family: 'Ogg', serif;
-        font-size: 180px;
-        line-height: 1.5;
+        font-size: var(--hero-text-size);
+        line-height: 1.08;
+        letter-spacing: -0.03em;
         color: $color-yellow-50;
         white-space: nowrap;
         opacity: 0;
         visibility: hidden;
+        will-change: transform, opacity;
+        transform: translateY(-50%);
 
         &--left {
+            right: 50%;
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
-            text-align: right;
+            align-items: flex-start;
+            text-align: left;
+            max-width: min(100%, 26rem);
         }
 
         &--right {
+            left: 50%;
             text-align: left;
         }
     }
@@ -182,26 +180,20 @@
     &__hero-subtext {
         position: absolute;
         top: 100%;
-        right: 0;
-        width: max-content;
-        margin-top: 2rem;
-
-        font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+        left: 0;
+        width: var(--hero-subtext-width);
+        margin-top: clamp(0.9rem, 2vw, 2rem);
+        color: #e6e2e0;
         font-family: 'Pretendard', sans-serif;
-        line-height: 1.6;
-        letter-spacing: 0.02em;
+        font-size: clamp(14px, 0.75rem + 0.3vw, 16px);
+        line-height: 1.3;
+        letter-spacing: -0.352px;
         text-align: left;
-        text-transform: none;
         opacity: 0.95;
-        color: #E6E2E0;
         white-space: normal;
         word-break: keep-all;
     }
-
 }
-
-
-// 수정사항: hero 애니메이션/반응형 규칙 분리
 
 @keyframes homeHeroDrawPath {
     from {
@@ -258,12 +250,27 @@
     }
 }
 
+@keyframes homeHeroTextLeftIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) translateX(0);
+    }
 
-@media (max-width: 1100px) {
-    .home {
-        &__hero-heading {
-            font-size: clamp(1.5rem, 3.2vw, 2.6rem);
-        }
+    to {
+        opacity: 1;
+        transform: translateY(-50%) translateX(calc(var(--hero-text-travel) * -1));
+    }
+}
+
+@keyframes homeHeroTextRightIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) translateX(0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(-50%) translateX(var(--hero-text-travel));
     }
 }
 
@@ -272,39 +279,42 @@
         &__hero {
             min-height: 100svh;
         }
+    }
+}
 
-        &__hero-title-container {
-            top: auto;
-            bottom: 10svh;
-            transform: translateX(-50%);
+@media (max-width: 600px) {
+    .home {
+        &__hero-text {
+            line-height: 1;
         }
 
-        &__hero-heading {
-            font-size: clamp(1.2rem, 5vw, 2rem);
+        &__hero-text--left {
+            max-width: min(100%, 11rem);
+        }
+
+        &__hero-subtext {
+            margin-top: 0.7rem;
+            line-height: 1.4;
         }
     }
 }
 
-
-
-
 @media (prefers-reduced-motion: reduce) {
     .home {
-
         &__hero-overlay,
         &__hero-bottle-image,
-        &__hero-copy,
-        &__hero-outline--glow {
+        &__hero-outline--glow,
+        &__hero-text {
             animation: none !important;
             transition: none !important;
         }
 
         &__hero-overlay {
             opacity: 0;
+            visibility: hidden;
         }
 
-        &__hero-bottle-image,
-        &__hero-copy {
+        &__hero-bottle-image {
             opacity: 1;
             transform: none;
         }
@@ -312,6 +322,14 @@
         &__hero-text {
             opacity: 1;
             visibility: visible;
+        }
+
+        &__hero-text--left {
+            transform: translateY(-50%) translateX(calc(var(--hero-text-travel) * -1));
+        }
+
+        &__hero-text--right {
+            transform: translateY(-50%) translateX(var(--hero-text-travel));
         }
 
         &__hero-outline--base,
