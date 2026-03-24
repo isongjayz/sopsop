@@ -27,7 +27,7 @@
       font-size: 82px;
       font-weight: 500;
       color: $color-brown-700;
-      line-height: 100%;
+      line-height: 135%;
       letter-spacing: -1.804px;
       width: 240px;
       border-right: 2px solid var(--brown-brown-500-k, #603b2d);
@@ -94,9 +94,9 @@
   &__desc {
     // width: 712px;
     font-family: "Pretendard", sans-serif;
-    font-size: 24px;
+    font-size: 18px;
     color: $color-brown-500;
-    line-height: 150%;
+    line-height: 135%;
     letter-spacing: -0.24px;
     margin-bottom: 32px;
   }
@@ -121,7 +121,7 @@
       font-size: 16px;
       font-weight: 600;
       color: $color-brown-200;
-      line-height: 150%;
+      line-height: 135%;
       letter-spacing: -0.32px;
       flex-shrink: 0;
       width: 120px; // 이름 영역에 고정 너비 할당
@@ -131,7 +131,7 @@
       font-family: "Pretendard", sans-serif;
       font-size: 16px;
       color: $color-brown-200;
-      line-height: 150%;
+      line-height: 135%;
       letter-spacing: -0.32px;
       color: var(--brown-brown-200-m, #B6A59E);
       font-style: normal;
