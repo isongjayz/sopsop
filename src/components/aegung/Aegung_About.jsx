@@ -39,7 +39,7 @@ const Aegung_About = () => {
                     <h2 className="aegung__about__title">
                         궁의 문을 열다
                         <br />
-                        '스며듦'의 미학
+                            &nbsp;&nbsp;&nbsp;&nbsp;'스며듦'의 미학
                     </h2>
                     <div className="aegung__about__subtitle_box">
                         <p className="aegung__about__subtitle">

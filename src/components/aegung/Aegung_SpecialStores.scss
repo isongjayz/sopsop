@@ -35,13 +35,13 @@
       left: 250px;
       width: 100%;
       max-width: 720px;
-      height: 650px;
+      height: 550px;
       background-color: $color-brown-500;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: flex-start;
-      padding: 70px 60px;
+      padding: 60px 60px;
     }
 
     &-top {
@@ -71,13 +71,13 @@
     &-bottom {
       display: flex;
       flex-direction: column;
-      gap: 32px;
+      gap: 16px;
     }
 
     &-subtitle {
       font-family: "Pretendard", sans-serif;
       font-size: 28px;
-      font-weight: 700;
+      font-weight: 500;
       color: $white;
       line-height: 150%;
       letter-spacing: -0.56px;
@@ -85,10 +85,10 @@
 
     &-desc {
       font-family: "Pretendard", sans-serif;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 300;
       color: $white;
-      line-height: 150%;
+      line-height: 135%;
       letter-spacing: -0.4px;
     }
   }
@@ -351,10 +351,10 @@
 
     &__desc {
       font-family: "Pretendard", sans-serif;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 400;
       color: $color-brown-200;
-      line-height: 160%;
+      line-height: 135%;
       letter-spacing: -0.32px;
       width: 100%;
       text-align: right;
