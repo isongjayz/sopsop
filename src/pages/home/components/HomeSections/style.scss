@@ -286,6 +286,18 @@
         padding: 20px;
         border-radius: 5px;
 
+        &:nth-child(2) {
+            .home__gift-image {
+                transform: rotate(4.104deg);
+            }
+        }
+
+        &:nth-child(3) {
+            .home__gift-image {
+                transform: rotate(0);
+            }
+        }
+
         .home__gift-image {
             width: 100%;
             max-width: 560px;
