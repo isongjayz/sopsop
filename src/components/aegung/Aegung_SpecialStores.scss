@@ -314,29 +314,29 @@
     margin: 0 auto 100px;
     display: flex;
     flex-direction: row;
-    align-items: flex-end;
+    align-items: flex-start;
 
     &_text {
+      margin-top: 100px;
       display: flex;
       flex-direction: row;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       gap: 30px;
     }
 
     &__left {
       display: flex;
-      flex-direction: column;
-      gap: 10px;
-      align-items: center;
       width: 100%;
-      text-align: center;
+      text-align: left;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
     }
 
     &__title-row {
       display: flex;
-      align-items: center;
-      justify-content: center;
+
     }
 
     &__title {
@@ -357,7 +357,7 @@
       line-height: 160%;
       letter-spacing: -0.32px;
       width: 100%;
-      text-align: center;
+      text-align: right;
     }
   }
 
@@ -471,7 +471,8 @@
         width: 100%;
 
       }
-      &__card5 img{
+
+      &__card5 img {
         margin-bottom: 3vw;
       }
     }
@@ -487,6 +488,7 @@
       flex-direction: column;
       max-width: 100%;
       margin-top: 8vw;
+      margin-bottom: 60px;
 
       &__img {
         margin-top: 0;
@@ -502,17 +504,22 @@
 
     // Card 7 (파르나스) — 이미지 위, 텍스트 아래 (다른 매장과 동일 패턴)
     &__card7 {
+      display: flex;
       flex-direction: column-reverse; // DOM: 텍스트 먼저 → column-reverse로 이미지 위
-      margin: 8vw auto 0;
       max-width: 100%;
-      align-items: center;
-      gap: 5vw;
+      align-items: flex-start;
+      margin-bottom: 60px;
+      gap: 8px;
+
 
       &_text {
+        display: flex;
         flex-direction: column;
+        justify-content: flex-start;
         align-items: center;
         width: 100%;
-        gap: 3vw;
+
+
       }
 
       &__left {
@@ -569,11 +576,13 @@
   // 반응형 - 모바일
   // ----------------------------------
   @include mobile {
+
     // card7 모바일: 폰트 크기 별도 조정 (600px 기준)
     &__card7 {
       &__title {
         font-size: 4vw;
       }
+
       &__desc {
         font-size: 2.7vw;
       }

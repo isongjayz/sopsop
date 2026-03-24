@@ -1,9 +1,16 @@
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import Aegung_SpecialStore_CardText from "./Aegung_SpecialStore_CardText";
 import Aegung_SpecialStore_Connector from "./Aegung_SpecialStore_Connector";
 import { specialStoreData } from "../../assets/api/aegung.jsx";
 import "./Aegung_SpecialStores.scss";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const Aegung_SpecialStores = () => {
+  const sectionRef = useRef(null);
   const card1 = specialStoreData.find((item) => item.id === 1);
   const card2 = specialStoreData.find((item) => item.id === 2);
   const card3 = specialStoreData.find((item) => item.id === 3);
@@ -12,8 +19,43 @@ const Aegung_SpecialStores = () => {
   const card6 = specialStoreData.find((item) => item.id === 6);
   const card7 = specialStoreData.find((item) => item.id === 7);
 
+  useGSAP(() => {
+    // 카드별 선택자 + 같은 행 내 순차 delay 설정
+    const cardConfig = [
+      { selector: ".Aegung_specialStores__card1__wrap",         delay: 0   },
+      { selector: ".Aegung_specialStores__card2__wrap",         delay: 0.25 },
+      { selector: ".Aegung_specialStores__card3",               delay: 0   },
+      { selector: ".Aegung_specialStores__section2__card4",     delay: 0   },
+      { selector: ".Aegung_specialStores__section2__card5",     delay: 0.25 },
+      { selector: ".Aegung_specialStores__section3__card6",     delay: 0   },
+      { selector: ".Aegung_specialStores__card7",               delay: 0   },
+    ];
+
+    cardConfig.forEach(({ selector, delay }) => {
+      const el = sectionRef.current.querySelector(selector);
+      if (!el) return;
+
+      gsap.fromTo(
+        el,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 50,
+          duration: 3,
+          delay,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 88%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    });
+  }, { scope: sectionRef });
+
   return (
-    <section className="Aegung_specialStores">
+    <section className="Aegung_specialStores" ref={sectionRef}>
       <div className="Aegung_specialStores__visual">
         <img
           className="Aegung_specialStores__visual-bg"

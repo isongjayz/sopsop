@@ -26,14 +26,21 @@ const Aegung_Packaging = () => {
 
         const track = trackRef.current;
 
+        // 마지막 아이템이 화면 가운데 올 때까지의 스크롤 거리 계산
+        const getScrollDistance = () => {
+            const lastItem = track.lastElementChild;
+            const lastItemWidth = lastItem ? lastItem.offsetWidth : 0;
+            return track.scrollWidth - lastItemWidth / 2 - window.innerWidth / 2;
+        };
+
         // 수직 스크롤 → 가로 슬라이드 변환
         gsap.to(track, {
-            x: () => -(track.scrollWidth - window.innerWidth),
+            x: () => -getScrollDistance(),
             ease: 'none',
             scrollTrigger: {
                 trigger: sliderSectionRef.current,
                 start: 'top top',
-                end: () => `+=${track.scrollWidth - window.innerWidth}`,
+                end: () => `+=${getScrollDistance()}`,
                 pin: true,
                 scrub: 1,
                 invalidateOnRefresh: true,
