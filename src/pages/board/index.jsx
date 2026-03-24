@@ -49,7 +49,7 @@ function Board() {
           <h2 className="aroma_guide__title">AROMA GUIDE</h2>
           <div className="aroma_guide__top">
             <img
-              src="../../public/images/board/guide01.png"
+              src="/images/board/guide01.png"
               alt=""
               className="aroma_guide__img"
             />
@@ -91,7 +91,7 @@ function Board() {
               </p>
             </div>
             <img
-              src="../../public/images/board/guide02.png"
+              src="/images/board/guide02.png"
               alt=""
               className="aroma_guide__img"
             />
@@ -186,7 +186,7 @@ function Board() {
           <div className="board-card_bottom01">
             <button className="board-card_bottom01__card">
               <img
-                src="../../public/images/board/Icon01.svg"
+                src="/images/board/Icon01.svg"
                 alt="주문관련"
                 className="board-card_bottom01__card__icon"
               />
@@ -200,7 +200,7 @@ function Board() {
             </button>
             <button className="board-card_bottom01__card">
               <img
-                src="../../public/images/board/Icon02.svg"
+                src="/images/board/Icon02.svg"
                 alt="배송관련"
                 className="board-card_bottom01__card__icon"
               />
@@ -214,7 +214,7 @@ function Board() {
             </button>
             <button className="board-card_bottom01__card">
               <img
-                src="../../public/images/board/Icon03.svg"
+                src="/images/board/Icon03.svg"
                 alt="제품관련"
                 className="board-card_bottom01__card__icon"
               />
@@ -228,7 +228,7 @@ function Board() {
             </button>
             <button className="board-card_bottom01__card">
               <img
-                src="../../public/images/board/Icon04.svg"
+                src="/images/board/Icon04.svg"
                 alt="매장관련"
                 className="board-card_bottom01__card__icon"
               />
