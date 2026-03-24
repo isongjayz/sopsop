@@ -22,13 +22,13 @@ const Aegung_SpecialStores = () => {
   useGSAP(() => {
     // 카드별 선택자 + 같은 행 내 순차 delay 설정
     const cardConfig = [
-      { selector: ".Aegung_specialStores__card1__wrap",         delay: 0   },
-      { selector: ".Aegung_specialStores__card2__wrap",         delay: 0.25 },
-      { selector: ".Aegung_specialStores__card3",               delay: 0   },
-      { selector: ".Aegung_specialStores__section2__card4",     delay: 0   },
-      { selector: ".Aegung_specialStores__section2__card5",     delay: 0.25 },
-      { selector: ".Aegung_specialStores__section3__card6",     delay: 0   },
-      { selector: ".Aegung_specialStores__card7",               delay: 0   },
+      { selector: ".Aegung_specialStores__card1__wrap", delay: 0 },
+      { selector: ".Aegung_specialStores__card2__wrap", delay: 0.25 },
+      { selector: ".Aegung_specialStores__card3", delay: 0 },
+      { selector: ".Aegung_specialStores__section2__card4", delay: 0 },
+      { selector: ".Aegung_specialStores__section2__card5", delay: 0.25 },
+      { selector: ".Aegung_specialStores__section3__card6", delay: 0 },
+      { selector: ".Aegung_specialStores__card7", delay: 0 },
     ];
 
     cardConfig.forEach(({ selector, delay }) => {
@@ -86,7 +86,7 @@ const Aegung_SpecialStores = () => {
               이솝 스토어에서 온전히 경험해 보세요.
               <br />
               <span className='FB'>한국 전통 건축의 미학</span>을 존중하며 다듬어진 공간들은
-              <br />  
+              <br />
               번잡함에서 벗어난 온전한 쉼을 제공합니다.
             </p>
           </div>
