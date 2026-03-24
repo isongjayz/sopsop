@@ -288,11 +288,12 @@
 
         .home__gift-image {
             width: 100%;
-            max-width: 560px; // 이미지는 유저가 만족했던 너비로 고정
+            max-width: 560px;
             margin: 0 auto 30px;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 0 32px 0 rgba(0, 0, 0, 0.35);
+            // blur 세기 줄이기
+            box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.35);
             transform: rotate(-4.104deg);
 
             img {
@@ -324,6 +325,7 @@
             font-size: 20px;
             color: $color-brown-300;
             line-height: 1.5;
+            font-weight: 400;
             letter-spacing: -0.4px;
             margin-bottom: 30px;
             word-break: keep-all;
@@ -334,12 +336,17 @@
             padding: 11px 32px;
             border: 1px solid $color-brown-500;
             color: $color-brown-500;
+            font-family: 'Pretendard', sans-serif;
             font-size: 21px;
-            transition: all 0.3s;
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: -0.231px;
             text-decoration: none;
+            transition: all 0.3s ease;
 
             &:hover {
-                background: $color-brown-700;
+                border-color: $color-brown-900;
+                background-color: $color-brown-900;
                 color: $white;
             }
         }

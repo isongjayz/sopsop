@@ -241,6 +241,10 @@
 
     &__brand-story-content--presence {
         margin-left: 0;
+
+        .brand-story-year {
+            margin-bottom: clamp(6px, 1vw, 12px);
+        }
     }
 }
 
