@@ -7,7 +7,6 @@ import {
     BOTTLE_OUTLINE_PATH,
     ENTRY_START_VIEWPORT_RATIO,
     FLOW_LINES,
-    GUIDE_LINE_X,
     HORIZONTAL_SCROLL_END,
     HORIZONTAL_SCROLL_START,
     HORIZONTAL_WIDTH,
@@ -19,17 +18,11 @@ import {
     QUOTE_BASELINE_SHIFT_Y,
     QUOTE_END_RATIO,
     QUOTE_FLOW_PATH_D,
-    QUOTE_FONT_SIZE,
-    QUOTE_LIFT,
     QUOTE_PROGRESS_OFFSET,
     QUOTE_SOURCE_TEXT,
     QUOTE_START_RATIO,
-    QUOTE_TRACKING,
     SECTION_EXIT_BUFFER_RATIO,
-    STAGE_SCALE_REDUCTION,
-    STAGE_VERTICAL_BIAS,
     START_PATH_D,
-    TARGET_VISIBLE_WIDTH,
 } from './homeBotanicalsData';
 import {
     BOTANICALS_DRAW_SEQUENCE,
@@ -38,16 +31,6 @@ import {
 } from './homeStoryMotion';
 
 gsap.registerPlugin(ScrollTrigger);
-
-function getQuoteAdvance(character, context) {
-    const measuredWidth = context.measureText(character === ' ' ? '\u00A0' : character).width;
-
-    if (character === ' ') {
-        return measuredWidth + QUOTE_TRACKING * 1.8;
-    }
-
-    return measuredWidth + QUOTE_TRACKING;
-}
 
 function createSvgPath(d) {
     if (typeof document === 'undefined') {
@@ -60,8 +43,12 @@ function createSvgPath(d) {
     return path;
 }
 
-function getPathLength(d) {
+function getPathLength(d, transform) {
     const path = createSvgPath(d);
+
+    if (path && transform) {
+        path.setAttribute('transform', transform);
+    }
 
     return path ? path.getTotalLength() : 0;
 }
@@ -72,6 +59,16 @@ const PATH_LENGTHS = {
     merge: getPathLength(MERGE_PATH_D),
     outline: getPathLength(BOTTLE_OUTLINE_PATH),
 };
+
+const BOTANICALS_PRE_HORIZONTAL_HOLD_RATIO = 0.22;
+const BOTANICALS_BOTTOM_BUFFER_RATIO = 0.4;
+const BOTANICALS_HORIZONTAL_LEAD_IN = 0;
+const BOTANICALS_HORIZONTAL_OVERSCAN = 0;
+const BOTANICALS_PHASE_ONE_END = 0.24;
+const BOTANICALS_PHASE_TWO_END = 0.82;
+const BOTANICALS_PHASE_ONE_VERTICAL_TARGET_RATIO = 0.62;
+const BOTANICALS_VIEWPORT_WIDTH = 1920;
+const BOTANICALS_VIEWPORT_HEIGHT = 1024;
 
 let quotePathMetrics;
 
@@ -92,64 +89,6 @@ function getQuotePathMetrics() {
     };
 
     return quotePathMetrics;
-}
-
-function getQuoteMeasurementContext() {
-    if (typeof document === 'undefined') {
-        return null;
-    }
-
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-
-    if (!context) {
-        return null;
-    }
-
-    context.font = `${QUOTE_FONT_SIZE}px Ogg, serif`;
-
-    return context;
-}
-
-function getQuoteLetters() {
-    const metrics = getQuotePathMetrics();
-    const context = getQuoteMeasurementContext();
-
-    if (!metrics || !context) {
-        return [];
-    }
-
-    const { path, totalLength } = metrics;
-    const startLength = totalLength * QUOTE_START_RATIO;
-    const endLength = totalLength * QUOTE_END_RATIO;
-    const availableLength = Math.max(endLength - startLength, 1);
-    const characters = QUOTE_SOURCE_TEXT.split('');
-    const advances = characters.map((char) => getQuoteAdvance(char, context));
-    const totalAdvance = advances.reduce((sum, advance) => sum + advance, 0);
-    const spacingScale = totalAdvance > 0 ? availableLength / totalAdvance : 1;
-    let cursor = startLength;
-
-    return characters.map((char, index) => {
-        const clampedCursor = Math.min(cursor, endLength);
-        const point = path.getPointAtLength(clampedCursor);
-        const nextPoint = path.getPointAtLength(Math.min(clampedCursor + 1, endLength));
-        const angle = (Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * 180) / Math.PI;
-        const normalAngle = ((angle - 90) * Math.PI) / 180;
-        const left = point.x + Math.cos(normalAngle) * QUOTE_LIFT;
-        const top = point.y + Math.sin(normalAngle) * QUOTE_LIFT;
-
-        cursor += advances[index] * spacingScale;
-
-        return {
-            id: `quote-auto-${index}`,
-            char,
-            finalLeft: left,
-            finalTop: top,
-            finalRotation: angle,
-            finalLength: clampedCursor,
-            finalProgress: clampedCursor / totalLength,
-        };
-    });
 }
 
 function clamp01(value) {
@@ -181,71 +120,60 @@ function getSegmentDrawStyle(progress, window, length) {
     };
 }
 
+function getReverseSegmentDrawStyle(progress, window, length) {
+    const localProgress = getWindowProgress(progress, window[0], window[1]);
+    const easedProgress = getSoftProgress(localProgress);
+
+    return {
+        strokeDasharray: length,
+        strokeDashoffset: -length * (1 - easedProgress),
+    };
+}
+
 function easeOutCubic(value) {
     return 1 - (1 - value) ** 3;
 }
 
-function getStageScrollMetrics(scale, viewportWidth) {
-    const scaledWidth = HORIZONTAL_WIDTH * scale;
-    const maxHorizontalOffset = Math.max(scaledWidth - viewportWidth, 0);
-    const horizontalWindow = Math.max(HORIZONTAL_SCROLL_END - HORIZONTAL_SCROLL_START, 0.01);
+function lerp(start, end, progress) {
+    return start + (end - start) * progress;
+}
+
+function getCameraMetrics(scale, viewportWidth, viewportHeight) {
+    const visibleWorldWidth = viewportWidth / Math.max(scale, 0.001);
+    const visibleWorldHeight = viewportHeight / Math.max(scale, 0.001);
+    const leadInWorld = BOTANICALS_HORIZONTAL_LEAD_IN / Math.max(scale, 0.001);
+    const maxCameraX = Math.max(
+        HORIZONTAL_WIDTH -
+            visibleWorldWidth +
+            leadInWorld +
+            BOTANICALS_HORIZONTAL_OVERSCAN / Math.max(scale, 0.001),
+        0
+    );
+    const maxCameraY = Math.max(BASE_HEIGHT - visibleWorldHeight, 0);
 
     return {
-        maxHorizontalOffset,
-        totalScrollDistance: maxHorizontalOffset / horizontalWindow,
+        maxCameraX,
+        maxCameraY,
+        cameraXStart: 0,
     };
 }
 
-function getPointFromQuotePath(path, totalLength, targetLength) {
-    const startPoint = path.getPointAtLength(0);
-    const startNextPoint = path.getPointAtLength(Math.min(1, totalLength));
-    const startAngle = Math.atan2(startNextPoint.y - startPoint.y, startNextPoint.x - startPoint.x);
-
-    if (targetLength < 0) {
-        return {
-            point: {
-                x: startPoint.x + Math.cos(startAngle) * targetLength,
-                y: startPoint.y + Math.sin(startAngle) * targetLength,
-            },
-            angle: (startAngle * 180) / Math.PI,
-        };
-    }
-
-    const clampedLength = Math.min(targetLength, totalLength);
-    const point = path.getPointAtLength(clampedLength);
-    const nextPoint = path.getPointAtLength(Math.min(clampedLength + 1, totalLength));
-    const angle = (Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * 180) / Math.PI;
-
-    return { point, angle };
-}
-
-function getMotionQuoteLetters(letters, progress) {
+function getQuoteStartOffset(progress) {
     const metrics = getQuotePathMetrics();
 
     if (!metrics) {
-        return [];
+        return '0px';
     }
 
-    const { path, totalLength } = metrics;
-    const motionProgress = getSoftProgress(clamp01(progress + QUOTE_PROGRESS_OFFSET));
-    const trailingLetter = letters[letters.length - 1];
-    const trailingLength = trailingLetter ? trailingLetter.finalLength : 0;
+    const { totalLength } = metrics;
+    const startLength = Math.max(totalLength * QUOTE_START_RATIO, totalLength * 0.16);
+    const endLength = totalLength * QUOTE_END_RATIO;
+    const travelLength = Math.max(endLength - startLength, 1);
+    const motionProgress = getSoftProgress(clamp01(progress + QUOTE_PROGRESS_OFFSET)) ** 1.35;
+    const entryOffset = travelLength * 0.12;
+    const currentOffset = startLength - entryOffset + (travelLength + entryOffset) * motionProgress;
 
-    return letters.map((letter) => {
-        const startLength = letter.finalLength - trailingLength;
-        const currentLength = startLength + (letter.finalLength - startLength) * motionProgress;
-        const { point, angle } = getPointFromQuotePath(path, totalLength, currentLength);
-        const normalAngle = ((angle - 90) * Math.PI) / 180;
-        const isBeforePathStart = currentLength < 0;
-
-        return {
-            ...letter,
-            left: point.x + Math.cos(normalAngle) * QUOTE_LIFT,
-            top: point.y + Math.sin(normalAngle) * QUOTE_LIFT - QUOTE_BASELINE_SHIFT_Y,
-            rotation: angle,
-            hidden: isBeforePathStart,
-        };
-    });
+    return `${currentOffset}px`;
 }
 
 function getIngredientStyles(progress) {
@@ -277,12 +205,10 @@ function getIngredientStyles(progress) {
 
 function HomeBotanicals() {
     const [stageScale, setStageScale] = useState(1);
-    const [stageOffsetY, setStageOffsetY] = useState(0);
+    const [viewportSize, setViewportSize] = useState({ width: 1, height: BASE_HEIGHT });
     const [sectionHeight, setSectionHeight] = useState(BASE_HEIGHT);
     const [animationScrollDistance, setAnimationScrollDistance] = useState(BASE_HEIGHT);
-    const [horizontalOffset, setHorizontalOffset] = useState(0);
     const [sectionProgress, setSectionProgress] = useState(0);
-    const [quoteLetters, setQuoteLetters] = useState([]);
     const [quoteProgress, setQuoteProgress] = useState(0);
     const sectionRef = useRef(null);
     const viewportRef = useRef(null);
@@ -290,12 +216,9 @@ function HomeBotanicals() {
     useEffect(() => {
         const updateStageScale = () => {
             const { height: viewportHeight, width: viewportWidth } = getViewportSize();
-            const heightFitScale = viewportHeight / BASE_HEIGHT;
-            const cropScale = viewportWidth / TARGET_VISIBLE_WIDTH;
-            const nextScale = Math.max(heightFitScale, cropScale) * STAGE_SCALE_REDUCTION;
 
-            setStageScale(nextScale);
-            setStageOffsetY((viewportHeight - BASE_HEIGHT * nextScale) / 2 + STAGE_VERTICAL_BIAS);
+            setViewportSize({ width: viewportWidth, height: viewportHeight });
+            setStageScale(1);
         };
 
         updateStageScale();
@@ -307,39 +230,29 @@ function HomeBotanicals() {
     }, []);
 
     useEffect(() => {
-        const updateQuoteLetters = () => {
-            setQuoteLetters(getQuoteLetters());
-        };
-
-        let cancelled = false;
-
-        const run = async () => {
-            if (document.fonts?.ready) {
-                await document.fonts.ready;
-            }
-
-            if (!cancelled) {
-                updateQuoteLetters();
-            }
-        };
-
-        run();
-        window.addEventListener('resize', updateQuoteLetters);
-
-        return () => {
-            cancelled = true;
-            window.removeEventListener('resize', updateQuoteLetters);
-        };
-    }, []);
-
-    useEffect(() => {
         const updateSectionMetrics = () => {
             const { height: viewportHeight, width: viewportWidth } = getViewportSize();
-            const { totalScrollDistance } = getStageScrollMetrics(stageScale, viewportWidth);
+            const { maxCameraX, cameraXStart } = getCameraMetrics(
+                stageScale,
+                viewportWidth,
+                viewportHeight
+            );
+            const horizontalWindow = Math.max(HORIZONTAL_SCROLL_END - HORIZONTAL_SCROLL_START, 0.01);
+            const totalScrollDistance =
+                (Math.max(maxCameraX - cameraXStart, 0) * stageScale) / horizontalWindow;
             const exitBuffer = viewportHeight * SECTION_EXIT_BUFFER_RATIO;
+            const preHorizontalHoldDistance =
+                viewportHeight * BOTANICALS_PRE_HORIZONTAL_HOLD_RATIO;
+            const bottomBuffer = viewportHeight * BOTANICALS_BOTTOM_BUFFER_RATIO;
 
             setAnimationScrollDistance(totalScrollDistance);
-            setSectionHeight(viewportHeight + totalScrollDistance + exitBuffer);
+            setSectionHeight(
+                viewportHeight +
+                    preHorizontalHoldDistance +
+                    totalScrollDistance +
+                    exitBuffer +
+                    bottomBuffer
+            );
         };
 
         updateSectionMetrics();
@@ -363,14 +276,14 @@ function HomeBotanicals() {
 
             const rect = section.getBoundingClientRect();
             const { height: viewportHeight, width: viewportWidth } = getViewportSize();
-            const { maxHorizontalOffset } = getStageScrollMetrics(stageScale, viewportWidth);
             const totalScrollDistance = Math.max(animationScrollDistance, 1);
+            const preHorizontalHoldDistance =
+                viewportHeight * BOTANICALS_PRE_HORIZONTAL_HOLD_RATIO;
             const entryStart = viewportHeight * ENTRY_START_VIEWPORT_RATIO;
             const entryProgress = clamp01((entryStart - rect.top) / Math.max(entryStart, 1));
-            const mainProgress = clamp01(-rect.top / totalScrollDistance);
-            const horizontalProgress = clamp01(
-                (mainProgress - HORIZONTAL_SCROLL_START) /
-                Math.max(HORIZONTAL_SCROLL_END - HORIZONTAL_SCROLL_START, 0.01)
+            const rawScrollDistance = Math.max(-rect.top, 0);
+            const mainProgress = clamp01(
+                Math.max(rawScrollDistance - preHorizontalHoldDistance, 0) / totalScrollDistance
             );
             const sectionProgress =
                 entryProgress * BOTANICALS_ENTRY_PROGRESS_PORTION +
@@ -378,7 +291,6 @@ function HomeBotanicals() {
 
             setSectionProgress(sectionProgress);
             setQuoteProgress(mainProgress);
-            setHorizontalOffset(maxHorizontalOffset * horizontalProgress);
         };
 
         const requestProgressUpdate = () => {
@@ -425,7 +337,26 @@ function HomeBotanicals() {
         };
     }, [sectionHeight]);
 
-    const motionQuoteLetters = getMotionQuoteLetters(quoteLetters, quoteProgress);
+    const quoteStartOffset = getQuoteStartOffset(quoteProgress);
+    const screenAlignedStrokeWidth = 2 / Math.max(stageScale, 0.001);
+    const {
+        maxCameraX,
+        maxCameraY,
+        cameraXStart,
+    } = getCameraMetrics(stageScale, viewportSize.width, viewportSize.height);
+    const phaseOneProgress = getSoftProgress(
+        getWindowProgress(quoteProgress, 0, BOTANICALS_PHASE_ONE_END)
+    );
+    const phaseTwoProgress = getSoftProgress(
+        getWindowProgress(quoteProgress, BOTANICALS_PHASE_ONE_END, BOTANICALS_PHASE_TWO_END)
+    );
+    const phaseThreeProgress = getSoftProgress(
+        getWindowProgress(quoteProgress, BOTANICALS_PHASE_TWO_END, 1)
+    );
+    const phaseOneTargetCameraY = maxCameraY * BOTANICALS_PHASE_ONE_VERTICAL_TARGET_RATIO;
+    const cameraYAfterPhaseOne = lerp(0, phaseOneTargetCameraY, phaseOneProgress);
+    const currentCameraY = lerp(cameraYAfterPhaseOne, maxCameraY, phaseThreeProgress);
+    const currentCameraX = lerp(cameraXStart, maxCameraX, phaseTwoProgress);
     const startLineStyle = getSegmentDrawStyle(
         sectionProgress,
         BOTANICALS_DRAW_SEQUENCE.start,
@@ -443,7 +374,7 @@ function HomeBotanicals() {
         BOTANICALS_DRAW_SEQUENCE.merge,
         PATH_LENGTHS.merge
     );
-    const outlineLineStyle = getSegmentDrawStyle(
+    const outlineLineStyle = getReverseSegmentDrawStyle(
         sectionProgress,
         BOTANICALS_DRAW_SEQUENCE.outline,
         PATH_LENGTHS.outline
@@ -461,7 +392,11 @@ function HomeBotanicals() {
         <section
             ref={sectionRef}
             className="home__botanicals"
-            style={{ height: `${sectionHeight}px` }}
+            style={{
+                height: `${sectionHeight}px`,
+                '--botanicals-viewport-width': `${BOTANICALS_VIEWPORT_WIDTH}px`,
+                '--botanicals-viewport-height': `${BOTANICALS_VIEWPORT_HEIGHT}px`,
+            }}
         >
             <div className="home__botanicals-viewport" ref={viewportRef}>
                 <div className="home__botanicals-stage-clip">
@@ -470,8 +405,8 @@ function HomeBotanicals() {
                         style={{
                             width: HORIZONTAL_WIDTH,
                             height: BASE_HEIGHT,
-                            top: `${stageOffsetY}px`,
-                            transform: `translate3d(${GUIDE_LINE_X * (1 - stageScale)}px, 0px, 0) scale(${stageScale})`,
+                            top: 0,
+                            transform: `translate3d(${-currentCameraX}px, ${-currentCameraY}px, 0) scale(${stageScale})`,
                         }}
                     >
                         <div
@@ -479,7 +414,7 @@ function HomeBotanicals() {
                             style={{
                                 width: HORIZONTAL_WIDTH,
                                 height: BASE_HEIGHT,
-                                transform: `translate3d(${-horizontalOffset / stageScale}px, 0px, 0)`,
+                                transform: 'translate3d(0px, 0px, 0px)',
                             }}
                         >
                             <div className="botanical-flow">
@@ -500,20 +435,29 @@ function HomeBotanicals() {
                                             key={line.id}
                                             className="botanical-flow__line botanical-flow__line--branch"
                                             d={line.d}
-                                            style={flowLineStyles[index]}
+                                            style={{
+                                                ...flowLineStyles[index],
+                                                strokeWidth: screenAlignedStrokeWidth,
+                                            }}
                                         />
                                     ))}
 
                                     <path
                                         className="botanical-flow__line botanical-flow__line--start"
                                         d={START_PATH_D}
-                                        style={startLineStyle}
+                                        style={{
+                                            ...startLineStyle,
+                                            strokeWidth: screenAlignedStrokeWidth,
+                                        }}
                                     />
 
                                     <path
                                         className="botanical-flow__line botanical-flow__line--merge"
                                         d={MERGE_PATH_D}
-                                        style={mergeLineStyle}
+                                        style={{
+                                            ...mergeLineStyle,
+                                            strokeWidth: screenAlignedStrokeWidth,
+                                        }}
                                     />
 
                                     <image
@@ -533,25 +477,34 @@ function HomeBotanicals() {
                                     <path
                                         className="botanical-flow__bottle-outline"
                                         d={BOTTLE_OUTLINE_PATH}
-                                        style={outlineLineStyle}
+                                        style={{
+                                            ...outlineLineStyle,
+                                            strokeWidth: screenAlignedStrokeWidth,
+                                        }}
                                     />
                                 </svg>
 
                                 <div className="botanical-flow__quote-layer" aria-hidden="true">
-                                    {motionQuoteLetters.map((letter) =>
-                                        letter.char !== ' ' && !letter.hidden ? (
-                                            <span
-                                                key={letter.id}
-                                                className="botanical-flow__quote-letter font-serif"
-                                                style={{
-                                                    transformOrigin: '0% 90%',
-                                                    transform: `translate3d(${letter.left}px, ${letter.top}px, 0) rotate(${letter.rotation}deg)`,
-                                                }}
+                                    <svg
+                                        className="botanical-flow__quote-svg"
+                                        viewBox={`0 0 ${HORIZONTAL_WIDTH} ${BASE_HEIGHT}`}
+                                        preserveAspectRatio="none"
+                                    >
+                                        <defs>
+                                            <path id="botanical-flow-quote-path" d={QUOTE_FLOW_PATH_D} />
+                                        </defs>
+                                        <text
+                                            className="botanical-flow__quote-text"
+                                            dy={-QUOTE_BASELINE_SHIFT_Y}
+                                        >
+                                            <textPath
+                                                href="#botanical-flow-quote-path"
+                                                startOffset={quoteStartOffset}
                                             >
-                                                {letter.char}
-                                            </span>
-                                        ) : null
-                                    )}
+                                                {QUOTE_SOURCE_TEXT}
+                                            </textPath>
+                                        </text>
+                                    </svg>
                                 </div>
 
                                 <div className="botanical-flow__nodes">

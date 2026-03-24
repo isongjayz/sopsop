@@ -34,11 +34,16 @@ export const BOTANICALS_ENTRY_PROGRESS_PORTION = 0;
 export const BOTANICALS_DRAW_SEQUENCE = {
     start: [0.0, 0.08],
     branches: {
+        // 'line-top': [0.12, 0.38],
+        // 'line-bottom': [0.18, 0.42],
+        // 'line-upper': [0.22, 0.46],
+        // 'line-lower': [0.26, 0.5],
+        // 'line-middle': [0.3, 0.54],
         'line-top': [0.12, 0.38],
-        'line-bottom': [0.18, 0.42],
-        'line-upper': [0.22, 0.46],
+        'line-upper': [0.18, 0.42],
+        'line-middle': [0.22, 0.46],
         'line-lower': [0.26, 0.5],
-        'line-middle': [0.3, 0.54],
+        'line-bottom': [0.3, 0.54],
     },
     ingredients: [
         [0.2, 0.34],
@@ -47,6 +52,6 @@ export const BOTANICALS_DRAW_SEQUENCE = {
         [0.38, 0.52],
     ],
     merge: [0.56, 0.72],
-    outline: [0.7, 0.88],
-    product: [0.86, 1],
+    outline: [0.74, 0.84],
+    product: [0.85, 0.94],
 };
