@@ -420,13 +420,13 @@ function HomeBotanicals() {
     );
     const linesOpacity = 1 - linesFadeOutProgress;
 
-    // 2. 병(Bottle)은 선이 사라진 뒤 좀 더 오래 남았다가 천천히(0.93 ~ 1.0) 사라짐
+    // 2. 병(Bottle)은 선(0.88~0.94)이 사실상 거의 지워지는 순간(0.94 ~ 1.0) 전후부터 짧고 부드럽게 타겟까지 이동합니다.
     const productFadeOutProgress = getSoftProgress(
-        getWindowProgress(sectionProgress, 0.93, 1.0)
+        getWindowProgress(sectionProgress, 0.94, 1.0)
     );
     const finalProductOpacity = productRevealProgress * (1 - productFadeOutProgress);
-    // 병이 사라질 때 아래로 짓누르듯 미끄러져 내려가게 하여 다음 섹션 1번 아이템과 겹치도록 유도!
-    const productDropOffset = productFadeOutProgress * 250;
+    // 폭발적인 낙하를 방지하고, 정확히 아이템1(item1)과 잔영이 겹치는 물리적 위치상인 400px 수준으로 교정!
+    const productDropOffset = productFadeOutProgress * 400;
 
     const quoteFlowLineStyle = getSegmentDrawStyle(
         sectionProgress,

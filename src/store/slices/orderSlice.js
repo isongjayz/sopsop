@@ -8,12 +8,14 @@ import { seedOrders } from '../../data/seedOrders';
 const mergeOrdersWithSeed = (orders = []) => {
     const mergedMap = new Map();
 
-    // 수정: seed 주문을 먼저 넣어 테스트 계정 주문 이력이 항상 유지되도록 처리
-    seedOrders.forEach(order => {
+    // 로컬 스토리지에서 불러온 이전 주문 내역을 먼저 세팅합니다.
+    orders.forEach(order => {
         mergedMap.set(order.id, order);
     });
 
-    orders.forEach(order => {
+    // 최신 seedOrders 데이터가 항상 최우선순위로 덮어쓰도록 순서를 변경합니다!
+    // 이렇게 하면 과거에 잘못 캐싱된 productId(예: 19)가 올바른 문자열(fragrance-12)로 자동 갱신됩니다.
+    seedOrders.forEach(order => {
         mergedMap.set(order.id, order);
     });
 

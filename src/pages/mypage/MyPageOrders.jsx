@@ -41,7 +41,7 @@ const getOrderChannel = (order) => {
 };
 
 function MyPageOrders() {
-  const { user, getUserOrders, isLoggedIn, addToCart } = useStore();
+  const { user, getUserOrders, isLoggedIn, addToCart, addReview, products, fetchProducts } = useStore();
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [selectedReviewItem, setSelectedReviewItem] = useState(null);
@@ -53,11 +53,12 @@ function MyPageOrders() {
     if (isLoggedIn && user) {
       const storeOrders = getUserOrders(user.id);
       setOrders(storeOrders);
+      fetchProducts(); // 리뷰 연동을 위한 상품 데이터 로드
       return;
     }
 
     setOrders([]);
-  }, [isLoggedIn, user, getUserOrders]);
+  }, [isLoggedIn, user, getUserOrders, fetchProducts]);
 
   useEffect(() => {
     if (!toastMessage) return undefined;
@@ -435,7 +436,33 @@ function MyPageOrders() {
                   type="button"
                   className="btn-footer-text"
                   onClick={() => {
-                    setToastMessage("리뷰가 등록되었습니다.");
+                    if (!reviewText.trim()) {
+                      alert("리뷰 내용을 입력해주세요.");
+                      return;
+                    }
+                    if (reviewRating === 0) {
+                      alert("별점을 1점 이상 선택해주세요.");
+                      return;
+                    }
+
+                    // seed data의 productId가 과거 숫자(예: 19)로 배포된 경우가 있어,
+                    // 현재 활성화된 전역 products 데이터에서 이름으로 정확한 최신 문자열 ID를 역추적합니다.
+                    const matchedProduct = products.find(p => 
+                      p.name.replace(/\s+/g,'').includes(selectedReviewItem.name.replace(/\s+/g,'')) ||
+                      selectedReviewItem.name.replace(/\s+/g,'').includes(p.name.replace(/\s+/g,''))
+                    );
+                    
+                    const targetProductId = matchedProduct ? matchedProduct.id : String(selectedReviewItem.productId || selectedReviewItem.id);
+                    
+                    if (targetProductId && addReview) {
+                        addReview(targetProductId, {
+                            user: user?.name || "익명",
+                            rating: reviewRating,
+                            content: reviewText
+                        });
+                    }
+
+                    setToastMessage("리뷰가 안전하게 등록되었습니다.");
                     setSelectedReviewItem(null);
                   }}
                 >

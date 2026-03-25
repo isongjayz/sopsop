@@ -10,7 +10,7 @@ import './ProductDetail.scss';
 const PRODUCT_DETAIL_TABS = [
     { id: 'details', label: '제품 상세' },
     { id: 'shipping', label: '배송 안내' },
-    { id: 'reviews', label: '후기' },
+    { id: 'reviews', label: '리뷰' },
 ];
 
 function getInitialSelectedVolume(product) {
@@ -162,16 +162,14 @@ function ProductDetail() {
                         {volumes.length > 0 && (
                             <div className="product-detail__options">
                                 <div
-                                    className={`product-detail__options-list ${
-                                        volumes.length === 1 ? 'is-single' : ''
-                                    }`}
+                                    className={`product-detail__options-list ${volumes.length === 1 ? 'is-single' : ''
+                                        }`}
                                 >
                                     {volumes.map((volume) => (
                                         <button
                                             key={volume.volume || 'default'}
-                                            className={`product-detail__option-btn ${
-                                                selectedVolume === volume.volume ? 'is-active' : ''
-                                            } ${volume.stock === 0 ? 'is-disabled' : ''}`}
+                                            className={`product-detail__option-btn ${selectedVolume === volume.volume ? 'is-active' : ''
+                                                } ${volume.stock === 0 ? 'is-disabled' : ''}`}
                                             onClick={() =>
                                                 volume.stock > 0 && setSelectedVolume(volume.volume)
                                             }
@@ -185,9 +183,8 @@ function ProductDetail() {
                         )}
 
                         <button
-                            className={`product-detail__add-btn ${
-                                isOutOfStock ? 'is-disabled' : ''
-                            }`}
+                            className={`product-detail__add-btn ${isOutOfStock ? 'is-disabled' : ''
+                                }`}
                             onClick={handleAddToCart}
                             disabled={isOutOfStock}
                         >
@@ -204,9 +201,8 @@ function ProductDetail() {
                             {PRODUCT_DETAIL_TABS.map((tab) => (
                                 <button
                                     key={tab.id}
-                                    className={`product-detail__tab-btn ${
-                                        activeTab === tab.id ? 'is-active' : ''
-                                    }`}
+                                    className={`product-detail__tab-btn ${activeTab === tab.id ? 'is-active' : ''
+                                        }`}
                                     onClick={() => setActiveTab(tab.id)}
                                 >
                                     {tab.label}

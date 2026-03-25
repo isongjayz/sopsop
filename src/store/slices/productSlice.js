@@ -11,9 +11,11 @@ export const createProductSlice = (set, get) => ({
     },
 
     fetchProducts: () => {
+        const { reviews } = get();
         set({
             products: productData,
-            reviews: reviewData || [],
+            // 수정: 기존에 작성되어 캐싱된 리뷰(사용자 리뷰 등)가 날아가지 않도록, 초기 상태일 때만 seed 데이터를 넣습니다.
+            reviews: reviews.length > 0 ? reviews : (reviewData || []),
         });
     },
 
