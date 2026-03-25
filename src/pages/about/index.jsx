@@ -64,6 +64,7 @@ const About = () => {
         end: `+=${yDistance}`,
         scrub: 1,
         pin: true,
+        pinSpacing: false, // 핵심: 공간을 억지로 차지하지 않아야 아래 섹션이 온전히 올라와서 만납니다.
         onLeave: () => {
           gsap.set(heroPhil, { autoAlpha: 0, y: 0 });
           gsap.set(firstItem, { autoAlpha: 1 });
@@ -74,7 +75,6 @@ const About = () => {
         },
       },
     })
-      .to(heroPhil, { y: yDistance / 2, ease: "none" }, 0)
       .to(textEls, { color: "#603b2d", ease: "none" }, 0);
   });
   return (

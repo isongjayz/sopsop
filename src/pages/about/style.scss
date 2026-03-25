@@ -29,6 +29,7 @@
       top: 100px;
       display: flex;
       align-items: center;
+      z-index: 10; // 아래에서 올라오는 Philosophy(z-index: 1, 배경색 있음)에 가려지지 않게 최상단 배치
 
       .philosophy__letter {
         font-family: "Ogg", serif;
