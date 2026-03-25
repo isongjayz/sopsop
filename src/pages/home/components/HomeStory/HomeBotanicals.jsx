@@ -205,7 +205,10 @@ function getIngredientStyles(progress) {
 
 function HomeBotanicals() {
     const [stageScale, setStageScale] = useState(1);
-    const [viewportSize, setViewportSize] = useState({ width: 1, height: BASE_HEIGHT });
+    const [viewportSize, setViewportSize] = useState(() => ({
+        width: typeof window !== 'undefined' ? window.innerWidth : 1920,
+        height: BASE_HEIGHT,
+    }));
     const [sectionHeight, setSectionHeight] = useState(BASE_HEIGHT);
     const [animationScrollDistance, setAnimationScrollDistance] = useState(BASE_HEIGHT);
     const [sectionProgress, setSectionProgress] = useState(0);
@@ -393,155 +396,172 @@ function HomeBotanicals() {
             ref={sectionRef}
             className="home__botanicals"
             style={{
-                height: `${sectionHeight}px`,
+                height: viewportSize.width <= 600 ? 'auto' : `${sectionHeight}px`,
                 '--botanicals-viewport-width': `${BOTANICALS_VIEWPORT_WIDTH}px`,
                 '--botanicals-viewport-height': `${BOTANICALS_VIEWPORT_HEIGHT}px`,
             }}
         >
-            <div className="home__botanicals-viewport" ref={viewportRef}>
-                <div className="home__botanicals-stage-clip">
-                    <div
-                        className="home__botanicals-stage"
-                        style={{
-                            width: HORIZONTAL_WIDTH,
-                            height: BASE_HEIGHT,
-                            top: 0,
-                            transform: `translate3d(${-currentCameraX}px, ${-currentCameraY}px, 0) scale(${stageScale})`,
-                        }}
-                    >
+            {/* Desktop: full SVG horizontal scroll canvas */}
+            {viewportSize.width > 600 && (
+                <div className="home__botanicals-viewport" ref={viewportRef}>
+                    <div className="home__botanicals-stage-clip">
                         <div
-                            className="home__botanicals-track"
+                            className="home__botanicals-stage"
                             style={{
                                 width: HORIZONTAL_WIDTH,
                                 height: BASE_HEIGHT,
-                                transform: 'translate3d(0px, 0px, 0px)',
+                                top: 0,
+                                transform: `translate3d(${-currentCameraX}px, ${-currentCameraY}px, 0) scale(${stageScale})`,
                             }}
                         >
-                            <div className="botanical-flow">
-                                <svg
-                                    className="botanical-flow__svg"
-                                    viewBox={`0 0 ${HORIZONTAL_WIDTH} ${BASE_HEIGHT}`}
-                                    preserveAspectRatio="none"
-                                    aria-hidden="true"
-                                >
-                                    <defs>
-                                        <clipPath id={PRODUCT_CLIP_ID} clipPathUnits="userSpaceOnUse">
-                                            <path d={BOTTLE_CLIP_PATH} />
-                                        </clipPath>
-                                    </defs>
+                            <div
+                                className="home__botanicals-track"
+                                style={{
+                                    width: HORIZONTAL_WIDTH,
+                                    height: BASE_HEIGHT,
+                                    transform: 'translate3d(0px, 0px, 0px)',
+                                }}
+                            >
+                                <div className="botanical-flow">
+                                    <svg
+                                        className="botanical-flow__svg"
+                                        viewBox={`0 0 ${HORIZONTAL_WIDTH} ${BASE_HEIGHT}`}
+                                        preserveAspectRatio="none"
+                                        aria-hidden="true"
+                                    >
+                                        <defs>
+                                            <clipPath id={PRODUCT_CLIP_ID} clipPathUnits="userSpaceOnUse">
+                                                <path d={BOTTLE_CLIP_PATH} />
+                                            </clipPath>
+                                        </defs>
 
-                                    {FLOW_LINES.map((line, index) => (
+                                        {FLOW_LINES.map((line, index) => (
+                                            <path
+                                                key={line.id}
+                                                className="botanical-flow__line botanical-flow__line--branch"
+                                                d={line.d}
+                                                style={{
+                                                    ...flowLineStyles[index],
+                                                    strokeWidth: screenAlignedStrokeWidth,
+                                                }}
+                                            />
+                                        ))}
+
                                         <path
-                                            key={line.id}
-                                            className="botanical-flow__line botanical-flow__line--branch"
-                                            d={line.d}
+                                            className="botanical-flow__line botanical-flow__line--start"
+                                            d={START_PATH_D}
                                             style={{
-                                                ...flowLineStyles[index],
+                                                ...startLineStyle,
                                                 strokeWidth: screenAlignedStrokeWidth,
                                             }}
                                         />
-                                    ))}
 
-                                    <path
-                                        className="botanical-flow__line botanical-flow__line--start"
-                                        d={START_PATH_D}
-                                        style={{
-                                            ...startLineStyle,
-                                            strokeWidth: screenAlignedStrokeWidth,
-                                        }}
-                                    />
+                                        <path
+                                            className="botanical-flow__line botanical-flow__line--merge"
+                                            d={MERGE_PATH_D}
+                                            style={{
+                                                ...mergeLineStyle,
+                                                strokeWidth: screenAlignedStrokeWidth,
+                                            }}
+                                        />
 
-                                    <path
-                                        className="botanical-flow__line botanical-flow__line--merge"
-                                        d={MERGE_PATH_D}
-                                        style={{
-                                            ...mergeLineStyle,
-                                            strokeWidth: screenAlignedStrokeWidth,
-                                        }}
-                                    />
+                                        <image
+                                            href={PRODUCT_IMAGE_PATH}
+                                            x={PRODUCT.x}
+                                            y={PRODUCT.y}
+                                            width={PRODUCT.width}
+                                            height={PRODUCT.height}
+                                            clipPath={`url(#${PRODUCT_CLIP_ID})`}
+                                            preserveAspectRatio="none"
+                                            className="botanical-flow__product-image"
+                                            style={{
+                                                opacity: productRevealProgress,
+                                            }}
+                                        />
 
-                                    <image
-                                        href={PRODUCT_IMAGE_PATH}
-                                        x={PRODUCT.x}
-                                        y={PRODUCT.y}
-                                        width={PRODUCT.width}
-                                        height={PRODUCT.height}
-                                        clipPath={`url(#${PRODUCT_CLIP_ID})`}
-                                        preserveAspectRatio="none"
-                                        className="botanical-flow__product-image"
-                                        style={{
-                                            opacity: productRevealProgress,
-                                        }}
-                                    />
-
-                                    <path
-                                        className="botanical-flow__bottle-outline"
-                                        d={BOTTLE_OUTLINE_PATH}
-                                        style={{
-                                            ...outlineLineStyle,
-                                            strokeWidth: screenAlignedStrokeWidth,
-                                        }}
-                                    />
-                                </svg>
-
-                                <div className="botanical-flow__quote-layer" aria-hidden="true">
-                                    <svg
-                                        className="botanical-flow__quote-svg"
-                                        viewBox={`0 0 ${HORIZONTAL_WIDTH} ${BASE_HEIGHT}`}
-                                        preserveAspectRatio="none"
-                                    >
-                                        <defs>
-                                            <path id="botanical-flow-quote-path" d={QUOTE_FLOW_PATH_D} />
-                                        </defs>
-                                        <text
-                                            className="botanical-flow__quote-text"
-                                            dy={-QUOTE_BASELINE_SHIFT_Y}
-                                        >
-                                            <textPath
-                                                href="#botanical-flow-quote-path"
-                                                startOffset={quoteStartOffset}
-                                            >
-                                                {QUOTE_SOURCE_TEXT}
-                                            </textPath>
-                                        </text>
+                                        <path
+                                            className="botanical-flow__bottle-outline"
+                                            d={BOTTLE_OUTLINE_PATH}
+                                            style={{
+                                                ...outlineLineStyle,
+                                                strokeWidth: screenAlignedStrokeWidth,
+                                            }}
+                                        />
                                     </svg>
-                                </div>
 
-                                <div className="botanical-flow__nodes">
-                                    {ingredientStyles.map((ingredient) => (
-                                        <div
-                                            key={ingredient.id}
-                                            className={`ingredient ingredient--${ingredient.id}`}
+                                    <div className="botanical-flow__quote-layer" aria-hidden="true">
+                                        <svg
+                                            className="botanical-flow__quote-svg"
+                                            viewBox={`0 0 ${HORIZONTAL_WIDTH} ${BASE_HEIGHT}`}
+                                            preserveAspectRatio="none"
                                         >
-                                            <span
-                                                className="ingredient__label font-serif"
-                                                style={{
-                                                    color: ingredient.color,
-                                                    left: ingredient.labelX,
-                                                    top: ingredient.labelY,
-                                                    opacity: ingredient.opacity,
-                                                    transform: `translate(-50%, calc(-50% + ${ingredient.translateY}px))`,
-                                                }}
+                                            <defs>
+                                                <path id="botanical-flow-quote-path" d={QUOTE_FLOW_PATH_D} />
+                                            </defs>
+                                            <text
+                                                className="botanical-flow__quote-text"
+                                                dy={-QUOTE_BASELINE_SHIFT_Y}
                                             >
-                                                {ingredient.label}
-                                            </span>
+                                                <textPath
+                                                    href="#botanical-flow-quote-path"
+                                                    startOffset={quoteStartOffset}
+                                                >
+                                                    {QUOTE_SOURCE_TEXT}
+                                                </textPath>
+                                            </text>
+                                        </svg>
+                                    </div>
+
+                                    <div className="botanical-flow__nodes">
+                                        {ingredientStyles.map((ingredient) => (
                                             <div
-                                                className="ingredient__thumb"
-                                                style={{
-                                                    left: ingredient.thumbX,
-                                                    top: ingredient.thumbY,
-                                                    opacity: ingredient.opacity,
-                                                    transform: `translate(-50%, calc(-50% + ${ingredient.translateY}px)) scale(${ingredient.scale})`,
-                                                }}
+                                                key={ingredient.id}
+                                                className={`ingredient ingredient--${ingredient.id}`}
                                             >
-                                                <img src={ingredient.image} alt={ingredient.label} />
+                                                <span
+                                                    className="ingredient__label font-serif"
+                                                    style={{
+                                                        color: ingredient.color,
+                                                        left: ingredient.labelX,
+                                                        top: ingredient.labelY,
+                                                        opacity: ingredient.opacity,
+                                                        transform: `translate(-50%, calc(-50% + ${ingredient.translateY}px))`,
+                                                    }}
+                                                >
+                                                    {ingredient.label}
+                                                </span>
+                                                <div
+                                                    className="ingredient__thumb"
+                                                    style={{
+                                                        left: ingredient.thumbX,
+                                                        top: ingredient.thumbY,
+                                                        opacity: ingredient.opacity,
+                                                        transform: `translate(-50%, calc(-50% + ${ingredient.translateY}px)) scale(${ingredient.scale})`,
+                                                    }}
+                                                >
+                                                    <img src={ingredient.image} alt={ingredient.label} />
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            )}
+
+            {/* Mobile: simplified static ingredient grid */}
+            <div className="home__botanicals-mobile">
+                <h3 className="home__botanicals-mobile-title">Key Botanicals</h3>
+                <p className="home__botanicals-mobile-quote">{QUOTE_SOURCE_TEXT}</p>
+                <div className="home__botanicals-mobile-grid">
+                    {INGREDIENTS.map((ingredient) => (
+                        <div key={ingredient.id} className="home__botanicals-mobile-item">
+                            <img src={ingredient.image} alt={ingredient.label} />
+                            <span>{ingredient.label}</span>
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>

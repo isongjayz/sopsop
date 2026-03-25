@@ -279,7 +279,7 @@
     }
 }
 
-@media (max-width: 820px) {
+@include tablet {
     .home {
         &__hero {
             min-height: 100svh;
@@ -287,8 +287,14 @@
     }
 }
 
-@media (max-width: 600px) {
+@include mobile {
     .home {
+        &__hero {
+            --hero-text-left-offset: 20px;
+            --hero-text-right-offset: 20px;
+            --hero-text-size: clamp(42px, 12vw, 72px);
+        }
+
         &__hero-text {
             line-height: 1;
         }
@@ -297,7 +303,12 @@
             max-width: min(100%, 11rem);
         }
 
+        &__hero-text--right {
+            text-align: right;
+        }
+
         &__hero-subtext {
+            width: 100%;
             line-height: 1.4;
         }
     }

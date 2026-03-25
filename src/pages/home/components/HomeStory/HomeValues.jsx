@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -12,7 +12,6 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 const VALUES_SECTION_HEIGHT = VALUES_LAYOUT.itemHeight * VALUE_ITEMS.length;
-const VALUES_LINE_D = `M${VALUES_LAYOUT.lineX} 0 L${VALUES_LAYOUT.lineX} ${VALUES_LAYOUT.itemHeight}`;
 
 const clamp01 = (value) => Math.max(0, Math.min(1, value));
 const getWindowProgress = (progress, start, end) =>
@@ -43,9 +42,25 @@ function HomeValues() {
     const sectionRef = useRef(null);
     const viewportRef = useRef(null);
     const linePathRef = useRef(null);
+    const lineBaseRef = useRef(null);
     const contentRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
     const lastIndexRef = useRef(0);
+    const [lineHeight, setLineHeight] = useState(VALUES_LAYOUT.itemHeight);
+
+    // Track line height to match viewport of the pinned area
+    useEffect(() => {
+        const updateLineHeight = () => {
+            if (viewportRef.current) {
+                setLineHeight(viewportRef.current.offsetHeight);
+            }
+        };
+
+        updateLineHeight();
+        window.addEventListener('resize', updateLineHeight);
+
+        return () => window.removeEventListener('resize', updateLineHeight);
+    }, []);
 
     useGSAP(
         () => {
@@ -58,17 +73,15 @@ function HomeValues() {
                 return undefined;
             }
 
-            const path = linePathRef.current;
-            const pathLength = path.getTotalLength();
+            const pathLength = lineHeight;
             const mm = gsap.matchMedia();
 
             mm.add(`(min-width: ${VALUES_LAYOUT.mobileBreakpoint + 1}px)`, () => {
                 lastIndexRef.current = 0;
                 setActiveIndex(0);
 
-                gsap.set(path, {
-                    strokeDasharray: pathLength,
-                    strokeDashoffset: pathLength,
+                gsap.set(linePathRef.current, {
+                    height: 0,
                 });
 
                 const setValuesState = (progress) => {
@@ -95,8 +108,8 @@ function HomeValues() {
                         getWindowProgress(progress, contentWindow[0], contentWindow[1])
                     );
 
-                    gsap.set(path, {
-                        strokeDashoffset: pathLength * (1 - lineProgress),
+                    gsap.set(linePathRef.current, {
+                        height: `${lineHeight * lineProgress}px`,
                     });
 
                     gsap.set(contentRef.current, {
@@ -163,29 +176,10 @@ function HomeValues() {
             style={{ '--values-section-height': `${VALUES_SECTION_HEIGHT}px` }}
         >
             <div className="home__values-inner">
-                <div ref={viewportRef} className="home__values-viewport">
-                    <div className="home__values-svg-wrap" aria-hidden="true">
-                        <svg
-                            viewBox={`0 0 ${VALUES_LAYOUT.frameWidth} ${VALUES_LAYOUT.itemHeight}`}
-                            preserveAspectRatio="none"
-                            className="home__values-svg"
-                        >
-                            <path
-                                className="home__values-line-base"
-                                d={VALUES_LINE_D}
-                                strokeWidth="2"
-                                fill="none"
-                                vectorEffect="non-scaling-stroke"
-                            />
-                            <path
-                                ref={linePathRef}
-                                className="home__values-line-path"
-                                d={VALUES_LINE_D}
-                                strokeWidth="2"
-                                fill="none"
-                                vectorEffect="non-scaling-stroke"
-                            />
-                        </svg>
+                    <div ref={viewportRef} className="home__values-viewport">
+                    <div className="home__values-line-wrap" aria-hidden="true">
+                        <span ref={lineBaseRef} className="home__values-line-base" style={{ height: `${lineHeight}px` }} />
+                        <span ref={linePathRef} className="home__values-line-path" style={{ height: 0 }} />
                     </div>
 
                     <div className="home__values-stage">
