@@ -146,50 +146,56 @@ function ProductDetail() {
                     </nav>
 
                     <div className="product-detail__panel">
-                        <div className="product-detail__heading">
-                            <p className="product-detail__stock">{stockLabel}</p>
-                            <h1 className="product-detail__name">{currentProduct.name}</h1>
+                        <div className="product-detail__top-info">
+                            <div className="product-detail__heading">
+                                <p className="product-detail__stock">{stockLabel}</p>
+                                <h1 className="product-detail__name">{currentProduct.name}</h1>
+                            </div>
+
+
+                            <p className="product-detail__shipping-copy">
+                                전 지역 무료배송
+                                <br />
+                                <span className="product-detail__shipping-date">
+                                    {shippingEstimateLabel}
+                                </span>
+                            </p>
                         </div>
 
-                        <p className="product-detail__shipping-copy">
-                            전 지역 무료배송
-                            <br />
-                            <span className="product-detail__shipping-date">
-                                {shippingEstimateLabel}
-                            </span>
-                        </p>
 
-                        {volumes.length > 0 && (
-                            <div className="product-detail__options">
-                                <div
-                                    className={`product-detail__options-list ${volumes.length === 1 ? 'is-single' : ''
-                                        }`}
-                                >
-                                    {volumes.map((volume) => (
-                                        <button
-                                            key={volume.volume || 'default'}
-                                            className={`product-detail__option-btn ${selectedVolume === volume.volume ? 'is-active' : ''
-                                                } ${volume.stock === 0 ? 'is-disabled' : ''}`}
-                                            onClick={() =>
-                                                volume.stock > 0 && setSelectedVolume(volume.volume)
-                                            }
-                                            disabled={volume.stock === 0}
-                                        >
-                                            {isSetProduct ? 'SET' : volume.volume}
-                                        </button>
-                                    ))}
+                        <div className="product-detail__panel-bottom">
+                            {volumes.length > 0 && (
+                                <div className="product-detail__options">
+                                    <div
+                                        className={`product-detail__options-list ${volumes.length === 1 ? 'is-single' : ''
+                                            }`}
+                                    >
+                                        {volumes.map((volume) => (
+                                            <button
+                                                key={volume.volume || 'default'}
+                                                className={`product-detail__option-btn ${selectedVolume === volume.volume ? 'is-active' : ''
+                                                    } ${volume.stock === 0 ? 'is-disabled' : ''}`}
+                                                onClick={() =>
+                                                    volume.stock > 0 && setSelectedVolume(volume.volume)
+                                                }
+                                                disabled={volume.stock === 0}
+                                            >
+                                                {isSetProduct ? 'SET' : volume.volume}
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
-                        )}
+                            )}
 
-                        <button
-                            className={`product-detail__add-btn ${isOutOfStock ? 'is-disabled' : ''
-                                }`}
-                            onClick={handleAddToCart}
-                            disabled={isOutOfStock}
-                        >
-                            {displayPrice.toLocaleString()}원
-                        </button>
+                            <button
+                                className={`product-detail__add-btn ${isOutOfStock ? 'is-disabled' : ''
+                                    }`}
+                                onClick={handleAddToCart}
+                                disabled={isOutOfStock}
+                            >
+                                {displayPrice.toLocaleString()}원
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

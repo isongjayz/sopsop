@@ -15,17 +15,17 @@ const Aegung_About = () => {
 
         // 데스크톱에서만 핀 고정 (반응형에서는 비활성화)
         mm.add('(min-width: 1024px)', () => {
-            ScrollTrigger.create({
+            const st = ScrollTrigger.create({
                 trigger: section,
                 start: 'top top+=60',
-                endTrigger: section,
+                endTrigger: section.querySelector('.aegung__about__img'),
                 end: 'bottom bottom',
                 pin: section.querySelector('.aegung__about__text'),
                 pinSpacing: false,
             });
 
             return () => {
-                ScrollTrigger.getAll().forEach(st => st.kill());
+                st.kill();
             };
         });
 

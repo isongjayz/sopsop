@@ -40,7 +40,7 @@ const Aegung_SpecialStores = () => {
         { opacity: 0, y: 20 },
         {
           opacity: 1,
-          y: 50,
+          y: 0,
           duration: 3,
           delay,
           ease: "power2.out",
