@@ -28,7 +28,7 @@ function HomeCoda() {
 
     return (
         <section className="home__coda" ref={sectionRef}>
-            <div className="inner">
+            <div className="inner home__section-inner">
                 <h2 className="home__coda-title">
                     Finding a quiet <span className="italic">sanctuary</span>
                     <br />

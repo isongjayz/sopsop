@@ -3,6 +3,12 @@
 // - 실제 섹션 스타일은 components 폴더 안에 함께 두고 index.js에서 한 번에 불러오도록 정리
 
 .home {
+    --home-stage-width: 1920px;
+    --home-stage-height: 1024px;
+    --home-stage-scale: 1;
+    --home-stage-upscale: 1;
+    --home-stage-guide-line-x: 552px;
+    --home-stage-max-width: var(--home-stage-width);
     width: 100%;
     overflow-x: hidden;
 }

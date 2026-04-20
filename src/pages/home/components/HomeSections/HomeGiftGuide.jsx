@@ -49,7 +49,7 @@ function HomeGiftGuide() {
                     </svg>
                 </div>
 
-                <div className="inner">
+                <div className="inner home__section-inner">
                     <div className="home__gift-list">
                         {/* Item 1 */}
                         <div className="home__gift-item">

@@ -1,27 +1,19 @@
-@use '../../../../styles/utils' as *;
+﻿@use '../../../../styles/utils' as *;
 
-// 수정사항:
-// - origin / philosophy / ingredients를 story 영역으로 묶어 파일 수를 줄임
-// - 홈에서 구조가 긴 서사형 섹션만 한 파일에서 관리하도록 정리
+// ?섏젙?ы빆:
+// - origin / philosophy / ingredients瑜?story ?곸뿭?쇰줈 臾띠뼱 ?뚯씪 ?섎? 以꾩엫
+// - ?덉뿉??援ъ“媛 湲??쒖궗???뱀뀡留????뚯씪?먯꽌 愿由ы븯?꾨줉 ?뺣━
 
-// 수정사항: origin timeline 전용 스타일 분리
+// ?섏젙?ы빆: origin timeline ?꾩슜 ?ㅽ???遺꾨━
 
 .home {
-    // 공통 선 위치 변수 — BrandStory, Values, Botanicals에서 공유
-    --brand-story-line-x: 552px;
+    // 怨듯넻 ???꾩튂 蹂????BrandStory, Values, Botanicals?먯꽌 怨듭쑀
+    --brand-story-line-x: var(--home-stage-guide-line-x, 552px);
 
-    @include desktop {
-        --brand-story-line-x: 320px;
-    }
-
-    @include tablet {
-        --brand-story-line-x: 220px;
-    }
-
-    // ===== 2. Brand Story (브랜드 스토리) =====
+    // ===== 2. Brand Story (釉뚮옖???ㅽ넗由? =====
     &__brand-story {
-        --brand-story-block-height: 900px;
-        --brand-story-icon-scale: 1;
+        --brand-story-block-height: calc(900px * var(--home-stage-upscale, 1));
+        --brand-story-icon-scale: var(--home-stage-upscale, 1);
 
         padding: 0;
         background: $color-yellow-500;
@@ -40,7 +32,7 @@
 
     &__brand-story-inner {
         width: 100%;
-        max-width: 1920px;
+        max-width: var(--home-stage-max-width, 1920px);
         margin: 0 auto;
         position: relative;
         display: flex;
@@ -56,6 +48,7 @@
         pointer-events: none;
         z-index: 1;
         transform-origin: top left;
+        transform: scaleY(var(--home-stage-upscale, 1));
 
         &-base,
         &-path {
@@ -66,15 +59,16 @@
 
         &-base {
             background: rgba($color-brown-500, 0.18);
+            opacity: 0;
         }
 
         &-path {
             background: $color-brown-500;
         }
 
-        // 900px block × 3 = 2700px original
-        // 700px block × 3 = 2100px → scale = 2100/2700 ≈ 0.778
-        // 600px block × 3 = 1800px → scale = 1800/2700 ≈ 0.667
+        // 900px block 횞 3 = 2700px original
+        // 700px block 횞 3 = 2100px ??scale = 2100/2700 ??0.778
+        // 600px block 횞 3 = 1800px ??scale = 1800/2700 ??0.667
         @include desktop {
             transform: scaleY(calc(700 / 900));
         }
@@ -105,15 +99,15 @@
         }
 
         .home__brand-story-info {
-            --content-left-base: 772px;
+            --content-left-base: calc(772px * var(--home-stage-upscale, 1));
             position: absolute;
             top: 50%;
-            left: 156px;
+            left: calc(156px * var(--home-stage-upscale, 1));
             right: 0;
             transform: translateY(-50%);
             display: flex;
             align-items: center;
-            gap: calc(var(--content-left-base) - 156px);
+            gap: calc(var(--content-left-base) - (156px * var(--home-stage-upscale, 1)));
             z-index: 3;
 
             @include desktop {
@@ -195,7 +189,7 @@
                 display: block;
             }
 
-            // 각 아이콘 path의 기준점을 공통 세로 라인(x=552)에 맞춥니다.
+            // 媛??꾩씠肄?path??湲곗??먯쓣 怨듯넻 ?몃줈 ?쇱씤(x=552)??留욎땅?덈떎.
             .brand-story-path-align--genesis {
                 transform: translateX(-14px);
             }
@@ -230,7 +224,9 @@
 
         .home__brand-story-content {
             position: relative;
-            width: min(780px, calc(100% - 980px));
+            width: calc(100% - (980px * var(--home-stage-upscale, 1)));
+            max-width: calc(780px * var(--home-stage-upscale, 1));
+            min-width: 0;
             display: flex;
             flex-direction: column;
 
@@ -242,14 +238,21 @@
                 position: relative;
                 width: 100%;
                 padding-left: 0;
+                opacity: 1 !important;
+                visibility: visible !important;
+                transform: none !important;
             }
 
             .brand-story-year {
                 color: rgba($color-brown-500, 0.14);
                 font-family: 'Ogg', serif;
-                font-size: clamp(60px, 10vw, 150px);
+                font-size: clamp(
+                    60px,
+                    calc(var(--home-stage-width, 1920px) * 150 / 1920),
+                    calc(150px * var(--home-stage-upscale, 1))
+                );
                 font-weight: 400;
-                // 디자인 간격을 위해 line-height값 1.5에서 조정
+                // ?붿옄??媛꾧꺽???꾪빐 line-height媛?1.5?먯꽌 議곗젙
                 line-height: 0.85;
 
                 @include mobile {
@@ -261,11 +264,15 @@
             .brand-story-title {
                 color: $color-brown-500;
                 font-family: 'Pretendard', sans-serif;
-                font-size: clamp(20px, 2.5vw, 32px);
+                font-size: clamp(
+                    20px,
+                    calc(var(--home-stage-width, 1920px) * 32 / 1920),
+                    calc(32px * var(--home-stage-upscale, 1))
+                );
                 font-weight: 300;
                 line-height: 1.5;
                 letter-spacing: -0.64px;
-                // 디자인 간격을 위해 20px에서 수정
+                // ?붿옄??媛꾧꺽???꾪빐 20px?먯꽌 ?섏젙
                 margin-bottom: 30px;
                 word-break: keep-all;
 
@@ -281,11 +288,15 @@
             p {
                 color: $color-brown-300;
                 font-family: 'Pretendard', sans-serif;
-                font-size: clamp(14px, 1.2vw, 16px);
+                font-size: clamp(
+                    14px,
+                    calc(var(--home-stage-width, 1920px) * 16 / 1920),
+                    calc(16px * var(--home-stage-upscale, 1))
+                );
                 font-weight: 400;
                 line-height: 1.5;
                 letter-spacing: -0.32px;
-                max-width: 662px;
+                max-width: calc(662px * var(--home-stage-upscale, 1));
                 white-space: pre-line;
             }
         }
@@ -308,19 +319,19 @@
     }
 }
 
-// 수정사항: philosophy 전용 스타일 분리
+// ?섏젙?ы빆: philosophy ?꾩슜 ?ㅽ???遺꾨━
 
 .home {
-
-    // ===== 3. Values (핵심 가치 섹션) =====
+    // ===== 3. Values (?듭떖 媛移??뱀뀡) =====
     &__values {
-        --values-item-height: 1024px;
-        --values-image-size: 500px;
-        --values-stage-padding-inline-start: 302px;
-        --values-stage-padding-inline-end: 192px;
-        --values-content-gap: 150px;
+        --values-shell-height: max(100svh, var(--values-item-height));
+        --values-item-height: calc(1024px * var(--home-stage-upscale, 1));
+        --values-image-size: calc(500px * var(--home-stage-upscale, 1));
+        --values-stage-padding-inline-start: calc(302px * var(--home-stage-upscale, 1));
+        --values-stage-padding-inline-end: calc(192px * var(--home-stage-upscale, 1));
+        --values-content-gap: calc(150px * var(--home-stage-upscale, 1));
 
-        height: var(--values-section-height);
+        height: calc(var(--values-shell-height) * var(--values-item-count, 3));
         padding: 0;
         background: $color-yellow-500;
         position: relative;
@@ -347,7 +358,7 @@
 
     &__values-inner {
         width: 100%;
-        max-width: none;
+        max-width: var(--home-stage-max-width, 1920px);
         margin: 0 auto;
         position: relative;
         height: 100%;
@@ -378,6 +389,7 @@
         left: 0;
         width: 2px;
         background: rgba($color-brown-500, 0.18);
+        opacity: 0;
     }
 
     &__values-line-path {
@@ -390,7 +402,7 @@
 
     &__values-viewport {
         position: relative;
-        height: var(--values-item-height);
+        height: var(--values-shell-height);
         z-index: 5;
         overflow: hidden;
 
@@ -408,7 +420,7 @@
     &__values-item {
         position: relative;
         width: 100%;
-        height: var(--values-item-height);
+        height: var(--values-shell-height);
         display: flex;
         align-items: center;
         padding-left: var(--values-stage-padding-inline-start);
@@ -438,17 +450,25 @@
             h3 {
                 color: $color-brown-700;
                 font-family: 'Ogg', serif;
-                font-size: 70px;
+                font-size: clamp(
+                    56px,
+                    calc(var(--home-stage-width, 1920px) * 70 / 1920),
+                    calc(70px * var(--home-stage-upscale, 1))
+                );
                 font-weight: 400;
                 line-height: 0.95;
-                // 디자인을 위해 8에서 4로 수정
+                // ?붿옄?몄쓣 ?꾪빐 8?먯꽌 4濡??섏젙
                 margin-bottom: 4px;
             }
 
             h4 {
                 color: $color-brown-500;
                 font-family: 'Pretendard', sans-serif;
-                font-size: 28px;
+                font-size: clamp(
+                    22px,
+                    calc(var(--home-stage-width, 1920px) * 28 / 1920),
+                    calc(28px * var(--home-stage-upscale, 1))
+                );
                 font-weight: 400;
                 line-height: 1.2;
                 letter-spacing: -0.56px;
@@ -458,8 +478,12 @@
             p {
                 color: $color-brown-200;
                 font-family: 'Pretendard', sans-serif;
-                font-size: 18px;
-                // 디자인 굵기 조정을 위해 400에서 300으로 수정
+                font-size: clamp(
+                    16px,
+                    calc(var(--home-stage-width, 1920px) * 18 / 1920),
+                    calc(18px * var(--home-stage-upscale, 1))
+                );
+                // ?붿옄??援듦린 議곗젙???꾪빐 400?먯꽌 300?쇰줈 ?섏젙
                 font-weight: 300;
                 line-height: 1.5;
                 letter-spacing: -0.36px;
@@ -469,7 +493,7 @@
         }
     }
 
-    // 디자인을 위해 3번째 아이템에 따로 margin-bottom 값 설정
+    // ?붿옄?몄쓣 ?꾪빐 3踰덉㎏ ?꾩씠?쒖뿉 ?곕줈 margin-bottom 媛??ㅼ젙
     &__values-item--inspiring-rituals {
         .home__values-content h3 {
             margin-bottom: 8px;
@@ -526,7 +550,7 @@
     }
 }
 
-// 수정사항: ingredients 전용 스타일 분리
+// ?섏젙?ы빆: ingredients ?꾩슜 ?ㅽ???遺꾨━
 
 .botanical-flow {
     position: relative;
@@ -576,7 +600,6 @@
         stroke: $color-brown-500;
         stroke-linecap: round;
         stroke-linejoin: round;
-        vector-effect: non-scaling-stroke;
     }
 
     &__line {
@@ -610,7 +633,6 @@
         dominant-baseline: hanging;
         text-rendering: geometricPrecision;
     }
-
 }
 
 .ingredient {
@@ -648,6 +670,9 @@
 
 .home {
     &__botanicals {
+        --botanicals-shell-height: var(--botanicals-viewport-height, 1024px);
+        --botanicals-stage-offset-y: 0px;
+
         position: relative;
         width: 100%;
         min-height: 100svh;
@@ -655,45 +680,46 @@
         overflow: hidden;
         z-index: 0;
 
-        &::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: var(--botanicals-guide-line-x, 552px);
-            width: 2px;
-            background: rgba($color-brown-900, 0.4);
-            pointer-events: none;
-            z-index: 0;
-        }
-
         &.is-preview {
             height: auto;
             overflow-x: auto;
             overflow-y: hidden;
+        }
 
-            &::before {
+        &.is-compact {
+            .home__botanicals-viewport {
                 display: none;
             }
         }
 
-        @include mobile {
+        @include tablet {
             min-height: auto;
-
-            &::before {
-                display: none;
-            }
         }
     }
 
     &__botanicals-viewport {
         position: relative;
-        width: min(100vw, var(--botanicals-viewport-width, 1920px));
-        height: min(100svh, var(--botanicals-viewport-height, 1024px));
+        width: 100%;
+        max-width: var(--home-stage-max-width, 1920px);
+        height: var(--botanicals-shell-height);
         margin: 0 auto;
         overflow: hidden;
         z-index: 1;
-        background: $color-yellow-500;
+        background: transparent;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: var(--home-stage-guide-line-x, 552px);
+            width: 2px;
+            margin-left: -1px;
+            background: rgba($color-brown-900, 0.4);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+        }
 
         .home__botanicals.is-preview & {
             position: relative;
@@ -703,6 +729,10 @@
             min-width: 100%;
             overflow: visible;
             padding: 0;
+
+            &::before {
+                display: none;
+            }
         }
     }
 
@@ -722,7 +752,7 @@
     &__botanicals-stage {
         position: absolute;
         left: 0;
-        top: 0;
+        top: var(--botanicals-stage-offset-y);
         transform-origin: left top;
         will-change: transform;
         z-index: 1;
@@ -740,32 +770,145 @@
         z-index: 1;
     }
 
+    &__botanicals-selection {
+        position: absolute;
+        inset: 0;
+        z-index: 5;
+        pointer-events: none;
+        opacity: 0;
+
+        @include tablet {
+            display: none;
+        }
+    }
+
+    &__botanicals-selection-rail {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        background: transparent;
+        opacity: 0;
+    }
+
+    &__botanicals-selection-stack {
+        position: absolute;
+        inset: 0;
+    }
+
+    &__botanicals-selection-item {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: block;
+        width: auto;
+        object-fit: contain;
+        object-position: center bottom;
+        transform-origin: center center;
+        will-change: transform, opacity;
+    }
+
+    &__botanicals-selection-content {
+        position: absolute;
+        right: clamp(
+            44px,
+            calc(var(--home-stage-width, 1920px) * 120 / 1920),
+            calc(120px * var(--home-stage-scale, 1))
+        );
+        top: 50%;
+        width: min(calc(500px * var(--home-stage-scale, 1)), 34vw);
+        transform: translateY(-50%);
+        pointer-events: auto;
+        will-change: transform, opacity;
+    }
+
+    &__botanicals-selection-title {
+        margin-bottom: 10px;
+        color: $color-brown-300;
+        font-family: 'Pretendard', sans-serif;
+        font-size: clamp(22px, calc(var(--home-stage-width, 1920px) * 28 / 1920), 28px);
+        font-weight: 400;
+        line-height: 0.95;
+        letter-spacing: 0;
+
+        span {
+            display: block;
+            color: $color-brown-500;
+            font-family: 'Bona Nova', serif;
+            font-size: clamp(48px, calc(var(--home-stage-width, 1920px) * 70 / 1920), 70px);
+            line-height: 0.95;
+            letter-spacing: 0;
+        }
+    }
+
+    &__botanicals-selection-description {
+        margin-bottom: 40px;
+        color: $color-brown-300;
+        font-family: 'Pretendard', sans-serif;
+        font-size: clamp(16px, calc(var(--home-stage-width, 1920px) * 18 / 1920), 18px);
+        font-weight: 300;
+        line-height: 1.5;
+        letter-spacing: -0.36px;
+        word-break: keep-all;
+    }
+
+    &__botanicals-selection-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: clamp(11px, calc(var(--home-stage-width, 1920px) * 13 / 1920), 13px)
+            clamp(20px, calc(var(--home-stage-width, 1920px) * 28 / 1920), 28px);
+        border: 1px solid $color-brown-500;
+        border-radius: 0;
+        color: $color-brown-500;
+        background: transparent;
+        font-family: 'Pretendard', sans-serif;
+        font-size: clamp(18px, calc(var(--home-stage-width, 1920px) * 21 / 1920), 21px);
+        font-weight: 400;
+        line-height: 1;
+        letter-spacing: -0.231px;
+        text-decoration: none;
+        transition:
+            background-color 0.3s ease,
+            color 0.3s ease,
+            border-color 0.3s ease;
+
+        &:hover {
+            background: $color-brown-900;
+            border-color: $color-brown-900;
+            color: $white;
+        }
+    }
+
     &__botanicals-horizontal,
     &__botanicals-canvas {
         width: 100%;
         height: 100%;
     }
-
-    // 모바일 대체 뷰
     &__botanicals-mobile {
         display: none;
 
-        @include mobile {
+        @include tablet {
             display: block;
-            padding: 60px 20px;
+            width: min(100%, 960px);
+            margin: 0 auto;
+            padding: 72px 32px 84px;
+        }
+
+        @include mobile {
+            padding: 56px 20px 64px;
         }
     }
 
     &__botanicals-mobile-title {
         font-family: 'Ogg', serif;
-        font-size: 28px;
+        font-size: clamp(28px, 4.4vw, 40px);
         color: $color-brown-500;
         margin-bottom: 12px;
     }
 
     &__botanicals-mobile-quote {
         font-family: 'Ogg', serif;
-        font-size: 16px;
+        max-width: 32rem;
+        font-size: clamp(16px, 2.2vw, 20px);
         color: rgba($color-brown-500, 0.6);
         font-style: italic;
         line-height: 1.6;
@@ -774,8 +917,13 @@
 
     &__botanicals-mobile-grid {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 24px 20px;
+
+        @include mobile {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px 16px;
+        }
     }
 
     &__botanicals-mobile-item {
@@ -793,8 +941,97 @@
         span {
             display: block;
             font-family: 'Ogg', serif;
-            font-size: 14px;
+            font-size: clamp(14px, 1.8vw, 18px);
             color: $color-brown-500;
         }
     }
+
+    &__botanicals-mobile-best {
+        margin-top: 64px;
+        padding-top: 36px;
+        border-top: 1px solid rgba($color-brown-500, 0.12);
+
+        @include mobile {
+            margin-top: 56px;
+            padding-top: 32px;
+        }
+    }
+
+    &__botanicals-mobile-best-title {
+        margin-bottom: 20px;
+        color: $color-brown-300;
+        font-family: 'Pretendard', sans-serif;
+        font-size: clamp(22px, 3vw, 28px);
+        font-weight: 400;
+        line-height: 0.95;
+        letter-spacing: 0;
+
+        span {
+            display: block;
+            margin-top: 4px;
+            color: $color-brown-500;
+            font-family: 'Bona Nova', serif;
+            font-size: clamp(46px, 6vw, 64px);
+            line-height: 0.95;
+            letter-spacing: 0;
+        }
+    }
+
+    &__botanicals-mobile-best-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 20px 16px;
+        margin-bottom: 24px;
+
+        @include mobile {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+    }
+
+    &__botanicals-mobile-best-item {
+        text-align: center;
+        border-radius: 24px;
+        background: rgba($white, 0.82);
+        box-shadow: 0 14px 28px rgba(70, 44, 32, 0.08);
+        padding: 12px;
+
+        img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: contain;
+        }
+
+        span {
+            display: block;
+            margin-top: 10px;
+            color: $color-brown-500;
+            font-family: 'Ogg', serif;
+            font-size: clamp(15px, 1.9vw, 18px);
+            line-height: 1.1;
+        }
+    }
+
+    &__botanicals-mobile-best-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 220px;
+        padding: 12px 24px;
+        border: 1px solid $color-brown-500;
+        border-radius: 0;
+        color: $color-brown-500;
+        font-family: 'Pretendard', sans-serif;
+        font-size: 18px;
+        font-weight: 400;
+        letter-spacing: -0.231px;
+        text-decoration: none;
+        line-height: 1;
+
+        @include mobile {
+            width: 100%;
+            min-width: 0;
+        }
+    }
 }
+

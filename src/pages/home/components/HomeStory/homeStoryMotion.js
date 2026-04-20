@@ -29,7 +29,7 @@ export const VALUES_DRAW_SEQUENCE = {
 };
 
 export const VALUES_ENTRY_PROGRESS_PORTION = 0.18;
-// 0에서 0.12로 복구하여, 화면 하단에서 섹션이 올라오는 도중(진입 중)에도 
+// 0에서 0.12로 복구하여, 화면 하단에서 섹션이 올라오는 도중(진입 중)에도
 // 전체 스크롤 애니메이션 진행률의 12% 선행 할당을 허용합니다!
 export const BOTANICALS_ENTRY_PROGRESS_PORTION = 0.02;
 
@@ -46,10 +46,10 @@ export const BOTANICALS_DRAW_SEQUENCE = {
     },
     ingredients: [
         // 가지 그리는 속도에 맞춰 라벨 텍스트도 더 부드럽고 천천히 나타나도록 구간 연장
-        [0.15, 0.40],
-        [0.20, 0.45],
-        [0.25, 0.50],
-        [0.30, 0.55],
+        [0.15, 0.4],
+        [0.2, 0.45],
+        [0.25, 0.5],
+        [0.3, 0.55],
     ],
     merge: [0.56, 0.72],
     outline: [0.74, 0.84],

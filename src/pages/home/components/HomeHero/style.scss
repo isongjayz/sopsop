@@ -2,13 +2,20 @@
 
 .home {
     &__hero {
-        --hero-text-travel: clamp(48px, 12.76vw, 245px);
-        --hero-text-size: clamp(72px, 9.375vw, 180px);
-        --hero-title-top: clamp(180px, 34.473vh, 353px);
-        --hero-title-bottom: clamp(180px, 34.863vh, 357px);
-        --hero-text-left-offset: clamp(48px, 11.302vw, 217px);
-        --hero-text-right-offset: clamp(48px, 11.927vw, 229px);
+        --hero-frame-width: max(100vw, calc(100dvh * 1920 / 1024));
+        --hero-frame-height: max(100dvh, calc(100vw * 1024 / 1920));
+        --hero-section-height: 100dvh;
+        --hero-copy-width: min(100%, var(--home-stage-max-width, 1920px));
+        --hero-copy-reference-width: min(100vw, var(--home-stage-max-width, 1920px));
+        --hero-text-offset: clamp(48px, calc(var(--hero-copy-reference-width) * 245 / 1920), 245px);
+        --hero-text-size: clamp(72px, calc(var(--hero-copy-reference-width) * 180 / 1920), 180px);
+        --hero-subtext-width: clamp(280px, calc(var(--hero-copy-reference-width) * 480 / 1920), 560px);
+        --hero-subtext-size: clamp(14px, calc(var(--hero-copy-reference-width) * 16 / 1920), 16px);
         --hero-outline-draw-duration: 0.5s;
+        --hero-outline-cap-duration: 0.08s;
+        --hero-outline-main-duration: calc(
+            var(--hero-outline-draw-duration) - var(--hero-outline-cap-duration)
+        );
         --hero-outline-draw-ease: cubic-bezier(0.62, 0.05, 0.26, 1);
         --hero-outline-flash-duration: 0.4s;
         --hero-outline-flash-delay: 0.55s;
@@ -25,10 +32,11 @@
 
         position: relative;
         width: 100%;
-        min-height: 100vh;
+        height: var(--hero-section-height);
+        min-height: var(--hero-section-height);
         overflow: hidden;
         isolation: isolate;
-        background: #181412;
+        background: linear-gradient(180deg, #2c2119 0%, #181412 100%);
 
         &.is-outline-hidden {
             .home__hero-outline {
@@ -41,31 +49,41 @@
             .home__hero-overlay {
                 animation: homeHeroOverlayFadeOut var(--hero-overlay-fade-duration) ease forwards;
                 animation-delay: var(--hero-overlay-fade-delay);
+                animation-fill-mode: both;
             }
 
             .home__hero-outline--base {
                 opacity: 1;
                 visibility: visible;
-                transition: stroke-dashoffset var(--hero-outline-draw-duration)
+                transition: stroke-dashoffset
+                    var(--hero-outline-segment-duration, var(--hero-outline-draw-duration))
                     var(--hero-outline-draw-ease);
+                transition-delay: var(--hero-outline-segment-delay, 0s);
                 stroke-dashoffset: 0 !important;
                 animation: homeHeroOutlineFadeAway var(--hero-outline-fade-duration) linear forwards;
                 animation-delay: var(--hero-outline-fade-delay);
+                animation-fill-mode: both;
             }
 
             .home__hero-outline--glow {
                 visibility: visible;
                 animation:
-                    homeHeroDrawPath var(--hero-outline-draw-duration) var(--hero-outline-draw-ease)
+                    homeHeroDrawPath
+                        var(--hero-outline-segment-duration, var(--hero-outline-draw-duration))
+                        var(--hero-outline-draw-ease)
                         forwards,
                     homeHeroOutlineFlash var(--hero-outline-flash-duration) ease-out 1 forwards;
-                animation-delay: 0s, var(--hero-outline-flash-delay);
+                animation-delay:
+                    var(--hero-outline-segment-delay, 0s),
+                    var(--hero-outline-flash-delay);
+                animation-fill-mode: both, both;
             }
 
             .home__hero-bottle-image {
                 animation: homeHeroBottleReveal var(--hero-bottle-reveal-duration)
                     var(--hero-bottle-reveal-ease) forwards;
                 animation-delay: var(--hero-bottle-reveal-delay);
+                animation-fill-mode: both;
             }
 
             .home__hero-text {
@@ -76,19 +94,51 @@
                 animation: homeHeroTextLeftIn var(--hero-text-reveal-duration)
                     var(--hero-text-reveal-ease) forwards;
                 animation-delay: var(--hero-text-reveal-delay);
+                animation-fill-mode: both;
             }
 
             .home__hero-text--right {
                 animation: homeHeroTextRightIn var(--hero-text-reveal-duration)
                     var(--hero-text-reveal-ease) forwards;
                 animation-delay: var(--hero-text-reveal-delay);
+                animation-fill-mode: both;
+            }
+        }
+
+        &.is-intro-complete {
+            .home__hero-overlay {
+                opacity: 0;
+                visibility: hidden;
+                animation: none;
+            }
+
+            .home__hero-bottle-image {
+                opacity: 1;
+                animation: none;
+            }
+
+            .home__hero-outline {
+                opacity: 0;
+                visibility: hidden;
+                animation: none;
+                transition: none;
+            }
+
+            .home__hero-text {
+                opacity: 1;
+                visibility: visible;
+                animation: none;
+            }
+
+            .home__hero-text--left,
+            .home__hero-text--right {
+                transform: translateY(-50%) translateX(0);
             }
         }
     }
 
     &__hero-background,
-    &__hero-overlay,
-    &__hero-svg {
+    &__hero-overlay {
         position: absolute;
         inset: 0;
     }
@@ -98,9 +148,13 @@
     }
 
     &__hero-background-image {
+        position: absolute;
+        top: 50%;
+        left: 50%;
         display: block;
-        width: 100%;
-        height: 100%;
+        width: var(--hero-frame-width);
+        height: var(--hero-frame-height);
+        transform: translate(-50%, -50%);
         object-fit: cover;
     }
 
@@ -112,7 +166,21 @@
         opacity: 1;
     }
 
+    &__hero-frame {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 4;
+        width: var(--hero-frame-width);
+        height: var(--hero-frame-height);
+        transform: translate(-50%, -50%);
+        overflow: hidden;
+        pointer-events: none;
+    }
+
     &__hero-svg {
+        position: absolute;
+        inset: 0;
         z-index: 4;
         width: 100%;
         height: 100%;
@@ -130,10 +198,19 @@
         fill: none;
         stroke-linecap: round;
         stroke-linejoin: round;
-        vector-effect: non-scaling-stroke;
         will-change: stroke-dashoffset, opacity;
         opacity: 0;
         visibility: hidden;
+
+        &--main {
+            --hero-outline-segment-duration: var(--hero-outline-main-duration);
+            --hero-outline-segment-delay: 0s;
+        }
+
+        &--cap {
+            --hero-outline-segment-duration: var(--hero-outline-cap-duration);
+            --hero-outline-segment-delay: var(--hero-outline-main-duration);
+        }
 
         &--base {
             stroke: rgba(255, 250, 244, 0.98);
@@ -151,13 +228,14 @@
 
     &__hero-title-container {
         position: absolute;
-        top: var(--hero-title-top);
-        bottom: var(--hero-title-bottom);
-        left: 0;
-        right: 0;
+        top: 34.47265625%;
+        bottom: 34.86328125%;
+        left: 50%;
+        width: var(--hero-copy-width);
         z-index: 3;
         pointer-events: none;
         margin: 0;
+        transform: translateX(-50%);
     }
 
     &__hero-text {
@@ -168,19 +246,18 @@
         font-family: 'Ogg', serif;
         font-size: var(--hero-text-size);
         font-weight: 400;
-        // line-heigh 디자인 값 1.5에서 간격이 너무 벌어지는 문제로 인해 1.3으로 조정
         line-height: 1.3;
         visibility: hidden;
         opacity: 0;
 
         &--left {
-            left: var(--hero-text-left-offset);
+            left: 11.3020833333%;
             display: flex;
             flex-direction: column;
         }
 
         &--right {
-            right: var(--hero-text-right-offset);
+            right: 11.9270833333%;
             text-align: left;
         }
     }
@@ -188,11 +265,10 @@
     &__hero-subtext {
         display: block;
         margin-top: 0;
-        width: clamp(280px, 25vw, 480px);
+        width: var(--hero-subtext-width);
         color: $color-yellow-600;
         font-family: 'Pretendard', sans-serif;
-        font-size: clamp(14px, 0.833vw, 16px);
-        // font-weight 디자인 값 400에서 굵기로 인해 300으로 조정
+        font-size: var(--hero-subtext-size);
         font-weight: 300;
         line-height: 1.3;
         letter-spacing: 0.096px;
@@ -258,7 +334,7 @@
 @keyframes homeHeroTextLeftIn {
     from {
         opacity: 0;
-        transform: translateY(-50%) translateX(var(--hero-text-travel));
+        transform: translateY(-50%) translateX(var(--hero-text-offset));
     }
 
     to {
@@ -270,7 +346,7 @@
 @keyframes homeHeroTextRightIn {
     from {
         opacity: 0;
-        transform: translateY(-50%) translateX(calc(var(--hero-text-travel) * -1));
+        transform: translateY(-50%) translateX(calc(var(--hero-text-offset) * -1));
     }
 
     to {
@@ -282,7 +358,25 @@
 @include tablet {
     .home {
         &__hero {
-            min-height: 100svh;
+            --hero-copy-width: 100%;
+            --hero-copy-reference-width: 100vw;
+            --hero-text-offset: clamp(48px, 12.76vw, 245px);
+            --hero-text-size: clamp(72px, 9.375vw, 180px);
+            --hero-subtext-width: clamp(280px, 25vw, 480px);
+            --hero-subtext-size: clamp(14px, 0.833vw, 16px);
+        }
+
+        &__hero-title-container {
+            left: 0;
+            right: 0;
+            width: auto;
+            transform: none;
+        }
+
+        &__hero-svg {
+            inset: 0;
+            width: 100%;
+            height: 100%;
         }
     }
 }
@@ -290,9 +384,9 @@
 @include mobile {
     .home {
         &__hero {
-            --hero-text-left-offset: 20px;
-            --hero-text-right-offset: 20px;
             --hero-text-size: clamp(42px, 12vw, 72px);
+            --hero-subtext-width: 100%;
+            --hero-subtext-size: clamp(14px, 4vw, 16px);
         }
 
         &__hero-text {
@@ -300,15 +394,16 @@
         }
 
         &__hero-text--left {
+            left: 20px;
             max-width: min(100%, 11rem);
         }
 
         &__hero-text--right {
+            right: 20px;
             text-align: right;
         }
 
         &__hero-subtext {
-            width: 100%;
             line-height: 1.4;
         }
     }

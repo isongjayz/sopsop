@@ -11,8 +11,6 @@ import {
 
 gsap.registerPlugin(ScrollTrigger);
 
-const VALUES_SECTION_HEIGHT = VALUES_LAYOUT.itemHeight * VALUE_ITEMS.length;
-
 const clamp01 = (value) => Math.max(0, Math.min(1, value));
 const getWindowProgress = (progress, start, end) =>
     clamp01((progress - start) / Math.max(end - start, 0.0001));
@@ -48,18 +46,57 @@ function HomeValues() {
     const lastIndexRef = useRef(0);
     const [lineHeight, setLineHeight] = useState(VALUES_LAYOUT.itemHeight);
 
-    // Track line height to match viewport of the pinned area
+    // Track line height from the rendered viewport after layout settles.
     useEffect(() => {
+        let frameId = null;
+
         const updateLineHeight = () => {
-            if (viewportRef.current) {
-                setLineHeight(viewportRef.current.offsetHeight);
+            if (!viewportRef.current) {
+                return;
             }
+
+            const nextHeight = viewportRef.current.offsetHeight;
+
+            if (nextHeight <= 0) {
+                return;
+            }
+
+            setLineHeight((currentHeight) =>
+                currentHeight === nextHeight ? currentHeight : nextHeight
+            );
         };
 
-        updateLineHeight();
-        window.addEventListener('resize', updateLineHeight);
+        const requestLineHeightUpdate = () => {
+            if (frameId !== null) {
+                window.cancelAnimationFrame(frameId);
+            }
 
-        return () => window.removeEventListener('resize', updateLineHeight);
+            frameId = window.requestAnimationFrame(() => {
+                frameId = null;
+                updateLineHeight();
+            });
+        };
+
+        requestLineHeightUpdate();
+
+        const resizeObserver = new ResizeObserver(() => {
+            requestLineHeightUpdate();
+        });
+
+        if (viewportRef.current) {
+            resizeObserver.observe(viewportRef.current);
+        }
+
+        window.addEventListener('resize', requestLineHeightUpdate);
+
+        return () => {
+            if (frameId !== null) {
+                window.cancelAnimationFrame(frameId);
+            }
+
+            resizeObserver.disconnect();
+            window.removeEventListener('resize', requestLineHeightUpdate);
+        };
     }, []);
 
     useGSAP(
@@ -73,7 +110,6 @@ function HomeValues() {
                 return undefined;
             }
 
-            const pathLength = lineHeight;
             const mm = gsap.matchMedia();
 
             mm.add(`(min-width: ${VALUES_LAYOUT.mobileBreakpoint + 1}px)`, () => {
@@ -133,7 +169,7 @@ function HomeValues() {
                 const valuesTrigger = ScrollTrigger.create({
                     trigger: sectionRef.current,
                     start: 'top top',
-                    end: `+=${VALUES_LAYOUT.itemHeight * (VALUE_ITEMS.length - 1)}`,
+                    end: `+=${lineHeight * (VALUE_ITEMS.length - 1)}`,
                     pin: viewportRef.current,
                     pinSpacing: false,
                     scrub: true,
@@ -164,7 +200,7 @@ function HomeValues() {
                 mm.revert();
             };
         },
-        { scope: sectionRef }
+        { dependencies: [lineHeight], revertOnUpdate: true, scope: sectionRef }
     );
 
     const activeItem = VALUE_ITEMS[activeIndex];
@@ -173,13 +209,21 @@ function HomeValues() {
         <section
             className="home__values"
             ref={sectionRef}
-            style={{ '--values-section-height': `${VALUES_SECTION_HEIGHT}px` }}
+            style={{ '--values-item-count': VALUE_ITEMS.length }}
         >
             <div className="home__values-inner">
-                    <div ref={viewportRef} className="home__values-viewport">
+                <div ref={viewportRef} className="home__values-viewport">
                     <div className="home__values-line-wrap" aria-hidden="true">
-                        <span ref={lineBaseRef} className="home__values-line-base" style={{ height: `${lineHeight}px` }} />
-                        <span ref={linePathRef} className="home__values-line-path" style={{ height: 0 }} />
+                        <span
+                            ref={lineBaseRef}
+                            className="home__values-line-base"
+                            style={{ height: `${lineHeight}px` }}
+                        />
+                        <span
+                            ref={linePathRef}
+                            className="home__values-line-path"
+                            style={{ height: 0 }}
+                        />
                     </div>
 
                     <div className="home__values-stage">

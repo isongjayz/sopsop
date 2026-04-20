@@ -48,7 +48,10 @@ function HomeQuote() {
                 overflow: 'hidden'
             }}
         >
-            <div className="inner" style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <div
+                className="inner home__section-inner home__quote-transition-inner"
+                style={{ position: 'relative', width: '100%', height: '100%' }}
+            >
                 <div 
                     className="home__quote-content" 
                     style={{ position: 'absolute', top: '50%', left: '0', right: '0', transform: 'translateY(-50%)' }}

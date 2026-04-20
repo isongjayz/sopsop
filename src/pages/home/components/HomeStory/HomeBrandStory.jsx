@@ -165,6 +165,33 @@ function HomeBrandStory() {
                 };
             });
 
+            mm.add(`(max-width: ${MOBILE_BREAKPOINT}px)`, () => {
+                const iconPathGroups = BRAND_STORY_ITEMS.map(
+                    (_, index) => iconPathRefs.current[index]?.filter(Boolean) ?? []
+                );
+
+                gsap.set(lineSegmentRefs.current.filter(Boolean), {
+                    clearProps: 'transform,transformOrigin',
+                });
+                gsap.set(navRefs.current.filter(Boolean), {
+                    clearProps: 'opacity,transform',
+                });
+                gsap.set(contentRefs.current.filter(Boolean), {
+                    clearProps: 'opacity,transform',
+                });
+
+                iconPathGroups.forEach((paths) => {
+                    paths.forEach((path) => {
+                        gsap.set(path, {
+                            clearProps: 'strokeDasharray,strokeDashoffset',
+                        });
+                        path.setAttribute('stroke-linecap', 'round');
+                    });
+                });
+
+                return undefined;
+            });
+
             return () => {
                 mm.revert();
             };
