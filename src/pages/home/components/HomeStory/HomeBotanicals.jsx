@@ -146,13 +146,15 @@ const BEST_SELECTION_FINAL_SHIFT_START = 1 - BEST_SELECTION_ITEM_ENTRY_DURATION;
 const BEST_SELECTION_FINAL_SHIFT_END = 1;
 const BEST_SELECTION_ITEM_MAX_VIEWPORT_HEIGHT_RATIO = 0.72;
 const BEST_SELECTION_SLOT_SAFE_TOP_PADDING = 16;
-const BEST_SELECTION_CONTENT_WIDTH_RATIO = 0.34;
-const BEST_SELECTION_CONTENT_MAX_WIDTH = 500;
-const BEST_SELECTION_CONTENT_MIN_WIDTH = 280;
+const BEST_SELECTION_CONTENT_WIDTH_RATIO = 0.38;
+const BEST_SELECTION_CONTENT_MAX_WIDTH = 620;
+const BEST_SELECTION_CONTENT_MIN_WIDTH = 320;
 const BEST_SELECTION_CONTENT_GAP_MIN = 36;
 const BEST_SELECTION_CONTENT_GAP_MAX = 96;
 const BEST_SELECTION_CONTENT_EDGE_PADDING_MIN = 44;
 const BEST_SELECTION_CONTENT_EDGE_PADDING_MAX = 120;
+const BEST_SELECTION_GROUP_SHIFT_X = -56;
+const BEST_SELECTION_CONTENT_SHIFT_X = -36;
 
 function createBestSelectionLayout(count, shiftX = 0, shiftY = 0) {
     return Array.from({ length: count }, (_, index) => {
@@ -301,8 +303,9 @@ function getBotanicalsViewportMetrics() {
     const renderedViewportHeight = Math.min(viewportHeight, stageHeight);
     const shellHeight = viewportHeight;
     const scrollShellHeight = renderedViewportHeight;
+    const verticalSlack = shellHeight - renderedViewportHeight;
     const stageOffsetY = clamp(
-        (shellHeight - renderedViewportHeight) * BOTANICALS_STAGE_VERTICAL_OFFSET_RATIO,
+        verticalSlack * BOTANICALS_STAGE_VERTICAL_OFFSET_RATIO,
         0,
         BOTANICALS_STAGE_MAX_OFFSET
     );
@@ -364,6 +367,13 @@ function getAbsoluteDrawStyle(progress, length) {
         strokeDasharray: length,
         strokeDashoffset: length * (1 - easedProgress),
     };
+}
+
+function getAdjustedStartPathD(stageVerticalOffset = 0, screenScale = 1) {
+    const offsetInWorld = stageVerticalOffset / Math.max(screenScale, 0.001);
+    const startY = 1 - offsetInWorld;
+
+    return `M${GUIDE_LINE_X} ${startY}L${GUIDE_LINE_X} 1001.26C551.999837 1189.31 721.908 1585.38 1223.383 1643.43`;
 }
 
 function easeOutCubic(value) {
@@ -855,6 +865,8 @@ function HomeBotanicals() {
     const quoteStartOffset = getQuoteStartOffset(quoteProgress);
     const screenScale = Math.max(stageScale, 0.001);
     const stageVerticalOffset = viewportSize.stageOffsetY ?? 0;
+    const adjustedStartPathD = getAdjustedStartPathD(stageVerticalOffset, screenScale);
+    const adjustedQuoteFlowPathD = QUOTE_FLOW_PATH_D.replace(START_PATH_D, adjustedStartPathD);
     const { guideLineOffsetX, maxCameraX, maxCameraY, cameraXStart } = getCameraMetrics(
         stageScale,
         viewportSize.width,
@@ -887,7 +899,10 @@ function HomeBotanicals() {
     );
     const currentCameraY = lerp(cameraYAfterPhaseOne, finalCameraYTarget, phaseThreeProgress);
     const currentCameraX = lerp(cameraXStart, maxCameraX, phaseTwoProgress);
-    const startLineStyle = getAbsoluteDrawStyle(startPathProgress, PATH_LENGTHS.start);
+    const startLineStyle = getAbsoluteDrawStyle(
+        startPathProgress,
+        PATH_LENGTHS.start + stageVerticalOffset / screenScale
+    );
     const flowLineStyles = FLOW_LINES.map((line, index) =>
         getSegmentDrawStyle(
             sectionProgress,
@@ -935,7 +950,7 @@ function HomeBotanicals() {
     const quoteFlowLineStyle = getSegmentDrawStyle(
         sectionProgress,
         QUOTE_DRAW_WINDOW,
-        PATH_LENGTHS.quoteFlow
+        PATH_LENGTHS.quoteFlow + stageVerticalOffset / screenScale
     );
     const quoteExitOpacity =
         1 -
@@ -973,7 +988,7 @@ function HomeBotanicals() {
         (PRODUCT.x + guideLineOffsetX - currentCameraX + PRODUCT.width / 2) * screenScale;
     const productImageAnchorTop =
         (PRODUCT.y - currentCameraY + PRODUCT.height / 2) * screenScale + stageVerticalOffset;
-    const bestSelectionSlotLeft = productAnchorLeft;
+    const bestSelectionSlotLeft = Math.round(productAnchorLeft + BEST_SELECTION_GROUP_SHIFT_X);
     const bestSelectionTopBoundHeight = Math.max(
         1,
         (productAnchorTop +
@@ -988,16 +1003,20 @@ function HomeBotanicals() {
             BEST_SELECTION_SLOT_SAFE_TOP_PADDING * screenScale) *
             2
     );
-    const bestSelectionItemHeight = Math.min(
-        PRODUCT.height * BEST_SELECTION_ITEM_SIZE_RATIO * screenScale,
-        visibleViewportScreenHeight * BEST_SELECTION_ITEM_MAX_VIEWPORT_HEIGHT_RATIO,
-        bestSelectionTopBoundHeight,
-        bestSelectionBottomBoundHeight
+    const bestSelectionItemHeight = Math.round(
+        Math.min(
+            PRODUCT.height * BEST_SELECTION_ITEM_SIZE_RATIO * screenScale,
+            visibleViewportScreenHeight * BEST_SELECTION_ITEM_MAX_VIEWPORT_HEIGHT_RATIO,
+            bestSelectionTopBoundHeight,
+            bestSelectionBottomBoundHeight
+        )
     );
-    const bestSelectionItemWidth = (PRODUCT.width / PRODUCT.height) * bestSelectionItemHeight;
+    const bestSelectionItemWidth = Math.round(
+        (PRODUCT.width / PRODUCT.height) * bestSelectionItemHeight
+    );
     const bestSelectionIncomingScale =
         (PRODUCT.height * screenScale) / Math.max(bestSelectionItemHeight, 1);
-    const bestSelectionSlotTop = productAnchorTop;
+    const bestSelectionSlotTop = Math.round(productAnchorTop);
     const bestSelectionRailHeight = Math.min(visibleViewportScreenHeight * 0.88, 860 * screenScale);
     const finalStackCenterXs = BEST_SELECTION_LAYOUT_FINAL.map(
         (layout) => bestSelectionSlotLeft + layout.x * screenScale
@@ -1011,13 +1030,15 @@ function HomeBotanicals() {
     const finalStackBottom = Math.max(...finalStackCenterYs) + bestSelectionItemHeight / 2;
     const finalStackCenterY = (finalStackTop + finalStackBottom) / 2;
     const contentScale = viewportSize.width / HOME_STAGE_BASE_WIDTH;
-    const bestSelectionContentWidth = clamp(
-        Math.min(
-            BEST_SELECTION_CONTENT_MAX_WIDTH * contentScale,
-            viewportSize.width * BEST_SELECTION_CONTENT_WIDTH_RATIO
-        ),
-        BEST_SELECTION_CONTENT_MIN_WIDTH,
-        BEST_SELECTION_CONTENT_MAX_WIDTH
+    const bestSelectionContentWidth = Math.round(
+        clamp(
+            Math.min(
+                BEST_SELECTION_CONTENT_MAX_WIDTH * contentScale,
+                viewportSize.width * BEST_SELECTION_CONTENT_WIDTH_RATIO
+            ),
+            BEST_SELECTION_CONTENT_MIN_WIDTH,
+            BEST_SELECTION_CONTENT_MAX_WIDTH
+        )
     );
     const bestSelectionContentGap = clamp(
         72 * contentScale,
@@ -1029,20 +1050,24 @@ function HomeBotanicals() {
         BEST_SELECTION_CONTENT_EDGE_PADDING_MIN,
         BEST_SELECTION_CONTENT_EDGE_PADDING_MAX
     );
-    const bestSelectionContentLeft = clamp(
-        finalStackRight + bestSelectionContentGap,
-        bestSelectionContentEdgePadding,
-        Math.max(
-            viewportSize.width - bestSelectionContentWidth - bestSelectionContentEdgePadding,
-            bestSelectionContentEdgePadding
+    const bestSelectionContentLeft = Math.round(
+        clamp(
+            finalStackRight + bestSelectionContentGap + BEST_SELECTION_CONTENT_SHIFT_X,
+            bestSelectionContentEdgePadding,
+            Math.max(
+                viewportSize.width - bestSelectionContentWidth - bestSelectionContentEdgePadding,
+                bestSelectionContentEdgePadding
+            )
         )
     );
-    const bestSelectionContentTop = clamp(
-        finalStackCenterY,
-        bestSelectionContentEdgePadding,
-        Math.max(
-            viewportSize.shellHeight - bestSelectionContentEdgePadding,
-            bestSelectionContentEdgePadding
+    const bestSelectionContentTop = Math.round(
+        clamp(
+            finalStackCenterY,
+            bestSelectionContentEdgePadding,
+            Math.max(
+                viewportSize.shellHeight - bestSelectionContentEdgePadding,
+                bestSelectionContentEdgePadding
+            )
         )
     );
     const item1InitialVisualOffsetX = productImageAnchorLeft - bestSelectionSlotLeft;
@@ -1134,7 +1159,7 @@ function HomeBotanicals() {
 
                                         <path
                                             className="botanical-flow__line botanical-flow__line--start"
-                                            d={START_PATH_D}
+                                            d={adjustedStartPathD}
                                             style={{
                                                 ...startLineStyle,
                                                 strokeWidth: 2,
@@ -1187,12 +1212,12 @@ function HomeBotanicals() {
                                             <defs>
                                                 <path
                                                     id="botanical-flow-quote-path"
-                                                    d={QUOTE_FLOW_PATH_D}
+                                                    d={adjustedQuoteFlowPathD}
                                                 />
                                             </defs>
                                             <path
                                                 className="botanical-flow__line botanical-flow__line--quote"
-                                                d={QUOTE_FLOW_PATH_D}
+                                                d={adjustedQuoteFlowPathD}
                                                 style={{
                                                     ...quoteFlowLineStyle,
                                                     strokeWidth: 2,
@@ -1333,7 +1358,7 @@ function HomeBotanicals() {
                                 top: bestSelectionContentTop,
                                 width: bestSelectionContentWidth,
                                 opacity: bestSelectionContentProgress,
-                                transform: `translate3d(${(1 - bestSelectionContentProgress) * 48}px, -50%, 0)`,
+                                transform: 'translate3d(0, -50%, 0)',
                             }}
                         >
                             <h3 className="home__botanicals-selection-title">

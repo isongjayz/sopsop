@@ -814,10 +814,10 @@
             calc(120px * var(--home-stage-scale, 1))
         );
         top: 50%;
-        width: min(calc(500px * var(--home-stage-scale, 1)), 34vw);
+        width: min(calc(620px * var(--home-stage-scale, 1)), 38vw);
         transform: translateY(-50%);
         pointer-events: auto;
-        will-change: transform, opacity;
+        will-change: opacity;
     }
 
     &__botanicals-selection-title {
@@ -854,9 +854,14 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        position: relative;
         padding: clamp(11px, calc(var(--home-stage-width, 1920px) * 13 / 1920), 13px)
             clamp(20px, calc(var(--home-stage-width, 1920px) * 28 / 1920), 28px);
-        border: 1px solid $color-brown-500;
+        box-sizing: border-box;
+        border-top: 1px solid $color-brown-500;
+        border-bottom: 1px solid $color-brown-500;
+        border-left: 0;
+        border-right: 0;
         border-radius: 0;
         color: $color-brown-500;
         background: transparent;
@@ -870,11 +875,38 @@
             background-color 0.3s ease,
             color 0.3s ease,
             border-color 0.3s ease;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+            top: -1px;
+            bottom: -1px;
+            width: 1px;
+            background: $color-brown-500;
+            pointer-events: none;
+        }
+
+        &::before {
+            left: 0;
+        }
+
+        &::after {
+            right: 0;
+        }
 
         &:hover {
             background: $color-brown-900;
-            border-color: $color-brown-900;
             color: $white;
+
+            &,
+            &::before,
+            &::after {
+                border-color: $color-brown-900;
+                background-color: $color-brown-900;
+            }
         }
     }
 
